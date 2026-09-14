@@ -12,3 +12,5 @@ Inventory the old repository, supported installed versions and user-visible appe
 Map ANSI values to semantic names carefully, preserving normal/bright distinctions and mode. Use the target upstream colour resolver as the authority; do not run the narrow scaffold checker over legacy input and declare the theme invalid. Replace unsupported per-app configs with supported palette/template behaviour where possible. Document unavoidable appearance differences.
 
 Port shell styling only after comparing target template/consumer keys. Avoid automatic deletion of older integrations still required by an explicitly supported version. Test Git-installed staging and representative apps; record old/new screenshots from real desktops when available. Return a migration diff and evidence-backed compatibility scope.
+
+Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.

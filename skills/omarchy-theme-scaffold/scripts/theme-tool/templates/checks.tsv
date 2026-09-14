@@ -1,0 +1,4 @@
+# state	kind	manifest	upstream	installed-version	command	result
+not-run	local	-	none	-	-	Local palette and syntax checks pending
+not-run	live	-	none	-	-	No live Omarchy desktop available; installation and rollback unverified
+not-run	registry	-	none	-	-	Registry validation deferred

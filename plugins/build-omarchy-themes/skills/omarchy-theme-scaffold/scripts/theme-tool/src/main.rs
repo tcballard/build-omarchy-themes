@@ -1,3 +1,4 @@
+mod handoff;
 use std::{
     collections::BTreeMap,
     env, fs,
@@ -129,8 +130,17 @@ fn scaffold(dest: &Path) -> Result<(), String> {
     let result = (|| -> io::Result<()> {
         new_file(&dest.join("colors.toml"), STARTER)?;
         fs::create_dir(dest.join("backgrounds"))?;
-        new_file(&dest.join("README.md"),&format!("# {slug}\n\nDevelopment theme. Add a real desktop preview and licensed wallpaper before publishing.\n\nTested installed Omarchy version: not yet tested.\n\nAfter publishing this repository, document its exact URL with `omarchy theme install`. This command applies the theme and may replace an existing installed copy.\n\nPalette: original starter from Build Omarchy Themes (MIT). Choose and document this theme's code licence separately.\n"))?;
-        new_file(&dest.join("CREDITS.md"),"# Media credits\n\nNo media is bundled. For each wallpaper, record creator, source URL, licence and redistribution permission before adding it. Do not claim a code licence covers third-party artwork.\n")?;
+        new_file(
+            &dest.join("README.md"),
+            &handoff::README.replace("{{slug}}", slug),
+        )?;
+        new_file(&dest.join("CREDITS.md"), "# Media credits\n\nNo media is bundled. For each delivered asset, list its exact root-relative path, creator, source URL, licence and redistribution permission (or explicitly pending). Code licensing does not cover artwork.\n")?;
+        fs::create_dir(dest.join("evidence"))?;
+        new_file(&dest.join("evidence/checks.tsv"), handoff::CHECKS)?;
+        new_file(
+            &dest.join("media.tsv"),
+            include_str!("../templates/media.tsv"),
+        )?;
         Ok(())
     })();
     result.map_err(|e| {
@@ -248,7 +258,10 @@ fn run() -> Result<(), String> {
         [cmd, path] if cmd == "scaffold" => scaffold(Path::new(path)),
         [cmd, path] if cmd == "check" => check(Path::new(path), false),
         [cmd, path, flag] if cmd == "check" && flag == "--release" => check(Path::new(path), true),
-        _ => Err("usage: omarchy-theme-tool scaffold DIR | check DIR [--release]".into()),
+        [cmd, path, manifest] if cmd == "snapshot" => handoff::snapshot(Path::new(path), manifest, false),
+        [cmd, path, manifest, flag] if cmd == "snapshot" && flag == "--implementation" => handoff::snapshot(Path::new(path), manifest, true),
+        [cmd, path, manifest] if cmd == "handoff" => handoff::check(Path::new(path), manifest),
+        _ => Err("usage: omarchy-theme-tool scaffold DIR | check DIR [--release] | snapshot DIR evidence/NAME.manifest [--implementation] | handoff DIR evidence/DELIVERY.manifest".into()),
     }
 }
 fn main() {
