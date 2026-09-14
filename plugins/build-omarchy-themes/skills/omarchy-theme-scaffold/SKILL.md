@@ -9,11 +9,11 @@ Read [the contract reference](references/contract.md) when target-version, stagi
 
 Read the local contract reference, then choose an unused theme slug. Check upstream reserved/taken slugs before public release; a valid local name is not a reservation.
 
-Use the bundled dependency-free Rust helper:
+Resolve `<skill-dir>` to the absolute directory containing this loaded SKILL.md, independently of the current working directory. Use its bundled dependency-free Rust helper:
 
 ```sh
-cargo run --manifest-path scripts/theme-tool/Cargo.toml -- scaffold /path/to/omarchy-my-theme-theme
-cargo run --manifest-path scripts/theme-tool/Cargo.toml -- check /path/to/omarchy-my-theme-theme
+cargo run --manifest-path "<skill-dir>/scripts/theme-tool/Cargo.toml" -- scaffold /path/to/omarchy-my-theme-theme
+cargo run --manifest-path "<skill-dir>/scripts/theme-tool/Cargo.toml" -- check /path/to/omarchy-my-theme-theme
 ```
 
 The destination must not already exist. The scaffold supplies an original starter palette, README and media attribution guidance. It intentionally has no fabricated desktop preview, no wallpaper licence claim and no theme install hook. Add a licensed wallpaper directly in backgrounds/ and a real desktop preview after live verification. Use palette and shell skills to implement the requested character.

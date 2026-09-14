@@ -1,9 +1,11 @@
 ---
 name: omarchy-theme-shell
-description: Style Omarchy shell surfaces using supported shell.toml tokens and scoped theme overrides.
+description: Style Omarchy desktop shell surfaces through theme-owned shell.toml tokens and scoped overrides. Use for global palette, spacing and surface styling; use plugin QML skills for a widget implementation or behaviour change.
 ---
 
 # Omarchy Theme Shell
+
+Inspect the affected source before choosing the change. Theme-owned colours and shell TOML belong here; QML token bindings and widget behaviour belong to omarchy-qml-patterns or omarchy-bar-widget when available. For a mixed task, handle each owning file with the relevant skill. Do not change the global theme to compensate for one plugin's hard-coded colours. If “style the bar” is ambiguous, inspect the checkout and requested effect first; ask only when the remaining choice changes scope.
 
 Read [the contract reference](references/contract.md) when target-version, staging or registry details affect the task. Recheck upstream when the target differs.
 
