@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Theme Palette"
+  short_description: "Build Omarchy themes: palette workflow"
+  default_prompt: "Use $omarchy-theme-palette for this Omarchy theme task."

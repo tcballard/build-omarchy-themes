@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Theme Scaffold"
+  short_description: "Build Omarchy themes: scaffold workflow"
+  default_prompt: "Use $omarchy-theme-scaffold for this Omarchy theme task."

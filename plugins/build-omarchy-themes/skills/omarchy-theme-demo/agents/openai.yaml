@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Theme Demo"
+  short_description: "Build Omarchy themes: demo workflow"
+  default_prompt: "Use $omarchy-theme-demo for this Omarchy theme task."

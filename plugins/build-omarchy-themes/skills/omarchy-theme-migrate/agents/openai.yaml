@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Theme Migrate"
+  short_description: "Build Omarchy themes: migrate workflow"
+  default_prompt: "Use $omarchy-theme-migrate for this Omarchy theme task."

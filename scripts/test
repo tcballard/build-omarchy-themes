@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+python3 scripts/validate_agent_plugin.py .
+python3 scripts/validate_skills.py plugins/build-omarchy-themes/skills --require-openai-metadata
+python3 scripts/sync_openai_adapter.py --check
+cargo fmt --manifest-path skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml -- --check
+cargo test --locked --manifest-path skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml
+python3 -m unittest discover -s tests -v

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Theme Wallpapers"
+  short_description: "Build Omarchy themes: wallpapers workflow"
+  default_prompt: "Use $omarchy-theme-wallpapers for this Omarchy theme task."

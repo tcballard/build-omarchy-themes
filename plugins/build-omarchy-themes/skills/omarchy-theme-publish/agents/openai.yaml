@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Theme Publish"
+  short_description: "Build Omarchy themes: publish workflow"
+  default_prompt: "Use $omarchy-theme-publish for this Omarchy theme task."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Theme Release"
+  short_description: "Build Omarchy themes: release workflow"
+  default_prompt: "Use $omarchy-theme-release for this Omarchy theme task."

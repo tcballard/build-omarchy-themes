@@ -1,0 +1,20 @@
+{
+  "name": "tcballard-omarchy-themes",
+  "interface": {
+    "displayName": "Build Omarchy Themes"
+  },
+  "plugins": [
+    {
+      "name": "build-omarchy-themes",
+      "source": {
+        "source": "local",
+        "path": "./plugins/build-omarchy-themes"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

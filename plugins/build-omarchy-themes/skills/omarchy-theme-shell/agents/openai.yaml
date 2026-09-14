@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omarchy Theme Shell"
+  short_description: "Build Omarchy themes: shell workflow"
+  default_prompt: "Use $omarchy-theme-shell for this Omarchy theme task."
