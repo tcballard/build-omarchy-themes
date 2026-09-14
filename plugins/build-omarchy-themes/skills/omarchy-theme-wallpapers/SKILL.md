@@ -12,3 +12,5 @@ Inspect actual source artwork and record creator, source URL, licence and permis
 Place supported media directly inside backgrounds/. Preserve originals outside the release tree. Inspect landscape, ultrawide and portrait crop behaviour on the target shell; keep focal content clear of bars and lock controls. Prefer modest static images by default. Offer video only where requested; account for runtime cost and reduced-motion needs.
 
 Strip private metadata, decode and inspect the final media, measure dimensions and bytes, and retain attribution. For lock art, verify current unlock.png/preview-unlock.png pairing and scaling from source. Never substitute a wallpaper composition for a real desktop preview. Avoid introducing copyrighted brand assets without a supported right to redistribute.
+
+Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.

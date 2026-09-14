@@ -16,3 +16,5 @@ Establish the symptom, target installed version, selected theme name and source 
 Classify failures: source/slug discovery, staging exclusions, parser errors, template shadowing, section replacement, application reload or media paths. A local directory working while a Git install fails points to provenance-sensitive staging. Fix the supported source path rather than bypassing provenance checks.
 
 Check whether a full config prevents template regeneration or user templates override built-ins. Do not edit generated current output as a lasting fix. Make the smallest reversible correction, test the previously failing action and return the cause, fix and remaining evidence gaps.
+
+Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.

@@ -10,7 +10,7 @@ A companion to [Build Omarchy Plugins](https://github.com/tcballard/build-omarch
 **twelve portable agent skills for turning a visual idea into an installable Omarchy theme.**
 
 Design the palette, style the shell, check applications, prepare wallpapers,
-verify the desktop and submit to the Theme Registry.
+check a development handoff, verify the desktop and submit to the Theme Registry.
 
 ## Status and compatibility
 
@@ -62,7 +62,7 @@ See [workflow entry points](docs/WORKFLOWS.md).
 
 ## Theme helper
 
-The new helper is Rust with no external crates:
+The helper is Rust with no external crates (content manifests also require Git):
 
 ```sh
 cargo run --manifest-path skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml -- scaffold /tmp/omarchy-my-theme-theme
@@ -74,6 +74,8 @@ reports missing keys and ignored files, rejects symlinks, and measures contrast.
 It deliberately supports a strict flat authoring subset, not all upstream TOML,
 legacy migration or gradient syntax. Registry checks, decoded-image validation,
 licensing, live rendering and final screenshots remain separate gates.
+
+Before any theme archive or PR, follow [development handoff](skills/omarchy-theme-scaffold/references/handoff.md). The scaffold supplies badges, installation/rollback and honest evidence defaults; `snapshot` binds evidence to files and `handoff` checks documentation, media references and evidence consistency. A missing live desktop stays visible without blocking a development PR.
 
 The desktop theme belongs in its own `omarchy-<slug>-theme` repository. This
 repository is an **agent bundle**, not a theme to pass to `omarchy theme install`.

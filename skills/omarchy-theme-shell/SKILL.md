@@ -14,3 +14,5 @@ Inspect `default/themed/shell.toml.tpl` and the shell consumers at the installed
 Prefer palette-derived defaults. For a narrow change, inspect section-override semantics before creating `shell.<section>.toml`: upstream currently replaces the whole section, so include needed defaults from the matching target version. A full shell.toml stops template generation; explain that maintenance tradeoff when using it.
 
 Verify bar orientation, active/hover/selected/focus/disabled states, menu sizing, text clipping, font scaling, mixed display scales, notifications and lock-screen readability. Colours alone cannot establish keyboard focus or hit-target usability. Use actual desktop evidence; label offline mockups. Keep behaviour changes out of styling unless requested.
+
+Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.

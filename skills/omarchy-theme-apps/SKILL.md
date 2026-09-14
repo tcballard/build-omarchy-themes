@@ -12,3 +12,5 @@ Build a matrix of requested app, installed version, template/hook source, genera
 Prefer shared palette generation. Git-installed themes lose terminal configs and Lua/vscode.json payloads under the current staging rules. Do not promise an editor extension or Neovim plugin will be installed by shipping those files. If an app needs separate user configuration, document it honestly and keep it outside theme installation unless explicitly requested.
 
 When one app is wrong, compare source palette, generated current output, application config path and reload state. Preserve unrelated user settings. Mark absent apps untested instead of installing a broad suite just to complete a matrix. Deliver only the necessary fixes and tested coverage.
+
+Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.

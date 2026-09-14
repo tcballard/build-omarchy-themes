@@ -12,3 +12,5 @@ Use the actual theme on a compatible Omarchy desktop. Stage generic documents an
 Capture a readable 16:9 preview at least 1000px wide, preferably 1920x1080, as preview.png at the theme root. Decode and inspect it at full size and thumbnail scale. Check account names, notification contents and metadata. Keep before/after comparison framing and content consistent.
 
 If no live desktop is available, create only an explicitly labelled palette study or mockup and report desktop capture as pending. Never call a mockup a screenshot or use it as proof of runtime compatibility. Provide capture provenance and the exact theme/version used.
+
+Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.
