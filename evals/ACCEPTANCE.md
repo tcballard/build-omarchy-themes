@@ -7,14 +7,14 @@
 - Two independent fresh-context workflow exercises pass: accent-only repair without
   a helper, and read-only staging diagnosis. Input hashes and observed outcomes are
   in [the run record](runs/2026-09-29.json). The evaluator independently checked the
-  accent-only byte change and unchanged diagnosis fixture. These are candidate-only
-  smoke tests, not a baseline comparison or an Astra/Fable benchmark.
+  accent-only byte change and unchanged diagnosis fixture. These predate the replacement completion block and are historical candidate-only
+  smoke tests, not validation of that block or a model benchmark.
 - Eleven exact upstream files retrieved through the GitHub connector and reviewed;
   direct network execution of the new --live checker is a separate CI check.
 - Local Rust tests: NOT RUN because Cargo is unavailable. Require full GitHub CI for
   the release candidate; do not reuse v0.1.0 results as fresh execution evidence.
 - Live Omarchy desktop, upstream registry validation of a finished theme, live host
-  discovery and Fable execution: NOT RUN.
+  discovery and Claude execution: NOT RUN. No Claude model has executed the skills.
 
 ## Historical v0.1.0 evidence
 

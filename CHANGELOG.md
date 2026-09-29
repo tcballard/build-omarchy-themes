@@ -4,7 +4,7 @@
 
 - Refresh runtime and registry guidance with eleven exact source pins; distinguish
   URL staging from registry installed-file reporting and listing identity checks.
-- Apply Astra/Fable-informed completion, scope and verification guidance across all
+- Apply provider-informed completion, scope and verification guidance across all
   twelve skills; add a repeatable behavioural evaluation protocol with honest limits.
 - Reject version mismatches and divergent shared references, validate provider
   entry points, and check upstream contract content separately from branch movement.

@@ -29,8 +29,9 @@
     }
   ],
   "limits": [
-    "Fable runner not connected",
+    "No Claude model executed these skills; no Claude runner connected",
     "No live Omarchy or registry validation",
-    "No model-specific performance comparison"
+    "No model-specific performance comparison",
+    "Historical smoke exercises predate the replacement Task completion block; not validation of that revision"
   ]
 }
