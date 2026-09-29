@@ -101,4 +101,4 @@ must be established separately for each theme.
 
 The workflow guidance is provider-informed. No Claude model has executed the skills;
 the two ChatGPT Work smoke exercises had no exposed model identifier and predate the
-guidance correction. See the [planned Claude evaluation](evals/CLAUDE.md).
+guidance correction. See the [planned Claude evaluation](evals/claude-v0.2.1.md).
