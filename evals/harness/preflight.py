@@ -55,18 +55,31 @@ def _run(manifest,storage,evidence):
             outcome,record=session(key,'Reply only OK. Do not create, edit or delete any files.')
             m['settings'][key].update(verified=True,returned_model_id=next(r['model'] for r in outcome['summary']['requests'] if r['query_source']=='main'),host_reported_effort=m['settings'][key]['effort'],evidence_sha256=sha(json.dumps(record,sort_keys=True).encode()))
         # Exercise skill invocation and raw reads without creating a theme.
-        outcome,record=session('sonnet-low','Read the first 15 lines of '+SKILL_PATH+'/omarchy-theme-scaffold/SKILL.md using Bash head, then invoke the omarchy-theme-scaffold skill for a read-only explanation. Do not create or change files. Reply only OK.')
+        outcome,record=session('sonnet-low','Read the first 15 lines of '+SKILL_PATH+'/omarchy-theme-scaffold/SKILL.md using Bash head and read the complete file with the Read tool, then invoke the omarchy-theme-scaffold skill for a read-only explanation. Do not create or change files. Reply only OK.')
         from host.claude_code_adapter import skill_index
-        index=skill_index(skills,exclude_root=fixture);known=set(index)
-        marked=False
+        index=skill_index(skills,exclude_root=fixture)
+        from host.claude_code_adapter import skill_line
+        from redact import redact
+        read_calls={e['id'] for e in outcome['events'] if e['type']=='tool_call' and e.get('name')=='Read' and e.get('arguments',{}).get('file_path')==SKILL_PATH+'/omarchy-theme-scaffold/SKILL.md'}
+        if not read_calls:raise ValueError('Read-tool skill probe was not exercised')
+        seen_reads=set();marked=False
+        annotation,_=redact({'session_id':'preflight','case':'accent-only','events':outcome['events']},[])
+        redacted_results={e['call_id']:e for e in annotation['events'] if e['type']=='tool_result'}
         for event in outcome['events']:
             if event.get('type')=='tool_result':
+                skill_segments=[s for s in event['segments'] if s['kind']=='skill_file']
                 for segment in event['segments']:
-                    if segment['kind']=='skill_file':marked=True
-                    elif any(line in known for line in segment.get('text','').splitlines() if line):raise ValueError('Unsegmented skill content')
+                    if segment['kind']=='task_output' and any(skill_line(line).strip() and skill_line(line) in index.all_lines for line in segment.get('text','').splitlines()):raise ValueError('Unsegmented skill content')
+                if skill_segments:
+                    marked=True
+                    placeholders=[s for s in redacted_results[event['call_id']]['segments'] if s.get('text')=='[skill content]']
+                    if len(placeholders)!=1:raise ValueError('Skill result must have exactly one placeholder')
+                if event['call_id'] in read_calls:
+                    if not skill_segments:raise ValueError('Read-tool result not segmented')
+                    seen_reads.add(event['call_id'])
             elif event.get('type') in ('assistant','final'):
-                if any(line in known for line in event.get('text','').splitlines() if line):raise ValueError('Skill text in non-segment channel')
-        if not marked:raise ValueError('Skill segmentation was not exercised')
+                if any(skill_line(line).strip() and skill_line(line) in index.all_lines for line in event.get('text','').splitlines()):raise ValueError('Skill text in non-segment channel')
+        if not marked or seen_reads!=read_calls:raise ValueError('Skill segmentation was not exercised')
         cargo=['cargo','run','--offline','--manifest-path',SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml','--']
         for args in (['scaffold','/tmp/omarchy-scratch-theme'],):
             # Scaffold and check share one container so the scratch tree survives.

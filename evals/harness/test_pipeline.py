@@ -26,7 +26,7 @@ class Pipeline(unittest.TestCase):
         t=transcript();r,log=redact(t,['secret-sha'])
         self.assertEqual(r['events'][0],t['events'][0]);self.assertEqual(r['events'][3],t['events'][3])
         self.assertEqual(r['events'][1]['segments'][1],t['events'][1]['segments'][1])
-        self.assertIn('[skill file:',r['events'][1]['segments'][0]['text'])
+        self.assertEqual('[skill content]',r['events'][1]['segments'][0]['text'])
         self.assertIn('[skill quote]',r['events'][2]['text']);self.assertNotIn('arm',r['metadata'])
         self.assertEqual(log['counts']['skill_quote'],1);self.assertTrue(log['protected_evidence_unchanged'])
         self.assertEqual(log['blinding'],'partial')
