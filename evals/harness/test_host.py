@@ -6,7 +6,7 @@ import subprocess
 import unittest
 from pathlib import Path
 from common import ROOT,SECONDARY,evaluator,sha,read
-from host.claude_code_adapter import Converter,segments,telemetry_requests,command,skill_index
+from host.claude_code_adapter import Converter,segments,telemetry_requests,command,skill_index,skill_line,evaluation_paths,scaffold_helper
 from runner import classify,build_command,template_hash
 from annotation import validate,finish
 from annotate import annotate_one
@@ -77,10 +77,12 @@ class HostPipeline(unittest.TestCase):
         from redact import redact
         trace={'session_id':'synthetic','case':'accent-only','events':[
             {'type':'tool_result','call_id':'palette','segments':output},
-            {'type':'final','text':'Before the first change, say in one line what you will do.'}]}
+            {'type':'final','text':'Before the first change, say in one line what you will do.'},
+            {'type':'assistant','text':'Before the first change, say in one line what you will do.'}]}
         redacted,log=redact(trace,[])
         self.assertEqual(redacted['events'][0],trace['events'][0])
         self.assertIn('[skill quote]',redacted['events'][1]['text'])
+        self.assertIn('[skill quote]',redacted['events'][2]['text'])
         self.assertTrue(log['protected_evidence_unchanged'])
 
     def test_cross_arm_skill_redaction(self):
@@ -98,14 +100,25 @@ class HostPipeline(unittest.TestCase):
             for case in CASES:
                 fixture=ROOT/'evals/fixtures/claude-v0.2.1'/case
                 for skill in evaluator(case)['skills']:
-                    for mode in ('Read','Grep','Glob','cat','head','Skill','system','numbered-bash','grep-bash'):
+                    for mode in ('Read','Grep','Glob','cat','head','tail','Skill','system','numbered-bash','grep-bash','grep-single','grep-context','wc','ls','sha256sum','stat','grep-count','du'):
                         copies=[]
                         for arm,root in roots.items():
                             index=skill_index(root,exclude_root=fixture)
                             for line,path in index.items():index[line]=SKILL_PATH+'/'+str(Path(path).relative_to(root))
                             path=SKILL_PATH+'/'+skill+'/SKILL.md'
                             text=(root/skill/'SKILL.md').read_text()
-                            if mode=='head':text=''.join(text.splitlines(keepends=True)[:15])
+                            commands={'cat':['cat'],'head':['head','-15'],'tail':['tail','-20'],
+                                'grep-single':['grep','-n','.'],'grep-context':['grep','-rn','-C1','^#'],
+                                'wc':['wc','-l'],'ls':['ls','-la'],'sha256sum':['sha256sum'],
+                                'stat':['stat'],'grep-count':['grep','-c','.'],'du':['du']}
+                            shell_command=None
+                            if mode in commands:
+                                target=root/skill if mode=='ls' else root/skill/'SKILL.md'
+                                argv=commands[mode]+[str(target)]
+                                text=subprocess.run(argv,capture_output=True,text=True,check=True).stdout
+                                text=text.replace(str(root),SKILL_PATH)
+                                shell_command=' '.join(commands[mode]+[str(target).replace(str(root),SKILL_PATH)])
+                            if mode=='Skill':text='Base directory for this skill: '+SKILL_PATH+'/'+skill+'\n\n'+text
                             if mode in ('Read','numbered-bash'):text=''.join(str(i)+'→'+line for i,line in enumerate(text.splitlines(keepends=True),1))
                             if mode in ('Grep','grep-bash'):text=''.join(path+':'+str(i)+':'+line for i,line in enumerate(text.splitlines(keepends=True),1))
                             if mode=='Glob':text=path+'\n'
@@ -116,7 +129,7 @@ class HostPipeline(unittest.TestCase):
                                 events=c.feed(event)
                             else:
                                 tool=mode if mode in ('Read','Grep','Glob') else 'Bash'
-                                args={'file_path':path} if tool=='Read' else {'path':path} if tool in ('Grep','Glob') else {'command':mode+' '+path}
+                                args={'file_path':path} if tool=='Read' else {'path':path} if tool in ('Grep','Glob') else {'command':shell_command or mode+' '+path}
                                 events=c.feed({'type':'assistant','message':{'content':[{'type':'tool_use','id':'read','name':tool,'input':args}]}})
                                 events+=c.feed({'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':'read','content':text}]}})
                             events.append({'type':'host_summary','cost_usd':1 if arm=='baseline' else 2,'turns':3 if arm=='baseline' else 4})
@@ -127,6 +140,38 @@ class HostPipeline(unittest.TestCase):
                             copies.append(json.dumps(redacted,sort_keys=True))
                         self.assertEqual(*copies,(case,skill,mode))
 
+    def test_skill_line_prefixes(self):
+        instruction='A distinctive skill instruction to match.'
+        path='/opt/evaluation/.claude/skills/example/SKILL.md'
+        for prefix in ('12:', '13-', path+':12:', path+'-13-', '  12\t', '  12→'):
+            with self.subTest(prefix=prefix):
+                self.assertEqual(skill_line(prefix+instruction),instruction)
+                output=segments(prefix+instruction,{instruction:path})
+                self.assertEqual(output[0]['kind'],'skill_file')
+                self.assertEqual(output[0]['text'],prefix+instruction)
+        self.assertEqual(skill_line(instruction),instruction)
+
+    def test_bash_provenance_and_helper_boundary(self):
+        helper='/opt/evaluation/.claude/skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml'
+        for option in ('', '--offline '):
+            cmd='cargo run '+option+'--manifest-path '+helper+' -- check /work/fixture/theme'
+            self.assertTrue(scaffold_helper(cmd))
+            for suffix in ('; wc -l /opt/evaluation/.claude/skills/example/SKILL.md',
+                           ' && stat '+helper, ' $(wc -l '+helper+')', ' /opt/evaluation'):
+                self.assertFalse(scaffold_helper(cmd+suffix))
+        for path in ('/opt/evaluation', '/opt/other/../evaluation/.claude/skills/example/SKILL.md',
+                     '/opt//evaluation/./.claude/skills/example/SKILL.md'):
+            c=Converter({'effort':'high'},'test',{})
+            c.feed({'type':'system','subtype':'init'})
+            c.feed({'type':'assistant','message':{'content':[{'type':'tool_use','id':'stats','name':'Bash','input':{'command':'stat "'+path+'"'}}]}})
+            result=c.feed({'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':'stats','content':'30\n1234\n'}]}})[0]
+            self.assertEqual(len(result['segments']),1)
+            self.assertEqual(result['segments'][0]['kind'],'skill_file')
+        self.assertEqual(evaluation_paths('cat /opt/evaluation/../../work/fixture/theme/colors.toml'),[])
+        self.assertEqual(evaluation_paths('ls /opt/evaluation-other'),[])
+        # Documented residual: a previous cd is not propagated to a later command.
+        self.assertEqual(evaluation_paths('wc -l SKILL.md'),[])
+
     def test_fixture_and_cargo_provenance(self):
         from common import SKILL_PATH
         fixture=ROOT/'evals/fixtures/claude-v0.2.1/accent-only'
@@ -134,11 +179,31 @@ class HostPipeline(unittest.TestCase):
         c=Converter({'effort':'high'},'test',index)
         c.feed({'type':'system','subtype':'init'})
         palette=(fixture/'theme/colors.toml').read_text()
-        for tool,args,output in [('Read',{'file_path':'/work/fixture/theme/colors.toml'},palette),('Bash',{'command':'cargo run --manifest-path '+SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml -- check /work/fixture/theme'},'PASS: local authoring subset only\n')]:
+        for tool,args,output in [('Read',{'file_path':'/work/fixture/theme/colors.toml'},palette),('Bash',{'command':'cat /work/fixture/theme/colors.toml'},palette),('Bash',{'command':'cargo run --offline --manifest-path '+SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml -- check /work/fixture/theme'},'PASS: local authoring subset only\n')]:
             c.feed({'type':'assistant','message':{'content':[{'type':'tool_use','id':tool,'name':tool,'input':args}]}})
             result=c.feed({'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':tool,'content':output}]}})[0]
             self.assertTrue(all(s['kind']=='task_output' for s in result['segments']))
             self.assertEqual(''.join(s['text'] for s in result['segments']),output)
+
+    def test_all_fixture_reads_remain_task_output(self):
+        from common import CASES
+        for case in CASES:
+            fixture=ROOT/'evals/fixtures/claude-v0.2.1'/case
+            index=skill_index(ROOT/'skills',exclude_root=fixture)
+            for path in fixture.rglob('*'):
+                if not path.is_file():continue
+                try:output=path.read_text()
+                except UnicodeDecodeError:continue
+                relative=str(path.relative_to(fixture))
+                for tool,args in (('Read',{'file_path':'/work/fixture/'+relative}),
+                                  ('Bash',{'command':'cat /work/fixture/'+relative})):
+                    with self.subTest(case=case,path=relative,tool=tool):
+                        c=Converter({'effort':'high'},'test',index)
+                        c.feed({'type':'system','subtype':'init'})
+                        c.feed({'type':'assistant','message':{'content':[{'type':'tool_use','id':'fixture','name':tool,'input':args}]}})
+                        result=c.feed({'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':'fixture','content':output}]}})[0]
+                        self.assertTrue(all(s['kind']=='task_output' for s in result['segments']))
+                        self.assertEqual(''.join(s['text'] for s in result['segments']),output)
 
     def test_otel_normalization(self):
         with tempfile.TemporaryDirectory() as td:

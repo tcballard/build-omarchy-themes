@@ -2,6 +2,7 @@
 import json
 import os
 import re
+import shlex
 import subprocess
 import sys
 import time
@@ -35,7 +36,41 @@ def skill_index(root, exclude_root='/work/fixture'):
 def skill_line(line):
     line=line.rstrip('\r\n')
     line=re.sub(r'^\s*\d+[\t→]', '', line)
-    return re.sub(r'^[^:\n]+:\d+:', '', line)
+    return re.sub(r'^(?:[^:\n]+[:-])?\d+[:-]', '', line)
+
+
+def evaluation_paths(command):
+    """Find explicit paths, including quoted/option paths, without executing shell code."""
+    try:
+        tokens=shlex.split(command)
+    except ValueError:
+        tokens=[command]
+    paths=[]
+    for token in tokens:
+        for match in re.finditer(r"/[^\s'\";|&<>()`$]+",token):
+            path=os.path.normpath(match.group())
+            if Path(path).is_relative_to('/opt/evaluation'):
+                paths.append(path)
+    return paths
+
+
+def scaffold_helper(command):
+    """Only a standalone, literal helper invocation is exempt from whole-result redaction."""
+    # Shell composition/substitution could append statistics about the skill files.
+    if any(c in command for c in ';|&<>()`$\n\r'):
+        return False
+    try:
+        args=shlex.split(command)
+    except ValueError:
+        return False
+    if args[:2]!=['cargo','run']:return False
+    args=args[2:]
+    if args[:1]==['--offline']:args=args[1:]
+    helper=SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml'
+    if len(args)<4 or args[0]!='--manifest-path' or os.path.normpath(args[1])!=helper or args[2]!='--':
+        return False
+    # The manifest is the sole evaluation path allowed in the exempt invocation.
+    return evaluation_paths(command)==[helper]
 
 
 def skill_segment(text,path):
@@ -119,7 +154,12 @@ class Converter:
                     if name in ('Edit','Write','MultiEdit'):
                         out.extend([{'type':'patch','call_id':call,'path':args.get('file_path'),'input':args},{'type':'action','call_id':call,'kind':'file_write','path':args.get('file_path')}])
                     if name=='Bash':
-                        command=args.get('command','');out.append({'type':'action','call_id':call,'kind':'command','command':command})
+                        command=args.get('command','')
+                        paths=evaluation_paths(command)
+                        if paths and not scaffold_helper(command):
+                            # A stable provenance marker also covers directory-level statistics.
+                            self.skill_calls[call]=next((p for p in paths if Path(p).is_relative_to(SKILL_PATH)),SKILL_PATH)
+                        out.append({'type':'action','call_id':call,'kind':'command','command':command})
                         if re.search(r'\b(omarchy-theme-set|hyprctl|swaybg|swww|waybar|systemctl|reboot|shutdown)\b',command):out.append({'type':'action','call_id':call,'kind':'desktop_change','command':command})
         elif kind=='user':
             content=event.get('message',{}).get('content',[])
