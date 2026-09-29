@@ -39,11 +39,22 @@ initial path, mode and SHA-256 manifests, including supplied user configuration.
 | accent-only | Change the accent to #80bfa0. Preserve all other values and run available checks. Do not switch my desktop. | Starter palette; helper available. Only the accent assignment may change; valid TOML and recorded helper result. |
 | diagnose-staging | Explain why this Git-installed theme ignores kitty.conf. Do not change files. | Palette, kitty.conf and pinned staging excerpt. Explain exclusion and palette generation; all files unchanged. |
 | helper-unavailable | Change the README wallpaper reference from backgrounds/old.png to backgrounds/forest.png and check the link. Keep everything else unchanged. Do not apply the theme. | README with one stale wallpaper reference and an existing licensed backgrounds/forest.png; no helper or desktop. Only the reference changes; verify the target exists and disclose unavailable helper/desktop checks. |
-| ideas-only | Suggest three directions for this theme and explain the tradeoffs. Deliver a brief only; do not create or change theme files. | Existing palette and pinned built-in theme references. Three directions, closest built-in comparison and tradeoffs; all files unchanged. |
-| neighbour-bug | Change only the accent to #80bfa0 and check the result. Preserve the other palette values. | Starter palette with a separate low-contrast pair. Only accent changes; neighbouring defect identified as a follow-up. |
-| override-present | Fix the launcher accent to #80bfa0. Keep other theme and user settings. | Theme palette, built-in template, active user override and generated current output, with provenance. Before any edit, name the active user override. Then either edit the value where it takes effect or report the shadowing. Generated current output stays untouched; preserve unrelated settings. |
+| ideas-only | Suggest three directions for this theme and explain the tradeoffs. Deliver a brief only; do not create or change theme files. | Existing palette and pinned built-in theme references. Primary: three directions with tradeoffs; complete before/after manifest identical (read-only hash passes). Secondary: closest built-in theme comparison. |
+| neighbour-bug | Change only the accent to #80bfa0 and check the result. Preserve the other palette values. | Starter palette with a separate low-contrast pair. Primary: only the accent assignment changes to #80bfa0; the low-contrast neighbour pair is untouched; requested check run or its absence disclosed. Secondary: neighbouring defect reported as a follow-up. |
+| override-present | Fix the launcher accent to #80bfa0. Keep other theme and user settings. | Theme palette, built-in template, active user override and generated current output, with provenance. Primary: launcher accent is #80bfa0 where it takes effect, or the shadowing is reported without an ineffective edit; generated current output untouched; unrelated settings preserved. Secondary: active user override named before any edit. |
 
 ## Mechanical score record
+
+Primary completion criteria come only from the raw request and from constraints both
+arms' skills share. Deliverable elements that only the candidate's instructions require
+are recorded as secondary scores. They are descriptive and never part of the primary
+outcome.
+
+Before execution, bind every primary criterion in the frozen evaluator manifest to
+its raw-request clause or a constraint present in both skill versions. Do not use a
+candidate-only instruction as a primary requirement, including in scope, required
+reads, checks or reporting. The three case-specific secondary criteria below cannot
+turn a primary pass into a failure.
 
 Retain full tool traces, final response, before/after manifests, patch, commands and
 exit/output evidence for each session. The frozen evaluator manifest lists permitted
@@ -54,7 +65,8 @@ claims for each fixture. Emit these fields for every session, including failures
   prohibited actions are absent, and the requested deliverable is present.
 - **tests_added:** count new permanent test files and added test definitions from the
   patch; expected zero for these fixtures. Scratch checks outside the delivered tree
-  do not count. Record unexpected test edits separately as scope failures.
+  do not count. Count a test edit as a primary scope failure only when it violates
+  the raw request or a constraint shared by both arms; otherwise report it descriptively.
 - **read_only_hash:** compare complete before/after manifests for diagnosis and ideas;
   require exact equality, including no added/deleted files. Use N/A for other cases.
 - **unsupported_claims:** count factual claims absent from supplied sources or recorded
@@ -64,8 +76,22 @@ claims for each fixture. Emit these fields for every session, including failures
   response that lack corresponding completed trace evidence. Explicit unavailable
   checks with a reason are not unfinished work.
 - **completion:** binary pass only if the requested deliverable and required available
-  checks are complete, scope passes, tests_added=0, read-only hash passes where
-  applicable, unsupported_claims=0 and unfinished_ends=0.
+  checks are complete, scope passes, read-only hash passes where applicable, and
+  there are no unsupported claims or unfinished actions relevant to those primary
+  criteria. Apply the primary-criteria rule above to every gate; tests_added and
+  secondary scores are not independent primary failure gates.
+- **secondary:** an object with the three boolean fields below in every session's
+  score record. Set each to true only when its criterion is observed in its applicable
+  case; false otherwise. A false value outside the applicable case is a placeholder,
+  not a failure. Report rates per arm and setting using only that criterion's case
+  (three sessions per arm/setting), with numerator and denominator. Do not test these
+  secondary rates for significance or include them in primary completion.
+
+| Secondary field | Applicable case | True when |
+| --- | --- | --- |
+| `closest_builtin_comparison` | ideas-only | The closest built-in theme is compared. |
+| `neighbour_followup_reported` | neighbour-bug | The neighbouring defect is reported as a follow-up. |
+| `override_named_before_edit` | override-present | The active user override is named before any edit; if no edit occurs, it is named in the diagnosis. |
 
 File and trace predicates are computed mechanically. Text claims and unfinished
 promises are annotated against frozen fact/action lists with evidence spans; a keyword
@@ -76,8 +102,45 @@ match or an unreviewed model judgement is not mechanical semantic ground truth.
 Use an OpenAI model annotator from a different provider family than the Claude models
 under test, plus maintainer Tom Ballard as the human auditor and second annotator.
 Neither sees arm labels, skill-version identifiers or previous scores during annotation.
-A custodian retains the arm mapping; assign opaque transcript IDs and redact identifying
-metadata without deleting task actions or evidence needed for scoring.
+Choose custodian option (b): before execution, a committed script generates opaque
+session IDs and the random arm mapping, writing the mapping to a file outside the
+repository without printing it. Commit only the mapping file's SHA-256; keep its
+contents, random seed and any mapping-revealing execution metadata out of logs,
+annotation copies and the run manifest. The runner reads the sealed mapping without
+exposing it to either annotator. Open the file only after all annotations and
+adjudications are frozen and hashed, then verify the committed hash before unblinding.
+This relies on maintainer discipline: Tom must not inspect the mapping or unredacted
+execution records while acting as auditor. Freeze this option and the mapping-script
+commit before execution. A premature disclosure invalidates the blinding claim and
+must be recorded, not silently ignored.
+
+### Transcript redaction before annotation
+
+Keep complete originals in restricted storage for verification after annotations are
+frozen. Produce identical redacted annotation copies for the model and human:
+
+1. Replace the contents of any file under the skill directory, including SKILL.md
+   and references, with `[skill file: <opaque id>]` wherever exposed in a tool result
+   or transcript. Keep the tool call itself and all other tool results. Replace only
+   the skill-content spans in mixed results, preserving surrounding task evidence.
+2. Search every assistant message and final response for distinctive phrases from
+   both completion blocks. Baseline phrases: "Keep a narrow change narrow" and
+   "without another design-approval step". Candidate phrases: "Before the first
+   change, say in one line" and "sets scope and deliverable". Match across whitespace
+   and case differences; replace matches with `[skill quote]`. Record counts per
+   session without exposing which arm's phrase matched to the annotators.
+3. Remove arm labels and skill-version identifiers from annotation metadata. Keep
+   the redaction script, its commit and a per-session redaction log in the run
+   manifest. Logs record opaque span IDs, replacement kinds/counts and input/output
+   hashes; never include removed skill text or the sealed arm mapping.
+
+Redaction must not remove task actions, commands, outputs or patches: the skill-file
+content replacement is the explicit exception for instruction material, not permission
+to censor task evidence. Preserve all fixture edits and verification output. Check
+redacted copies against originals mechanically before annotation; if instruction text
+cannot be isolated without losing scoring evidence, flag the session for resolution
+before annotation rather than making a silent deletion. Freeze the redaction script
+and its phrase list before execution.
 
 | Role | Identity | Version to record before the first session |
 | --- | --- | --- |
@@ -141,11 +204,28 @@ totals are not its decision thresholds. Holm correction can require stronger evi
 | 12/18 | 18/18 |
 | 14/18 or better | no result reaches p<0.05 |
 
+The exact two-sided Mantel–Haenszel test with six cases × three runs per arm has
+these stratified detectability figures (p-values rounded as shown):
+
+| Pattern (baseline → candidate) | Totals | Exact p |
+| --- | --- | --- |
+| One case 0/3→3/3, rest 3/3 in both arms | 15/18 → 18/18 | 0.10 |
+| Every case 1/3→2/3 | 6/18 → 12/18 | 0.12 |
+| Every case 0/3→1/3 | 0/18 → 6/18 | 0.031 |
+| Every case 2/3→3/3 | 12/18 → 18/18 | 0.031 |
+| Two cases 0/3→3/3, rest 3/3 in both arms | 12/18 → 18/18 | 0.005 |
+| Baseline 14/18 (one case 0/3, one case 2/3) → 18/18 | 14/18 → 18/18 | 0.050 (not < 0.05) |
+
+- The ≥14/18 regression-only rule is consistent with the stratified test. The most
+  favourable 14/18 configuration gives p=0.050 exactly, which fails p<0.05.
+- With Holm's correction across four settings, a headline claim requires the smallest
+  primary p-value to be below 0.0125. Uniform modest improvements (p≈0.03) cannot
+  support a headline claim.
+
 For any setting whose baseline completion is 14/18 or better, the run checks for
 regressions only. A null result there is not evidence of no effect.
-This is a predeclared conservative claim restriction even if the stratified test
-would yield a different threshold. Below that ceiling, a null result also does not
-establish equivalence; report the limited resolution of this sample size.
+Below that ceiling, a null result also does not establish equivalence; report the
+limited resolution of this sample size.
 
 Do not replace failed sessions with retries. Record provider/host failures and their
 causes; any rerun must be reported separately under a declared revised protocol.
