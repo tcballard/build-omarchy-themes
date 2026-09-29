@@ -18,15 +18,21 @@ Each setting has 18 sessions per arm (six cases × three repetitions), 36 total.
 Baseline: pre-correction commit `0e46dc52f77d86b0225d9021e93eb419eeaafc0b`.
 Candidate: v0.2.0 merge commit `dfb78e54ff5857c9a04be4b4d36f2938e29d213c`. Record
 both skill hashes, fixture manifest hashes, actual provider model IDs, host version,
-effort, tools, token/time limits and guide review date. Do not substitute another
+effort, tools, turn/budget/time limits and guide review date. Do not substitute another
 model silently. Keep all settings except the arm's skill bytes identical. Freeze
 fixtures, prompts and scoring manifests before execution; randomise arm order within
 each case/setting/repetition. Keep scoring criteria and previous outputs out of the
 executing session. No desktop changes or external writes are available.
 
-Install each arm's skills at the same absolute path, with the same directory names,
+Install each arm's skills at /opt/evaluation/.claude/skills, with the same directory names,
 so tool-call paths and arguments do not differ between arms. Verify this mechanically
-in the run manifest before execution.
+in the run manifest before execution. Claude Code runs headless with --bare and
+--add-dir /opt/evaluation. Record --max-turns, --max-budget-usd and wall-clock seconds
+identically for both arms; exceeding a cap is a scored failure. Initial metadata is
+configuration, not observed effort. The terminal summary carries returned models and
+OpenTelemetry API-request model/effort/source evidence. Check main and subagent
+requests; retain auxiliary requests without judging their model. Keep raw source names
+and normalise repl_main_thread to main; unknown sources block verification.
 
 ## Six cases
 

@@ -9,7 +9,7 @@
     "provider_family": "OpenAI",
     "requested_model": "GPT-6 Astra",
     "rubric_sha256": "98a4bc6f10c83f5072da5e9c19c5f0b5f070cf100fd17a33246f59a5b623d57b",
-    "scoring_commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+    "scoring_commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
     "software_versions": "BLOCKED: no compatible host connected; not yet observed",
     "verified": false
   },
@@ -178,34 +178,64 @@
     "record": "docs/FRONTIER-MODELS.md"
   },
   "host": {
-    "api_only_network": "BLOCKED: no compatible host connected; not yet observed",
-    "command": "BLOCKED: no compatible host connected; not yet observed",
-    "config_environment_name": "BLOCKED: host config relocation unobserved",
-    "credential_environment_names": "BLOCKED: no compatible host connected; not yet observed",
-    "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+    "api_only_network": "claude-eval-internal",
+    "command": [
+      "python3",
+      "/opt/host/claude_code_adapter.py"
+    ],
+    "config_environment_name": "CLAUDE_CONFIG_DIR",
+    "credential_environment_names": [
+      "ANTHROPIC_API_KEY"
+    ],
+    "effort_configuration": "--effort; CLAUDE_CODE_EFFORT_LEVEL unset by container command and adapter",
+    "expected_version": "2.1.284 (Claude Code)",
     "image": "BLOCKED: no compatible host connected; not yet observed",
     "network_isolation_verified": false,
+    "permission_mode": "bypassPermissions",
     "preflight": {
-      "evidence_sha256": "BLOCKED: scratch pre-flight not performed; no provider sessions authorised",
+      "command_template_sha256": "BLOCKED: live scratch pre-flight evidence not yet observed",
+      "evidence_sha256": "BLOCKED: live scratch pre-flight evidence not yet observed",
       "helper_build": false,
+      "network_allow": false,
+      "network_deny": false,
       "no_write_home": false,
-      "no_write_no_home": false
+      "no_write_no_home": false,
+      "skill_segmentation": false
     },
+    "proxy_url": "http://claude-eval-proxy:8080",
     "skill_content_all_channels": false,
-    "skill_install_path": "/opt/evaluation/skills",
-    "tools": "BLOCKED: no compatible host connected; not yet observed",
+    "skill_install_path": "/opt/evaluation/.claude/skills",
+    "tools": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "Skill",
+      "Write"
+    ],
     "verified": false,
     "version": "BLOCKED: no compatible host connected; not yet observed"
   },
+  "host_image_smoke": {
+    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36558547149",
+    "job_id": 109373531602,
+    "job_log_sha256": "9d53e887b3573e983b9453878402d1280b0bf7ba747e6283218f3f4d6013ff32",
+    "local_image_id": "sha256:9bb496ef224a4e713206bb96f004b28ef1f0b602eefaee93c5846f9721006c92",
+    "scope": "CI build, Claude Code version and offline Rust scaffold/check only. Image not pushed; no provider calls or live pre-flight.",
+    "source_commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
+    "status": "PASS"
+  },
   "limits": {
-    "seconds": "BLOCKED: declare with host verification",
-    "tokens": "BLOCKED: declare with host verification"
+    "max_budget_usd": 20,
+    "max_turns": 100,
+    "seconds": 1800
   },
   "mapping": {
     "session_ids": "BLOCKED: real session IDs not generated",
     "sha256": "BLOCKED: freeze steps 5 and 6 incomplete"
   },
-  "protocol_sha256": "674ce2c8faff0d715f27865447d18168fdd8e1885a8fe0300867b2ccf88f4f75",
+  "protocol_sha256": "50e7e010faedf27e1bc9d230fa9f8f8bcd1f4da31d59147d0bfbe7e109dfde02",
   "readiness": "BLOCKED",
   "redaction_phrases": {
     "baseline": "0e46dc52f77d86b0225d9021e93eb419eeaafc0b",
@@ -216,74 +246,131 @@
   },
   "scripts": {
     "evals/harness/README.md": {
-      "commit": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
-      "sha256": "5da53799c9d0b32738f53bd594c01d327638ac2852682487fd726a0260a37429"
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "ed002c9853bbe4f1594f7660b8a5c93d4dd241262c64e4d445904aad34451615"
+    },
+    "evals/harness/adjudicate.py": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "bb2bb5a11c34ee045e6b25feb88fb0e82d29cd5e24acf0f76726077c564f428d"
     },
     "evals/harness/analysis.R": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "aafa38553ebf707309d0e00529632ad90134014313fc5aac2a231347dcb39a63"
     },
+    "evals/harness/annotate.py": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "629abedf6fad29be481125d29a5b4a9cf5e18540d4cdbc6955fbcbae18022fd2"
+    },
+    "evals/harness/annotation.py": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "e2d6cf4f51982babf2108576258881bfba68ca477880e092af88b497e3472326"
+    },
     "evals/harness/annotator-prompt.md": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "d72c5842ce3c7cbfdb5d7a2f2ecd525d9e4f7c8a369f3d888487c7cfd715045b"
     },
     "evals/harness/assemble.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "4b6afd063dd53d160736b8002571143c4cf12fffb952d8ad6aab4acf7222db0b"
     },
     "evals/harness/audit.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "8d1bc9ac04ac8b9c0c499a985660e32ef49e72f794bdf2dc04f93c56e32e0f70"
     },
     "evals/harness/common.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
-      "sha256": "ca99f1d46ab1387686344f5161d674d5e531caa2065913f6ae7511591ff9377a"
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "2394e71371faa4956ccb16bb530439ecbd46482582540215a7717e788a29b2aa"
+    },
+    "evals/harness/container_host.py": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "27eab1fcdb84402d5b973da65d5df9c2f64411b645767250e1b572b291a6b156"
+    },
+    "evals/harness/host/Dockerfile": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "16befe8dbede0e1f39e2172581bae95aedbffa129c0526e35347039f3c246a45"
+    },
+    "evals/harness/host/SOURCES.md": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "c4bd5b15914560d656c22c9b7db2a9078c09812268a00327dd17883fa5c31a15"
+    },
+    "evals/harness/host/api_proxy.py": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "a03b24aed48711afa8d821b66dfa3a1bcde16a9ceed3effe0c0bf2c9e245e12e"
+    },
+    "evals/harness/host/claude_code_adapter.py": {
+      "commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
+      "sha256": "29df7bac08b01b70540c9dae6ab10adb16863570677ca9e06c67f34c511d4c78"
+    },
+    "evals/harness/host/otel.yaml": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "5dff7763d1bc14f73195921ed2b915855676b82f89b1eb59828cd1abdd547fd9"
+    },
+    "evals/harness/host/setup-network.sh": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "8a6dc49f78cc0a82af19dbb069d213cff5db4e95fb9d6e9041ca8aa94eb9275c"
+    },
+    "evals/harness/human-annotate.py": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "919b27ab22cc7f6a77c64b7178cfda89d93a5dbd1138c1b43be002687d0aa386"
     },
     "evals/harness/mapping.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "1cb40a45734ae231542b883f37d5712f0a3944658fcac5c619b9d9bc6eb89756"
     },
     "evals/harness/phrases-claude-v0.2.1.json": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "98848e4a57f3adfc310713d3dbd714ea8413dce087c4095b5a78afdd1ad0411d"
     },
     "evals/harness/phrases.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "abd220242986309e3b141ff38d160702bc52345728dd17b50f2956bd7fe7b681"
     },
+    "evals/harness/preflight.py": {
+      "commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
+      "sha256": "918d38ea0ace27201115706e93bc27a0b54f507f127304545671427b61090c5c"
+    },
+    "evals/harness/prepare_packets.py": {
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "fe355d4669dd9b401849e1f30d1a07223236880ead6844844e962162d1d4e2b6"
+    },
     "evals/harness/readiness.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
-      "sha256": "3c734849ef8d9a96c61d30fde7bcfd4b118d3510d31231d9c14076d5880f7e20"
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "1d8d46f9e27f92f898a46ebf0225e1831334753c072e3ba769244149b971e6ab"
     },
     "evals/harness/redact.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "adeeb54b813aefe5f16dafc126f12d6fab962af56a2639856d2535b1067fbe85"
     },
     "evals/harness/rubric.md": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "98a4bc6f10c83f5072da5e9c19c5f0b5f070cf100fd17a33246f59a5b623d57b"
     },
     "evals/harness/runner.py": {
-      "commit": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
-      "sha256": "ef45737e82f56fc96477e0679795b76df295db4d715bc331f78e8747521ed444"
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "6c34afcbcfe88dbc7b75ba752009067a97a5634f79462e19f7028c3f7b2bb9ed"
     },
     "evals/harness/score.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "aa7de2d48b42ec7008da37adf15317254572fde8bbf75433f31fca2e9b008be1"
     },
     "evals/harness/test_detectability.R": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
       "sha256": "13583defac9a5dee4d41d52a9c51e07b037967aae8081cd90e36e96efe3f6664"
     },
+    "evals/harness/test_host.py": {
+      "commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
+      "sha256": "610010b1477dd20d13d9dfe4770ff80571a0fdd7be620a002ca6eadf26be38c9"
+    },
     "evals/harness/test_pipeline.py": {
-      "commit": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
-      "sha256": "c992b197182c694da459eb2de46146735708335b2ea2fe8eebf2615028a45617"
+      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+      "sha256": "2c0607b335b4e81a171cf4997a78bf6da6565c87f20190d5696829a81c174898"
     }
   },
   "settings": {
     "fable-high": {
+      "configured_model_id": "claude-fable-5-1",
       "effort": "high",
-      "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+      "effort_configuration": "--effort high; CLAUDE_CODE_EFFORT_LEVEL unset; observed main/subagent effort required from OpenTelemetry",
       "evidence_sha256": "BLOCKED: no compatible host connected; not yet observed",
       "host_reported_effort": "BLOCKED: no compatible host connected; not yet observed",
       "requested_model": "Claude Fable 5.1",
@@ -291,8 +378,9 @@
       "verified": false
     },
     "opus-medium": {
+      "configured_model_id": "claude-opus-5-5",
       "effort": "medium",
-      "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+      "effort_configuration": "--effort medium; CLAUDE_CODE_EFFORT_LEVEL unset; observed main/subagent effort required from OpenTelemetry",
       "evidence_sha256": "BLOCKED: no compatible host connected; not yet observed",
       "host_reported_effort": "BLOCKED: no compatible host connected; not yet observed",
       "requested_model": "Claude Opus 5.5",
@@ -300,8 +388,9 @@
       "verified": false
     },
     "sonnet-low": {
+      "configured_model_id": "claude-sonnet-5-5",
       "effort": "low",
-      "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+      "effort_configuration": "--effort low; CLAUDE_CODE_EFFORT_LEVEL unset; observed main/subagent effort required from OpenTelemetry",
       "evidence_sha256": "BLOCKED: no compatible host connected; not yet observed",
       "host_reported_effort": "BLOCKED: no compatible host connected; not yet observed",
       "requested_model": "Claude Sonnet 5.5",
@@ -309,8 +398,9 @@
       "verified": false
     },
     "sonnet-medium": {
+      "configured_model_id": "claude-sonnet-5-5",
       "effort": "medium",
-      "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+      "effort_configuration": "--effort medium; CLAUDE_CODE_EFFORT_LEVEL unset; observed main/subagent effort required from OpenTelemetry",
       "evidence_sha256": "BLOCKED: no compatible host connected; not yet observed",
       "host_reported_effort": "BLOCKED: no compatible host connected; not yet observed",
       "requested_model": "Claude Sonnet 5.5",
@@ -324,14 +414,14 @@
       "stats": "4.3.3"
     },
     "R_version": "4.3.3 (2024-02-29)",
-    "ci_head": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
+    "ci_head": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
     "ci_python_version": "3.12.14",
-    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36554056315",
-    "job_id": 109358855176,
-    "job_log_sha256": "3ac0ab23df2680f01d1a03d021bfcbf520fc5fac5f50e96859d83f8274c4733e",
-    "local_result": "16 passed; R unavailable locally, verified in CI",
+    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36558547149",
+    "job_id": 109373531371,
+    "job_log_sha256": "0deed4514999b756e018a79c5568077f4fa01ad11fc7de6442fa1bb7dc90f68e",
+    "local_result": "22 passed; R unavailable locally, verified in CI",
     "python_version": "3.12.14",
-    "result": "17 synthetic tests passed including R; no skips or provider sessions",
+    "result": "23 synthetic tests passed including R; no skips or provider sessions",
     "status": "PASS"
   }
 }
