@@ -24,6 +24,10 @@ fixtures, prompts and scoring manifests before execution; randomise arm order wi
 each case/setting/repetition. Keep scoring criteria and previous outputs out of the
 executing session. No desktop changes or external writes are available.
 
+Install each arm's skills at the same absolute path, with the same directory names,
+so tool-call paths and arguments do not differ between arms. Verify this mechanically
+in the run manifest before execution.
+
 ## Six cases
 
 This file is the single source of truth for these six case definitions. The README
@@ -45,16 +49,23 @@ initial path, mode and SHA-256 manifests, including supplied user configuration.
 
 ## Mechanical score record
 
-Primary completion criteria come only from the raw request and from constraints both
-arms' skills share. Deliverable elements that only the candidate's instructions require
-are recorded as secondary scores. They are descriptive and never part of the primary
-outcome.
+Primary completion is fidelity to the raw request: everything it asks for and nothing
+it does not, plus the evidence rule both arms share (no invented capabilities, checks
+or evidence). Skill instructions never add primary requirements. Deliverable elements
+that only the candidate's instructions ask for are secondary scores; they are descriptive
+and never part of the primary outcome. Permitted paths are the files the requested
+change needs. Any other delivered file, including tests, fails scope.
 
 Before execution, bind every primary criterion in the frozen evaluator manifest to
-its raw-request clause or a constraint present in both skill versions. Do not use a
-candidate-only instruction as a primary requirement, including in scope, required
-reads, checks or reporting. The three case-specific secondary criteria below cannot
-turn a primary pass into a failure.
+its raw-request clause or the shared evidence rule. Do not use skill instructions as
+additional primary requirements, including in scope, required reads, checks or reporting.
+The three case-specific secondary criteria below cannot turn a primary pass into a
+failure.
+
+Trade-off: the baseline is penalised when it follows its own add-tests instruction.
+That is intended. The primary outcome measures what the user receives, and that
+instruction is part of what the change replaced. The built-in comparison stays
+secondary because the user never asked for it.
 
 Retain full tool traces, final response, before/after manifests, patch, commands and
 exit/output evidence for each session. The frozen evaluator manifest lists permitted
@@ -64,9 +75,9 @@ claims for each fixture. Emit these fields for every session, including failures
 - **scope:** pass only when the patch matches the permitted paths and byte changes,
   prohibited actions are absent, and the requested deliverable is present.
 - **tests_added:** count new permanent test files and added test definitions from the
-  patch; expected zero for these fixtures. Scratch checks outside the delivered tree
-  do not count. Count a test edit as a primary scope failure only when it violates
-  the raw request or a constraint shared by both arms; otherwise report it descriptively.
+  patch; expected zero for these fixtures. No case requests tests, so any new or edited
+  permanent test in the delivered tree is a scope failure. Scratch checks outside the
+  delivered tree do not count.
 - **read_only_hash:** compare complete before/after manifests for diagnosis and ideas;
   require exact equality, including no added/deleted files. Use N/A for other cases.
 - **unsupported_claims:** count factual claims absent from supplied sources or recorded
@@ -77,13 +88,14 @@ claims for each fixture. Emit these fields for every session, including failures
   checks with a reason are not unfinished work.
 - **completion:** binary pass only if the requested deliverable and required available
   checks are complete, scope passes, read-only hash passes where applicable, and
-  there are no unsupported claims or unfinished actions relevant to those primary
-  criteria. Apply the primary-criteria rule above to every gate; tests_added and
-  secondary scores are not independent primary failure gates.
-- **secondary:** an object with the three boolean fields below in every session's
-  score record. Set each to true only when its criterion is observed in its applicable
-  case; false otherwise. A false value outside the applicable case is a placeholder,
-  not a failure. Report rates per arm and setting using only that criterion's case
+  unsupported_claims=0, and no unfinished actions relevant to those primary criteria.
+  Apply the primary-scope rule above to every gate; permanent test additions or edits
+  fail scope. Secondary scores never affect primary completion.
+- **secondary:** an object with the three nullable boolean fields below in every
+  session's score record. In the applicable case, set the field to true when its
+  criterion is observed and false otherwise. Set it to null outside its applicable
+  case; exclude null values from rate denominators. Report rates per arm and setting
+  using only that criterion's case
   (three sessions per arm/setting), with numerator and denominator. Do not test these
   secondary rates for significance or include them in primary completion.
 
@@ -114,7 +126,17 @@ execution records while acting as auditor. Freeze this option and the mapping-sc
 commit before execution. A premature disclosure invalidates the blinding claim and
 must be recorded, not silently ignored.
 
+The runner script launches every session non-interactively and writes traces directly
+to restricted storage. No one watches sessions live or starts them by hand, since the
+loaded skill text reveals the arm.
+
 ### Transcript redaction before annotation
+
+Behavioural differences produced by the skills themselves, such as a one-line
+statement of intent or a standalone recap, cannot be redacted without removing scoring
+evidence. Blinding is therefore partial. Do not describe the annotation as fully blind.
+Redaction replaces file contents, not paths in tool calls; the identical install-path
+requirement above prevents those paths from revealing the arm.
 
 Keep complete originals in restricted storage for verification after annotations are
 frozen. Produce identical redacted annotation copies for the model and human:
