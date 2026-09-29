@@ -1,0 +1,20 @@
+{
+  "builtin": {
+    "repository": "omacom/omarchy",
+    "commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+    "path": "default/themed/shell.toml.tpl",
+    "blob_sha": "b0a68d8b0c44ca0b146c727beb72d27f8a27b5d4"
+  },
+  "user_override": {
+    "origin": "synthetic fixture authored for this evaluation",
+    "derived_from": "omarchy/default/themed/shell.toml.tpl",
+    "change": "launcher.selected-text literal #b07090",
+    "active_path": "$HOME/.config/omarchy/themed/shell.toml.tpl",
+    "resolution": "user template precedes same-named built-in in pinned resolver"
+  },
+  "generated_output": {
+    "origin": "synthetic reduced snapshot of launcher fields after user-template resolution",
+    "path": "home/.local/state/omarchy/current/theme/shell.toml",
+    "not_live_desktop_evidence": true
+  }
+}

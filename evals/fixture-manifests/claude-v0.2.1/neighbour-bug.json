@@ -1,0 +1,18 @@
+{
+  "case": "neighbour-bug",
+  "contrast": {
+    "foreground": "#e3e5d7",
+    "ratio": 1.3028372357176248,
+    "selection": "#c8cabc",
+    "threshold": 4.5,
+    "unrelated_to_accent": true
+  },
+  "files": [
+    {
+      "mode": "0644",
+      "path": "theme/colors.toml",
+      "sha256": "cca208c978d85b505f245f7b14d501028cba2d6cae657f7e17ad06620b98494c"
+    }
+  ],
+  "fixture_kind": "synthetic desktop fixture with pinned source excerpts"
+}

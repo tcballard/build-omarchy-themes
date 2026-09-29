@@ -1,0 +1,40 @@
+# Source: omacom/omarchy@e332dc975d5f635294c497ebb54feb98dc3d89eb:bin/omarchy-theme-set-templates, lines 1-9
+#!/bin/bash
+
+# omarchy:summary=Generate themed config files from Omarchy templates
+# omarchy:hidden=true
+
+TEMPLATES_DIR="$OMARCHY_PATH/default/themed"
+USER_TEMPLATES_DIR="$HOME/.config/omarchy/themed"
+NEXT_THEME_DIR="$HOME/.local/state/omarchy/current/next-theme"
+COLORS_FILE="$NEXT_THEME_DIR/colors.toml"
+# Source: omacom/omarchy@e332dc975d5f635294c497ebb54feb98dc3d89eb:bin/omarchy-theme-set-templates, lines 425-453
+  ' "${pairs[@]}"
+}
+
+# Only generate dynamic templates for themes with a colors.toml definition
+if [[ -f $COLORS_FILE ]]; then
+  value_table=$(mktemp)
+  mix_table=$(mktemp)
+  declare -A rendered=()
+
+  shopt -s nullglob
+  template_files=("$USER_TEMPLATES_DIR"/*.tpl "$TEMPLATES_DIR"/*.tpl)
+
+  # Parsing and alias/fallback resolution (legacy colorN names, derived
+  # shades, mode/theme_type) is shared with every other colors.toml consumer.
+  while IFS=$'\t' read -r key value; do
+    THEME_COLORS[$key]="$value"
+  done < <(omarchy-theme-color --file "$COLORS_FILE" --all)
+
+  for key in "${!THEME_COLORS[@]}"; do
+    add_template_value "$key" "${THEME_COLORS[$key]}"
+  done
+
+  add_function_values
+  render_templates
+
+  rm "$value_table" "$mix_table"
+fi
+
+apply_shell_section_overrides
