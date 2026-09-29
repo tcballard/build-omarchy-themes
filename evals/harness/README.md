@@ -121,7 +121,7 @@ Build: `docker build -f evals/harness/host/Dockerfile -t claude-eval-host .`.
 The image pins Claude Code 2.1.284, a Node base, Rust 1.85.1 and the collector by
 version/digest. CI builds and checks the offline helper without provider credentials.
 Publish the image to your authorised registry, record its repository digest (not just
-its local image ID), then run `host/setup-network.sh IMAGE@sha256:DIGEST` on the host.
+its local image ID), then run `sh evals/harness/host/setup-network.sh IMAGE@sha256:DIGEST` on the host.
 The execution network is internal; only the separate CONNECT proxy reaches the
 outside, and it accepts api.anthropic.com:443 only. Never attach execution containers
 to bridge or host networking. The shared container command runs as UID 1000 with

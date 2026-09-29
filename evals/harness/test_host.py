@@ -56,7 +56,9 @@ class HostPipeline(unittest.TestCase):
         for e in stream[:-1]:truncated.feed(e)
         self.assertFalse(truncated.finish(requests,0)['actions_complete'])
         for shell in ('cat','head','grep'):
-            self.assertEqual(segments('Unique skill instruction.\n',index)[0]['kind'],'skill_file',shell)
+            converted=c.feed({'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':shell,'content':'Unique skill instruction.\nKept output.'}]}})
+            self.assertEqual(converted[0]['segments'][0]['kind'],'skill_file',shell)
+            self.assertEqual(converted[0]['segments'][1]['text'],'Kept output.')
         self.assertIn('--max-budget-usd',command(payload));self.assertIn('/opt/evaluation',command(payload))
     def test_otel_normalization(self):
         with tempfile.TemporaryDirectory() as td:

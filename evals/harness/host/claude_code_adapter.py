@@ -91,6 +91,9 @@ class Converter:
                     out.append({'type':'tool_result','call_id':call,'is_error':block.get('is_error',False),'segments':segments(content_text(block.get('content','')),self.index)})
                 elif block.get('type')=='text':
                     out.append({'type':'tool_result','call_id':'invocation-'+str(event.get('uuid',''))+'-'+str(i),'segments':segments(block['text'],self.index)})
+        elif kind=='system' and any(key in event for key in ('content','text','message')):
+            text=content_text(event.get('content',event.get('text',event.get('message',''))))
+            out.append({'type':'tool_result','call_id':'system-'+str(event.get('uuid','')),'segments':segments(text,self.index)})
         elif kind=='result':
             self.result=event;out.append({'type':'final','text':event.get('result',''),'subtype':event.get('subtype'),'errors':event.get('errors',[])})
         elif kind not in ('system','rate_limit_event'):
@@ -125,6 +128,7 @@ def main():
         converter=Converter(payload,version,skill_index(SKILL_PATH))
         proc=subprocess.Popen(command(payload),stdout=subprocess.PIPE,stderr=sys.stderr,text=True,env=env,cwd='/work/fixture')
         for line in proc.stdout:
+            sys.stderr.write('CLAUDE_STREAM '+line);sys.stderr.flush()
             try:
                 for event in converter.feed(json.loads(line)):print(json.dumps(event),flush=True)
             except (ValueError,KeyError,TypeError):converter.invalid=True

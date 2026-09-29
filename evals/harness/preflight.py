@@ -68,9 +68,9 @@ def _run(manifest,storage,evidence):
                 if any(line in known for line in event.get('text','').splitlines() if line):raise ValueError('Skill text in non-segment channel')
         if not marked:raise ValueError('Skill segmentation was not exercised')
         cargo=['cargo','run','--offline','--manifest-path',SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml','--']
-        for args in (['scaffold','/tmp/scratch-theme'],):
+        for args in (['scaffold','/tmp/omarchy-scratch-theme'],):
             # Scaffold and check share one container so the scratch tree survives.
-            command=['sh','-c','cargo run --offline --manifest-path '+cargo[4]+' -- scaffold /tmp/scratch-theme && cargo run --offline --manifest-path '+cargo[4]+' -- check /tmp/scratch-theme']
+            command=['sh','-c','cargo run --offline --manifest-path '+cargo[4]+' -- scaffold /tmp/omarchy-scratch-theme && cargo run --offline --manifest-path '+cargo[4]+' -- check /tmp/omarchy-scratch-theme']
             record=invoke(host,fixture,skills,'claude-preflight-helper',{},180,command);evidence.append(record)
             if record['exit_status']!=0:raise ValueError('Offline helper check failed')
         # The successful tiny sessions prove authenticated Anthropic calls through the proxy.
