@@ -1,34 +1,83 @@
 {
-  "checked": "2026-09-14",
-  "status": "Source snapshots from development branches; not a stable-release test claim",
+  "checked": "2026-09-29",
+  "status": "Reviewed source snapshots; not a live desktop or stable-release compatibility claim",
   "sources": [
     {
-      "url": "https://github.com/omacom/omarchy/blob/quattro/themes/tokyo-night/colors.toml",
-      "blob_sha": "58e6785259b83a72a5921e2cfec4c66192860b7e"
+      "repository": "omacom/omarchy-theme-registry",
+      "ref": "master",
+      "path": ".github/ISSUE_TEMPLATE/submit-theme.yml",
+      "commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "blob_sha": "ac2c68a536fc6b58aa8a779ddfaed897a919a025"
     },
     {
-      "url": "https://github.com/omacom/omarchy/blob/quattro/bin/omarchy-theme-set-templates",
-      "blob_sha": "de4d599137ec87c7dce0919556f781efacf05f8d"
+      "repository": "omacom/omarchy-theme-registry",
+      "ref": "master",
+      "path": "packages/schema/src/constants.ts",
+      "commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "blob_sha": "2ef6be412d8fa76cb649c34a512a7709016fb9a6"
     },
     {
-      "url": "https://github.com/omacom/omarchy/blob/quattro/bin/omarchy-theme-install",
+      "repository": "omacom/omarchy-theme-registry",
+      "ref": "master",
+      "path": "packages/validator/src/inspect.ts",
+      "commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "blob_sha": "351a73362dbc6e187f7936b02aaa156ce0708e43"
+    },
+    {
+      "repository": "omacom/omarchy-theme-registry",
+      "ref": "master",
+      "path": "packages/validator/src/validate.ts",
+      "commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "blob_sha": "c76f6c6f5c76381ffa31892e9103ebc38fd52e62"
+    },
+    {
+      "repository": "omacom/omarchy-theme-registry",
+      "ref": "master",
+      "path": "README.md",
+      "commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "blob_sha": "cb8b3c73e773e2dabf4448aa7afe2d4a368a074a"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "bin/omarchy-theme-color",
+      "commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "blob_sha": "c5d09ca27dea179881cd40b73e40fb955a6a6758"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "bin/omarchy-theme-install",
+      "commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
       "blob_sha": "b324fe55085447831cf7039ade3b630daa01b475"
     },
     {
-      "url": "https://github.com/omacom/omarchy-theme-registry/blob/master/README.md",
-      "blob_sha": "c83362d02627a297324ec4f8f1d024c5754c63c7"
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "bin/omarchy-theme-set",
+      "commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "blob_sha": "10faf872988041e4a9788fd538dc324e95a5d391"
     },
     {
-      "url": "https://github.com/omacom/omarchy-theme-registry/blob/master/packages/schema/src/constants.ts",
-      "blob_sha": "87a7ce0e3dab89c81e49edc623bea1a9be7afdcc"
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "bin/omarchy-theme-set-templates",
+      "commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "blob_sha": "fdac2a479dfb93a5e1962819efae34e937c12bdc"
     },
     {
-      "url": "https://github.com/omacom/omarchy-theme-registry/blob/master/.github/ISSUE_TEMPLATE/submit-theme.yml",
-      "blob_sha": "4c5c13dc91126dac05a54fd1408f94a76eb42ef3"
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "default/themed/shell.toml.tpl",
+      "commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "blob_sha": "b0a68d8b0c44ca0b146c727beb72d27f8a27b5d4"
     },
     {
-      "url": "https://github.com/omacom/omarchy-theme-registry/blob/master/packages/validator/src/validate.ts",
-      "blob_sha": "22d22f77a1c29be86d80c2a762677fb5e7dc292a"
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "themes/tokyo-night/colors.toml",
+      "commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "blob_sha": "58e6785259b83a72a5921e2cfec4c66192860b7e"
     }
   ]
 }

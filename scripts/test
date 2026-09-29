@@ -4,6 +4,14 @@ cd "$(dirname "$0")/.."
 python3 scripts/validate_agent_plugin.py .
 python3 scripts/validate_skills.py plugins/build-omarchy-themes/skills --require-openai-metadata
 python3 scripts/sync_openai_adapter.py --check
-cargo fmt --manifest-path skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml -- --check
-cargo test --locked --manifest-path skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml
-python3 -m unittest discover -s tests -v
+python3 scripts/check_bundle.py
+python3 scripts/check_contracts.py
+if [ "${1:-}" = "--portable-only" ]; then
+  python3 -m unittest discover -s tests -p test_governance.py -v
+  PYTHONPATH=tests python3 -m unittest test_bundle.ThemeWorkflow.test_installer_lifecycle_and_modified_files -v
+  echo 'NOT RUN: Rust helper and Rust-dependent workflow tests'
+else
+  cargo fmt --manifest-path skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml -- --check
+  cargo test --locked --manifest-path skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml
+  python3 -m unittest discover -s tests -v
+fi

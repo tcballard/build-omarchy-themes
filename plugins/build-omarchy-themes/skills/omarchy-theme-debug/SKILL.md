@@ -1,6 +1,6 @@
 ---
 name: omarchy-theme-debug
-description: Diagnose Omarchy theme loading, stale colours, ignored files, missing wallpapers and application reload problems.
+description: Diagnose Omarchy theme loading, stale colours, ignored files, missing wallpapers and application reload problems; keep diagnosis read-only and use implementation skills for authorised repairs.
 ---
 
 # Omarchy Theme Debug
@@ -18,3 +18,15 @@ Classify failures: source/slug discovery, staging exclusions, parser errors, tem
 Check whether a full config prevents template regeneration or user templates override built-ins. Do not edit generated current output as a lasting fix. Make the smallest reversible correction, test the previously failing action and return the cause, fix and remaining evidence gaps.
 
 Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.
+
+## Task completion
+
+Use the existing brief and project decisions; complete the requested implementation
+and relevant verification without another design-approval step. Load only references
+needed for the affected contract and reuse evidence whose inputs are unchanged.
+Keep a narrow change narrow. Add permanent tests when they protect changed behaviour;
+do not turn a cosmetic edit into a new test framework. Give concise progress updates
+for substantial work and report only observed results. Reuse existing authorisation;
+prepare concrete changes before asking about a remaining live or publication action.
+If a helper or desktop is unavailable, finish the portable work, perform the available
+manual checks and identify what was not run. Do not invent capabilities or evidence.

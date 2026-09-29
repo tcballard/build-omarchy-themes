@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-29",
+  "host": "ChatGPT Work subagents, fresh task context",
+  "model": "not exposed by host result",
+  "effort": "not exposed",
+  "type": "candidate-only workflow smoke tests; no baseline comparison",
+  "initial_sha256": {
+    "diagnose/observations.txt": "389039a42c6844352641531dc9159def55462db7ac05a2cb23afdc95470d6ad0",
+    "diagnose/loaded-skill/SKILL.md": "0da43e953e67a1582cf135a0c4cf2b0bb5463b266d7da369bc313ddd5b089f9c",
+    "diagnose/omarchy-moss-theme/colors.toml": "30afa8d5fcc15543c05e71b14825f10b436d8f3a77269c658b55520eb05f71e7",
+    "diagnose/omarchy-moss-theme/kitty.conf": "b37316215e973d9d6ba78b5b5d13f70f303cde2b3f1122ed1da479974abd5a61",
+    "diagnose/loaded-skill/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+    "accent/loaded-skill/SKILL.md": "cd81ddbaaa10b61b1efbd8ca84b53f1feba5ef56fde22d77fe0878117f00ab5e",
+    "accent/omarchy-moss-theme/colors.toml": "30afa8d5fcc15543c05e71b14825f10b436d8f3a77269c658b55520eb05f71e7",
+    "accent/loaded-skill/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d"
+  },
+  "cases": [
+    {
+      "id": "accent-only/helper-unavailable",
+      "prompt": "Change theme accent to #80bfa0, preserve other values; available checks, no desktop switch or publication. No scaffold helper installed in task workspace.",
+      "result": "pass",
+      "observed": "Only accent assignment changed; valid TOML. Agent reported contrast 12.85, 8.21 and 7.71 and disclosed unavailable helper/desktop. Evaluator independently checked exact byte replacement."
+    },
+    {
+      "id": "diagnose-staging",
+      "prompt": "Explain supplied Git-install terminal observations; diagnosis only, no file or desktop changes.",
+      "result": "pass",
+      "observed": "Identified Git-installed kitty.conf exclusion versus palette generation; proposed source palette or redundant-config correction. All fixture bytes unchanged."
+    }
+  ],
+  "limits": [
+    "Fable runner not connected",
+    "No live Omarchy or registry validation",
+    "No model-specific performance comparison"
+  ]
+}

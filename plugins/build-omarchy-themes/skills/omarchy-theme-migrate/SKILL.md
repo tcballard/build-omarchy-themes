@@ -14,3 +14,15 @@ Map ANSI values to semantic names carefully, preserving normal/bright distinctio
 Port shell styling only after comparing target template/consumer keys. Avoid automatic deletion of older integrations still required by an explicitly supported version. Test Git-installed staging and representative apps; record old/new screenshots from real desktops when available. Return a migration diff and evidence-backed compatibility scope.
 
 Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.
+
+## Task completion
+
+Use the existing brief and project decisions; complete the requested implementation
+and relevant verification without another design-approval step. Load only references
+needed for the affected contract and reuse evidence whose inputs are unchanged.
+Keep a narrow change narrow. Add permanent tests when they protect changed behaviour;
+do not turn a cosmetic edit into a new test framework. Give concise progress updates
+for substantial work and report only observed results. Reuse existing authorisation;
+prepare concrete changes before asking about a remaining live or publication action.
+If a helper or desktop is unavailable, finish the portable work, perform the available
+manual checks and identify what was not run. Do not invent capabilities or evidence.

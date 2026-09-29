@@ -19,3 +19,15 @@ cargo run --manifest-path "<skill-dir>/scripts/theme-tool/Cargo.toml" -- check /
 The destination must not already exist. The scaffold supplies an original starter palette, README and media attribution guidance. It intentionally has no fabricated desktop preview, no wallpaper licence claim and no theme install hook. Add a licensed wallpaper directly in backgrounds/ and a real desktop preview after live verification. Use palette and shell skills to implement the requested character.
 
 The helper accepts a deliberately narrow flat palette syntax and performs local structural/contrast checks. It does not claim full TOML, legacy or registry parity. `--release` adds the recommended preview.png presence check, not a complete publish gate. Installing this agent bundle does not install or apply a desktop theme. Before handing back an archive or opening a development PR, follow [development handoff](references/handoff.md) and run `handoff`, independently of Theme Release. Hand back files and outstanding live/media checks.
+
+## Task completion
+
+Use the existing brief and project decisions; complete the requested implementation
+and relevant verification without another design-approval step. Load only references
+needed for the affected contract and reuse evidence whose inputs are unchanged.
+Keep a narrow change narrow. Add permanent tests when they protect changed behaviour;
+do not turn a cosmetic edit into a new test framework. Give concise progress updates
+for substantial work and report only observed results. Reuse existing authorisation;
+prepare concrete changes before asking about a remaining live or publication action.
+If a helper or desktop is unavailable, finish the portable work, perform the available
+manual checks and identify what was not run. Do not invent capabilities or evidence.

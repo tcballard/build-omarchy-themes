@@ -6,5 +6,5 @@ Tom Ballard's MIT-licensed Build Omarchy Plugins, local source commit
 The original copyright is retained in LICENSE. This is not a claim to be copied
 from the final v0.4.0 release tag. Theme guidance and the Rust helper are new.
 
-contracts/sources.json records upstream file identities consulted on 2026-09-14.
+contracts/sources.json records upstream file identities consulted on 2026-09-29.
 Development-branch observations must be verified against a user's installed version.
