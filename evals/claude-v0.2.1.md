@@ -155,11 +155,14 @@ frozen. Produce identical redacted annotation copies for the model and human:
    `normpath`), mark the entire tool result as ONE skill-file segment. This also
    redacts metadata from `wc -l`, `ls -la`, `stat`, `sha256sum`, `grep -c` and `du`;
    content matching alone cannot recognise arm-specific numbers.
-   Exception: a standalone literal `cargo run [--offline] --manifest-path
+   Exception: a command containing a `cargo run [--offline] --manifest-path
    /opt/evaluation/.claude/skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml
    -- <args>` retains content-based segmentation so helper output stays task evidence.
-   The manifest must be its only evaluation path; shell composition and substitution
-   are not exempt. Only SKILL.md differs between arms; helper source is identical.
+   The manifest must be its only explicit evaluation path after normalisation;
+   command substitution (`$(` or backticks) is not exempt, and every `cd` target
+   must normalise under `/work/fixture`. Pipes, `&&`, `;`, newlines and redirections
+   such as `2>&1` are allowed under this rule. Only SKILL.md differs between arms;
+   helper source is identical.
    Matching keys (not retained output) strip Read line numbers and grep match/context
    prefixes, including single-file `12:text` and `13-text`.
    Residual: a relative path used after `cd` into the skill directory in an earlier

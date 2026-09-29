@@ -185,6 +185,35 @@ class HostPipeline(unittest.TestCase):
             self.assertTrue(all(s['kind']=='task_output' for s in result['segments']))
             self.assertEqual(''.join(s['text'] for s in result['segments']),output)
 
+    def test_helper_wrappers_preserve_annotation_evidence(self):
+        from redact import redact
+        helper='/opt/evaluation/.claude/skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml'
+        fixture=ROOT/'evals/fixtures/claude-v0.2.1/accent-only'
+        index=skill_index(ROOT/'skills',exclude_root=fixture)
+        for option in ('','--offline '):
+            cmd='cargo run '+option+'--manifest-path '+helper+' -- check theme'
+            kept=(cmd,cmd+' 2>&1','cd /work/fixture && '+cmd,cmd+' 2>&1 | tail -20',
+                  'cd /work/fixture/theme/..; '+cmd,'cd /work/fixture\n'+cmd)
+            hidden=(cmd+' && wc -l /opt/evaluation/.claude/skills/omarchy-theme-palette/SKILL.md',
+                    cmd+' $(cat /opt/evaluation/.claude/skills/omarchy-theme-palette/SKILL.md)',
+                    'cd /opt/evaluation/.claude/skills && '+cmd,
+                    cmd+' `pwd`',cmd+' $(pwd)','cd /tmp && '+cmd,
+                    'cd /work/fixture/../../tmp; '+cmd,'cd "$DEST" && '+cmd,
+                    'cd /work/fixture; cd ..; '+cmd)
+            for command in kept+hidden:
+                with self.subTest(command=command):
+                    expected='task_output' if command in kept else 'skill_file'
+                    self.assertEqual(scaffold_helper(command),command in kept)
+                    c=Converter({'effort':'high'},'test',index)
+                    c.feed({'type':'system','subtype':'init'})
+                    events=c.feed({'type':'assistant','message':{'content':[{'type':'tool_use','id':'helper','name':'Bash','input':{'command':command}}]}})
+                    output='PASS: local authoring subset only\n'
+                    events+=c.feed({'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':'helper','content':output}]}})
+                    self.assertEqual([s['kind'] for s in events[-1]['segments']],[expected])
+                    redacted,log=redact({'session_id':'same','case':'accent-only','events':events},[])
+                    self.assertEqual(redacted['events'][-1]['segments'][0]['text'],output if command in kept else '[skill content]')
+                    self.assertTrue(log['protected_evidence_unchanged'])
+
     def test_all_fixture_reads_remain_task_output(self):
         from common import CASES
         for case in CASES:

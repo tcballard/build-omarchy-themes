@@ -55,22 +55,38 @@ def evaluation_paths(command):
 
 
 def scaffold_helper(command):
-    """Only a standalone, literal helper invocation is exempt from whole-result redaction."""
-    # Shell composition/substitution could append statistics about the skill files.
-    if any(c in command for c in ';|&<>()`$\n\r'):
+    """Keep helper evidence through wrappers when explicit paths remain arm-neutral."""
+    helper=SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml'
+    if evaluation_paths(command)!=[helper] or '$(' in command or '`' in command:
         return False
     try:
-        args=shlex.split(command)
+        lexer=shlex.shlex(command,posix=True,punctuation_chars=';&|()<>\n')
+        lexer.whitespace=' \t\r'
+        lexer.whitespace_split=True
+        tokens=list(lexer)
     except ValueError:
         return False
-    if args[:2]!=['cargo','run']:return False
-    args=args[2:]
-    if args[:1]==['--offline']:args=args[1:]
-    helper=SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml'
-    if len(args)<4 or args[0]!='--manifest-path' or os.path.normpath(args[1])!=helper or args[2]!='--':
-        return False
-    # The manifest is the sole evaluation path allowed in the exempt invocation.
-    return evaluation_paths(command)==[helper]
+    # Resolve literal relative cd targets from the fixture, tracking earlier cds.
+    cwd='/work/fixture'
+    for i,token in enumerate(tokens):
+        if token!='cd':continue
+        rest=tokens[i+1:]
+        while rest and rest[0] in ('--','-L','-P'):rest=rest[1:]
+        if not rest or any(c in rest[0] for c in '$~;|&<>()*?[]\n') or rest[0].startswith('-'):
+            return False
+        cwd=os.path.normpath(os.path.join(cwd,rest[0]))
+        if not Path(cwd).is_relative_to('/work/fixture'):return False
+    for i in range(len(tokens)):
+        if i and not all(c in ';|&()\n' for c in tokens[i-1]):continue
+        args=tokens[i:]
+        if args[:2]!=['cargo','run']:continue
+        args=args[2:]
+        if args[:1]==['--offline']:args=args[1:]
+        if (len(args)>=4 and args[0]=='--manifest-path'
+                and os.path.normpath(args[1])==helper and args[2]=='--'
+                and not all(c in ';|&()<>\n' for c in args[3])):
+            return True
+    return False
 
 
 def skill_segment(text,path):
