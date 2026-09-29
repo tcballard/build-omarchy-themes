@@ -218,12 +218,12 @@
     "version": "BLOCKED: no compatible host connected; not yet observed"
   },
   "host_image_smoke": {
-    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36558547149",
-    "job_id": 109373531602,
-    "job_log_sha256": "9d53e887b3573e983b9453878402d1280b0bf7ba747e6283218f3f4d6013ff32",
-    "local_image_id": "sha256:9bb496ef224a4e713206bb96f004b28ef1f0b602eefaee93c5846f9721006c92",
+    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36561808829",
+    "job_id": 109384202573,
+    "job_log_sha256": "77723a5308a78448c35e456d7657a6f865aa96b30dc54ec505405d2b65cbeada",
+    "local_image_id": "sha256:52e3774a9e2ec17fc062336c79ec81d6c257b8055fdaa000399157362190361a",
     "scope": "CI build, Claude Code version and offline Rust scaffold/check only. Image not pushed; no provider calls or live pre-flight.",
-    "source_commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
+    "source_commit": "36e0831cebcecd72ea65749447e5d1da6b638810",
     "status": "PASS"
   },
   "limits": {
@@ -235,7 +235,7 @@
     "session_ids": "BLOCKED: real session IDs not generated",
     "sha256": "BLOCKED: freeze steps 5 and 6 incomplete"
   },
-  "protocol_sha256": "50e7e010faedf27e1bc9d230fa9f8f8bcd1f4da31d59147d0bfbe7e109dfde02",
+  "protocol_sha256": "111f121fb58a2eda59753a55ee0744eb147f502b5de1849ebfc20e783c3ef414",
   "readiness": "BLOCKED",
   "redaction_phrases": {
     "baseline": "0e46dc52f77d86b0225d9021e93eb419eeaafc0b",
@@ -298,8 +298,8 @@
       "sha256": "a03b24aed48711afa8d821b66dfa3a1bcde16a9ceed3effe0c0bf2c9e245e12e"
     },
     "evals/harness/host/claude_code_adapter.py": {
-      "commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
-      "sha256": "29df7bac08b01b70540c9dae6ab10adb16863570677ca9e06c67f34c511d4c78"
+      "commit": "36e0831cebcecd72ea65749447e5d1da6b638810",
+      "sha256": "140c3c079696077b242dbc9d14739d6b0d616de482e9ed9fbc1c6454ef31901d"
     },
     "evals/harness/host/otel.yaml": {
       "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
@@ -326,8 +326,8 @@
       "sha256": "abd220242986309e3b141ff38d160702bc52345728dd17b50f2956bd7fe7b681"
     },
     "evals/harness/preflight.py": {
-      "commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
-      "sha256": "918d38ea0ace27201115706e93bc27a0b54f507f127304545671427b61090c5c"
+      "commit": "36e0831cebcecd72ea65749447e5d1da6b638810",
+      "sha256": "465ecf8113e8e0a35c671a6cd9c2dd2a87d344126e9b09fd15d30afe48007225"
     },
     "evals/harness/prepare_packets.py": {
       "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
@@ -338,8 +338,8 @@
       "sha256": "1d8d46f9e27f92f898a46ebf0225e1831334753c072e3ba769244149b971e6ab"
     },
     "evals/harness/redact.py": {
-      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
-      "sha256": "adeeb54b813aefe5f16dafc126f12d6fab962af56a2639856d2535b1067fbe85"
+      "commit": "36e0831cebcecd72ea65749447e5d1da6b638810",
+      "sha256": "c8aa641c99c6b1964a1bb120e61f44bd510e58d1fc33ea7d8a22e409d355eb34"
     },
     "evals/harness/rubric.md": {
       "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
@@ -358,12 +358,12 @@
       "sha256": "13583defac9a5dee4d41d52a9c51e07b037967aae8081cd90e36e96efe3f6664"
     },
     "evals/harness/test_host.py": {
-      "commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
-      "sha256": "610010b1477dd20d13d9dfe4770ff80571a0fdd7be620a002ca6eadf26be38c9"
+      "commit": "36e0831cebcecd72ea65749447e5d1da6b638810",
+      "sha256": "6ba0298ea96ad1b2b74fa37e310699c1580b93315b78014c72ffb0d38f409d9d"
     },
     "evals/harness/test_pipeline.py": {
-      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
-      "sha256": "2c0607b335b4e81a171cf4997a78bf6da6565c87f20190d5696829a81c174898"
+      "commit": "36e0831cebcecd72ea65749447e5d1da6b638810",
+      "sha256": "1a95b2e48f8d1efb9d658900319d1225d5d32eb804b7dac644d098faaa0f27ef"
     }
   },
   "settings": {
@@ -414,14 +414,14 @@
       "stats": "4.3.3"
     },
     "R_version": "4.3.3 (2024-02-29)",
-    "ci_head": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
+    "ci_head": "36e0831cebcecd72ea65749447e5d1da6b638810",
     "ci_python_version": "3.12.14",
-    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36558547149",
-    "job_id": 109373531371,
-    "job_log_sha256": "0deed4514999b756e018a79c5568077f4fa01ad11fc7de6442fa1bb7dc90f68e",
-    "local_result": "22 passed; R unavailable locally, verified in CI",
+    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36561808829",
+    "job_id": 109384202291,
+    "job_log_sha256": "a8bad72c8f02c1aade35d6e707a2a3aa23a585190ba07d9436760e3b7ac5e273",
+    "local_result": "24 passed; R unavailable locally, verified in CI",
     "python_version": "3.12.14",
-    "result": "23 synthetic tests passed including R; no skips or provider sessions",
+    "result": "25 synthetic tests passed including R; no skips or provider sessions",
     "status": "PASS"
   }
 }
