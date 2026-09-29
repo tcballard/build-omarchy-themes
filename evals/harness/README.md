@@ -13,7 +13,7 @@ session. Evaluator manifests, rubric, prompt, scripts and run metadata stay outs
 container mounts. Sources are pinned development snapshots, not live acceptance.
 The 1×1 forest PNG is a CC0 synthetic link-test asset, not a usable theme preview.
 The generated launcher snapshot is deliberately reduced and synthetic; provenance is
-recorded alongside the fixture. No fixture contains tests.
+recorded outside the fixture tree in fixture-manifests/provenance. No fixture contains tests.
 
 ## Host contract (not yet supplied or verified)
 
@@ -27,7 +27,7 @@ permit provider traffic but deny tool-initiated external writes; this is an inte
 prerequisite, not a security guarantee provided by a Docker network name. The host
 must expose the fixture's home/ configuration as the task's user configuration.
 
-It must return JSONL including a `host_metadata` record with provider-returned model_id,
+The first JSONL line must be a `host_metadata` record, emitted before any model call, with provider-returned model_id,
 host_version, actual effort and tools. Tool events must contain complete `tool_call`
 arguments and `tool_result` typed segments: `skill_file` (path/text under the fixed
 skill root) or `task_output`. Record `action` effects, `read`, `check`, `patch`,
@@ -36,6 +36,28 @@ metadata.actions_complete, events and exit_status for redact.py/score.py. Raw tr
 remain restricted. Missing segmentation/action coverage/settings is a blocker, not a
 pass. No compatible host is connected here, so integration and effort controls remain
 unverified. No substitute model or effort is allowed.
+
+All host state/configuration/caches must stay under /tmp, never /work/fixture. Set
+HOME=/work/fixture/home only for a fixture containing home/; otherwise HOME=/tmp/home.
+Relocate the host's own configuration with its verified config_environment_name to
+/tmp/host-config. Use XDG_CONFIG_HOME=/tmp/config, XDG_CACHE_HOME=/tmp/cache,
+XDG_DATA_HOME=/tmp/data, XDG_STATE_HOME=/tmp/state, PIP_CACHE_DIR=/tmp/pip-cache,
+npm_config_cache=/tmp/npm-cache, CARGO_HOME=/tmp/cargo-home and
+CARGO_TARGET_DIR=/tmp/cargo-target. The image includes rustc and cargo; the scaffold
+helper has no dependencies and must build offline against the read-only skill mount.
+
+Every injected skill file in every channel (system messages, prompt preambles,
+skill-tool expansions as well as ordinary tool reads) must be exported as tool_result
+segments of kind skill_file. Do not duplicate the unredacted content in other events.
+Missing all-channel coverage blocks host verification (skill_content_all_channels).
+
+Before freeze step 5, perform host pre-flight on scratch fixtures only, never the six
+case trees: a no-op request with home/ and another without must preserve complete
+before/after inventories. Inside the container, with networking disabled, run:
+`cargo run --manifest-path /opt/evaluation/skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml -- check <scratch theme>`.
+It must exit 0. Record restricted evidence and host.preflight as no_write_home=true,
+no_write_no_home=true, helper_build=true and evidence_sha256 (64 lowercase hex).
+This environment has no connected host; these checks remain unobserved, not passed.
 
 ## Freeze and execution
 
@@ -50,9 +72,10 @@ unverified. No substitute model or effort is allowed.
    generates a mapping only when steps 1–6 validate. Commit only public IDs and hash.
    Never print/open the mapping until annotations and adjudications are frozen.
 8. `audit.py public-mapping.json audit.json` writes the fixed 29-ID sample and Python
-   version; commit it before execution.
+   version in audit.python; commit it before execution.
 9. Complete runs/claude-v0.2.1/manifest.json, set freeze state FROZEN, commit, and run
-   readiness.py. It must pass with a clean tree. Any later change requires a declared
+   readiness.py under the same Python version recorded in audit.python, because audit
+   comparison includes it. It must pass with a clean tree. Any later change requires a declared
    protocol revision and a fresh freeze. Draft BLOCKED fields are intentionally not
    valid freeze values; "not exposed" is only for genuinely hidden optional metadata,
    never unresolved model identity, effort, isolation or annotator configuration.
@@ -67,3 +90,23 @@ annotations, adjudicate, then unseal the mapping and prepare the 144-row analysi
 analysis.R rejects missing, duplicate or mis-sized strata and emits settings.csv,
 strata.csv and versions.txt. Secondary fields are reported descriptively per applicable
 case; never include null placeholders in denominators or test significance.
+
+## Failures, resume and assembly
+
+Matching metadata followed by a timeout, crash or non-zero exit is scored as failure,
+with record.json and trace.json retained, and the batch continues without retry.
+Missing first-line metadata or mismatched settings halts for a protocol revision.
+`runner.py --resume` requires the same manifest hash in EXECUTION_STARTED.json. It
+skips every existing session directory, marks directories without record.json as
+interrupted_no_retry, and appends skipped/interrupted IDs to restricted execution-log.jsonl.
+It never repeats a session. Score interrupted traces even when snapshots are absent.
+
+After annotation/adjudication is frozen, record its file SHA-256 in a restricted copy
+of the run manifest as annotations.frozen_sha256. Preserve the original pre-execution
+manifest unchanged. This post-run analysis attestation is not an execution input.
+`assemble.py analysis-manifest.json sealed-mapping.json frozen-scores.json output-dir`
+verifies both hashes and all 144 terminal scores before unblinding. The frozen file
+contains a scores array. The output directory must not exist; primary.csv is the R
+input and secondary.csv contains only applicable non-null descriptive observations.
+The generated case-specific six-word phrase list is pinned in the run manifest;
+redact.py requires the case supplied from restricted metadata, never inferred from text.

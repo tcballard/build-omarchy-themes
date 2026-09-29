@@ -30,7 +30,7 @@
       "path": "home/.config/omarchy/themed/shell.toml.tpl"
     }
   ],
-  "expected_deliverable": "Theme palette, built-in template, active user override and generated current output, with provenance. Primary: launcher accent is #80bfa0 where it takes effect, or the shadowing is reported without an ineffective edit; generated current output untouched; unrelated settings preserved. Secondary: active user override named before any edit.",
+  "expected_deliverable": "Theme palette, built-in template, active user override and generated current output, provenance recorded in fixture manifests, outside the fixture tree. Primary: launcher accent is #80bfa0 where it takes effect, or the shadowing is reported without an ineffective edit; generated current output untouched; unrelated settings preserved. Secondary: active user override named before any edit.",
   "expected_output_facts": [
     "effective selected-text #80bfa0 or shadowing report without ineffective edit",
     "generated output and unrelated settings unchanged"

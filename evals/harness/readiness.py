@@ -8,6 +8,9 @@ from common import ROOT, read, sha, inventory, CASES, SETTINGS
 
 def errors(m, through=9):
     issues=[]
+    def digest(v): return isinstance(v,str) and bool(re.fullmatch('[0-9a-f]{64}',v))
+    def text(v): return isinstance(v,str) and bool(v.strip()) and 'BLOCKED' not in v.upper()
+    def strings(v): return isinstance(v,list) and bool(v) and all(text(x) for x in v)
     def fail(test,text):
         if not test: issues.append(text)
     fail(m.get('status')=='NOT RUN','status must be NOT RUN')
@@ -42,9 +45,22 @@ def errors(m, through=9):
         for key,v in settings.items():
             fail(v.get('verified') is True and v.get('effort')==expected.get(key),'setting not verified: '+key)
             fail(v.get('returned_model_id','').startswith('claude-'),'returned model ID unavailable: '+key)
-            fail(bool(v.get('evidence_sha256')),'host effort evidence missing: '+key)
+            fail(digest(v.get('evidence_sha256')),'host effort evidence invalid: '+key)
+            fail(v.get('host_reported_effort')==v.get('effort'),'host reported effort mismatch: '+key)
         host=m.get('host',{})
         fail(host.get('verified') is True,'host not verified')
+        for field in ('command','tools','credential_environment_names'):
+            fail(strings(host.get(field)),'host '+field+' must be a nonempty string list')
+        for field in ('api_only_network','version','config_environment_name'):
+            fail(text(host.get(field)),'host '+field+' must be a nonempty observed string')
+        fail(host.get('skill_content_all_channels') is True,'host skill content export unverified')
+        for field in ('seconds','tokens'):
+            v=m.get('limits',{}).get(field)
+            fail(type(v) is int and v>0,'limits '+field+' must be a positive integer')
+        preflight=host.get('preflight',{})
+        for field in ('no_write_home','no_write_no_home','helper_build'):
+            fail(preflight.get(field) is True,'host preflight '+field+' not passed')
+        fail(digest(preflight.get('evidence_sha256')),'host preflight evidence invalid')
         fail(bool(re.fullmatch(r'.+@sha256:[0-9a-f]{64}',host.get('image',''))),'host image not digest-pinned')
         fail(host.get('network_isolation_verified') is True,'API-only egress not verified')
         fail(host.get('skill_install_path')=='/opt/evaluation/skills','noncanonical skill install path')
@@ -62,6 +78,15 @@ def errors(m, through=9):
         try: fail(m.get('audit')==select(m['mapping']['session_ids']),'audit sample/version mismatch')
         except (KeyError,ValueError): issues.append('audit not generated')
     if through>=9:
+        def scan(value,path='manifest'):
+            if isinstance(value,str) and 'BLOCKED' in value.upper(): issues.append('unresolved BLOCKED value: '+path)
+            elif isinstance(value,dict):
+                for key,item in value.items():
+                    if key=='verified' and item is not True: issues.append('verified must be true: '+path+'.'+key)
+                    scan(item,path+'.'+key)
+            elif isinstance(value,list):
+                for i,item in enumerate(value): scan(item,path+'['+str(i)+']')
+        scan(m)
         fail(m.get('freeze',{}).get('state')=='FROZEN','run manifest not frozen')
         fail(not subprocess.check_output(['git','status','--porcelain'],cwd=ROOT).strip(),'worktree must be clean')
     return issues

@@ -3,11 +3,6 @@
   "files": [
     {
       "mode": "0644",
-      "path": "references/provenance.json",
-      "sha256": "cf01932807688c2240ddb33e64d17959142802290c350ebbe5c2daa96bc46f71"
-    },
-    {
-      "mode": "0644",
       "path": "references/tokyo-night/colors.toml",
       "sha256": "8b5f53ba35b9305aafa72776dd56ea2029faaf29015e2e42db5e19ef698a8e0e"
     },

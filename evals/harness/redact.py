@@ -4,10 +4,12 @@ import copy
 import json
 import re
 from pathlib import Path
-from common import read, write, sha, SKILL_PATH
+from common import read, write, sha, SKILL_PATH, ROOT
 
-PHRASES = ('Keep a narrow change narrow', 'without another design-approval step', 'Before the first change, say in one line', 'sets scope and deliverable')
-PATTERN = re.compile('|'.join(r'\s+'.join(re.escape(w) for w in p.split()) for p in PHRASES), re.I)
+def pattern(case):
+    phrases=read(ROOT/'evals/harness/phrases-claude-v0.2.1.json')['cases'][case]
+    return re.compile('|'.join(r'(?<!\S)'+r'\s+'.join(re.escape(w) for w in p.split())+r'(?!\S)' for p in phrases),re.I)
+
 SECRET_KEYS = {'arm', 'skill_commit', 'skill_version', 'skill_hashes'}
 
 def protected_events(trace):
@@ -22,7 +24,8 @@ def protected_events(trace):
             result.append(e)
     return result
 
-def redact(original, forbidden_ids):
+def redact(original, forbidden_ids, case=None):
+    matcher=pattern(case or original['case'])
     trace = copy.deepcopy(original)
     spans = []
     def log(kind):
@@ -42,7 +45,7 @@ def redact(original, forbidden_ids):
                 elif s['kind'] != 'task_output':
                     raise ValueError('Unknown result segment')
         elif e['type'] in ('assistant', 'final'):
-            e['text'], count = PATTERN.subn('[skill quote]', e['text'])
+            e['text'], count = matcher.subn('[skill quote]', e['text'])
             for _ in range(count): log('skill_quote')
     def strip(obj):
         if isinstance(obj, dict):
@@ -62,7 +65,13 @@ def redact(original, forbidden_ids):
     # Unknown leaks are flagged; task content is not scrubbed to make a check pass.
     if any(x and x in encoded for x in forbidden_ids):
         raise ValueError('Skill-version identifier remains: annotation blocked')
-    if PATTERN.search(encoded.replace('\\n', ' ')):
+    def strings(obj):
+        if isinstance(obj,str): yield obj
+        elif isinstance(obj,dict):
+            for k,v in obj.items(): yield k; yield from strings(v)
+        elif isinstance(obj,list):
+            for v in obj: yield from strings(v)
+    if any(matcher.search(value) for value in strings(trace)):
         raise ValueError('Skill quote remains outside redactable assistant text')
     log_value = {'session_id': trace['session_id'], 'spans': spans, 'counts': {k: sum(s['kind'] == k for s in spans) for k in ('skill_file', 'skill_quote', 'metadata')}, 'input_sha256': sha(json.dumps(original, sort_keys=True).encode()), 'output_sha256': sha(encoded.encode()), 'protected_evidence_sha256': sha(json.dumps(after, sort_keys=True).encode()), 'protected_evidence_unchanged': True, 'blinding': 'partial'}
     return trace, log_value
@@ -70,10 +79,11 @@ def redact(original, forbidden_ids):
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('input'); p.add_argument('output'); p.add_argument('log')
+    p.add_argument('--case', required=True)
     p.add_argument('--forbidden-ids', required=True, help='Restricted JSON array of skill versions/hashes')
     a = p.parse_args()
     try:
-        result, log = redact(read(a.input), read(a.forbidden_ids))
+        result, log = redact(read(a.input), read(a.forbidden_ids), a.case)
         write(a.output, result, exclusive=True); write(a.log, log, exclusive=True)
     except ValueError as e:
         write(a.log, {'status':'FLAGGED', 'reason':str(e), 'input_sha256':sha(Path(a.input).read_bytes())}, exclusive=True)
