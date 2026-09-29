@@ -29,7 +29,7 @@ def export_skills(commit, names, dest, expected):
 
 def classify(exit_code, timed_out, raw_lines, setting, host):
     """Pure host-contract and routine-failure classification; never calls a provider."""
-    result={'exit_status':exit_code,'failure':None,'halt':False,'events':[],'reported':{}}
+    result={'exit_status':exit_code,'failure':None,'halt':False,'events':[],'reported':{},'actions_complete':False}
     try:
         first=json.loads(raw_lines[0])
         if first.get('type')!='host_metadata': raise ValueError()
@@ -46,7 +46,14 @@ def classify(exit_code, timed_out, raw_lines, setting, host):
             if not isinstance(event,dict): raise ValueError()
             result['events'].append(event)
         except (ValueError,TypeError): malformed=True
-    if timed_out: result['failure']='host_timeout_no_retry'
+    try:
+        summary=json.loads(raw_lines[-1])
+        valid_summary=summary.get('type')=='host_summary' and type(summary.get('actions_complete')) is bool
+    except (IndexError,ValueError,AttributeError,TypeError):
+        valid_summary=False
+    if valid_summary: result['actions_complete']=summary['actions_complete']
+    if not valid_summary: result['failure']='host_summary_missing_no_retry'
+    elif timed_out: result['failure']='host_timeout_no_retry'
     elif exit_code!=0: result['failure']='host_exit_nonzero_no_retry'
     elif malformed: result['failure']='host_trace_invalid_no_retry'
     return result
@@ -58,6 +65,10 @@ def prepare_execution(storage, manifest_sha256, sessions, resume=False):
     if resume:
         if not marker.is_file() or read(marker).get('manifest_sha256')!=manifest_sha256:
             raise ValueError('Resume manifest mismatch or execution marker missing')
+        # Check every existing record before making any resume mutations.
+        for record in storage.glob('*/record.json'):
+            if read(record).get('halt') is True:
+                raise ValueError('Halted record blocks resume; protocol revision required')
     else:
         private_write(marker,{'manifest_sha256':manifest_sha256,'start_unix':time.time()})
     skipped=[];interrupted=[]
@@ -136,7 +147,7 @@ def run(manifest_path, mapping_path, storage, resume=False):
             metadata.update({k:outcome[k] for k in ('failure','halt','exit_status')})
             metadata['reported']=outcome['reported']
             private_write(target/'record.json',metadata)
-            private_write(target/'trace.json',{'session_id':session['id'],'exit_status':code,'failure':outcome['failure'],'metadata':{'actions_complete':outcome['reported'].get('actions_complete') is True},'events':outcome['events']})
+            private_write(target/'trace.json',{'session_id':session['id'],'exit_status':code,'failure':outcome['failure'],'metadata':{'actions_complete':outcome['actions_complete']},'events':outcome['events']})
             if outcome['halt']:
                 raise ValueError('Host contract failed; protocol revision required; see restricted record')
 

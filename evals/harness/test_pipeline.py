@@ -121,7 +121,7 @@ class Pipeline(unittest.TestCase):
         setting={'returned_model_id':'claude-example','effort':'medium'}
         host={'version':'host-1','tools':['read']}
         first={'type':'host_metadata','model_id':'claude-example','effort':'medium','host_version':'host-1','tools':['read']}
-        lines=[json.dumps(first)]
+        lines=[json.dumps(first),json.dumps({'type':'host_summary','actions_complete':True})]
         timeout=classify(124,True,lines,setting,host)
         self.assertFalse(timeout['halt']);self.assertEqual(timeout['failure'],'host_timeout_no_retry')
         t={**transcript(),**timeout}
@@ -146,6 +146,36 @@ class Pipeline(unittest.TestCase):
             self.assertEqual(len((root/'execution-log.jsonl').read_text().splitlines()),1)
             with self.assertRaisesRegex(ValueError,'Resume manifest mismatch'):
                 prepare_execution(root,'b'*64,sessions,True)
+    def test_terminal_summary_scores_clean_session(self):
+        from runner import classify
+        setting={'returned_model_id':'claude-example','effort':'medium'}
+        host={'version':'host-1','tools':['read']}
+        first={'type':'host_metadata','model_id':'claude-example','effort':'medium','host_version':'host-1','tools':['read'],'actions_complete':False}
+        lines=[json.dumps(first),json.dumps({'type':'final','text':'Accent changed and checked.'}),json.dumps({'type':'host_summary','actions_complete':True})]
+        outcome=classify(0,False,lines,setting,host)
+        self.assertIsNone(outcome['failure']);self.assertFalse(outcome['halt'])
+        with tempfile.TemporaryDirectory() as td:
+            before=Path(td)/'before';after=Path(td)/'after'
+            shutil.copytree(ROOT/'evals/fixtures/claude-v0.2.1/accent-only',before);shutil.copytree(before,after);self.accent(after)
+            trace={'session_id':'synthetic-clean','exit_status':outcome['exit_status'],'failure':outcome['failure'],'metadata':{'actions_complete':outcome['actions_complete']},'events':outcome['events']}
+            scored=score('accent-only',before,after,trace,annotation())
+            self.assertEqual(scored['status'],'SCORED');self.assertTrue(scored['completion'])
+        for raw in (lines[:-1],lines+[json.dumps({'type':'final','text':'late'})],[json.dumps(first),json.dumps({'type':'host_summary','actions_complete':'true'})]):
+            missing=classify(0,False,raw,setting,host)
+            self.assertEqual(missing['failure'],'host_summary_missing_no_retry');self.assertFalse(missing['halt'])
+        false_summary=classify(0,False,[*lines[:-1],json.dumps({'type':'host_summary','actions_complete':False})],setting,host)
+        self.assertFalse(false_summary['actions_complete'])
+    def test_halted_record_blocks_resume(self):
+        from runner import prepare_execution
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);sessions=[{'id':'interrupted'},{'id':'halted'}]
+            prepare_execution(root,'a'*64,sessions)
+            (root/'interrupted').mkdir();(root/'halted').mkdir()
+            (root/'halted/record.json').write_text(json.dumps({'halt':True}))
+            with self.assertRaisesRegex(ValueError,'Halted record blocks resume'):
+                prepare_execution(root,'a'*64,sessions,True)
+            self.assertFalse((root/'interrupted/record.json').exists())
+            self.assertFalse((root/'execution-log.jsonl').exists())
     def test_assembly(self):
         from assemble import assemble
         with tempfile.TemporaryDirectory() as td:

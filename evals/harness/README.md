@@ -32,7 +32,11 @@ host_version, actual effort and tools. Tool events must contain complete `tool_c
 arguments and `tool_result` typed segments: `skill_file` (path/text under the fixed
 skill root) or `task_output`. Record `action` effects, `read`, `check`, `patch`,
 `assistant` and `final` events. Export a normalized trace object with session_id,
-metadata.actions_complete, events and exit_status for redact.py/score.py. Raw traces
+metadata.actions_complete, events and exit_status for redact.py/score.py.
+The last JSONL line must be {"type":"host_summary","actions_complete":<bool>}.
+Only this terminal summary supplies actions_complete; first-line host_metadata cannot
+attest to completed actions. Missing/invalid terminal summary after matching metadata
+is host_summary_missing_no_retry: score failure and continue without retry. Raw traces
 remain restricted. Missing segmentation/action coverage/settings is a blocker, not a
 pass. No compatible host is connected here, so integration and effort controls remain
 unverified. No substitute model or effort is allowed.
@@ -99,6 +103,7 @@ Missing first-line metadata or mismatched settings halts for a protocol revision
 `runner.py --resume` requires the same manifest hash in EXECUTION_STARTED.json. It
 skips every existing session directory, marks directories without record.json as
 interrupted_no_retry, and appends skipped/interrupted IDs to restricted execution-log.jsonl.
+Any existing record.json with halt=true blocks resume before any mutation.
 It never repeats a session. Score interrupted traces even when snapshots are absent.
 
 After annotation/adjudication is frozen, record its file SHA-256 in a restricted copy
