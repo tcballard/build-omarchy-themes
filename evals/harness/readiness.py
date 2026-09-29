@@ -44,7 +44,9 @@ def errors(m, through=9):
         expected=dict(zip(SETTINGS,['high','medium','medium','low']))
         for key,v in settings.items():
             fail(v.get('verified') is True and v.get('effort')==expected.get(key),'setting not verified: '+key)
-            fail(v.get('returned_model_id','').startswith('claude-'),'returned model ID unavailable: '+key)
+            expected_model={'fable-high':'claude-fable-5-1','opus-medium':'claude-opus-5-5','sonnet-medium':'claude-sonnet-5-5','sonnet-low':'claude-sonnet-5-5'}[key]
+            fail(v.get('configured_model_id')==expected_model,'configured model ID incorrect: '+key)
+            fail(v.get('returned_model_id')==expected_model,'returned model ID unavailable: '+key)
             fail(digest(v.get('evidence_sha256')),'host effort evidence invalid: '+key)
             fail(v.get('host_reported_effort')==v.get('effort'),'host reported effort mismatch: '+key)
         host=m.get('host',{})
@@ -54,16 +56,24 @@ def errors(m, through=9):
         for field in ('api_only_network','version','config_environment_name'):
             fail(text(host.get(field)),'host '+field+' must be a nonempty observed string')
         fail(host.get('skill_content_all_channels') is True,'host skill content export unverified')
-        for field in ('seconds','tokens'):
+        for field in ('seconds','max_turns'):
             v=m.get('limits',{}).get(field)
             fail(type(v) is int and v>0,'limits '+field+' must be a positive integer')
+        budget=m.get('limits',{}).get('max_budget_usd')
+        fail(type(budget) in (int,float) and __import__('math').isfinite(budget) and budget>0,'limits max_budget_usd must be positive')
+        fail(host.get('config_environment_name')=='CLAUDE_CONFIG_DIR','Claude config environment must be CLAUDE_CONFIG_DIR')
+        fail(host.get('permission_mode')=='bypassPermissions','Locked-container permission mode missing')
+        fail(text(host.get('proxy_url')),'API proxy URL missing')
         preflight=host.get('preflight',{})
-        for field in ('no_write_home','no_write_no_home','helper_build'):
+        from container_host import template_hash
+        try: fail(preflight.get('command_template_sha256')==template_hash(host),'host command template hash mismatch')
+        except (KeyError,TypeError,ValueError):issues.append('host command template unconfigured')
+        for field in ('no_write_home','no_write_no_home','helper_build','network_allow','network_deny','skill_segmentation'):
             fail(preflight.get(field) is True,'host preflight '+field+' not passed')
         fail(digest(preflight.get('evidence_sha256')),'host preflight evidence invalid')
         fail(bool(re.fullmatch(r'.+@sha256:[0-9a-f]{64}',host.get('image',''))),'host image not digest-pinned')
         fail(host.get('network_isolation_verified') is True,'API-only egress not verified')
-        fail(host.get('skill_install_path')=='/opt/evaluation/skills','noncanonical skill install path')
+        fail(host.get('skill_install_path')=='/opt/evaluation/.claude/skills','noncanonical skill install path')
     if through>=6:
         a=m.get('annotator',{})
         fail(a.get('verified') is True,'annotator unresolved')
@@ -92,7 +102,7 @@ def errors(m, through=9):
     return issues
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('manifest');a=p.parse_args()
-    problems=errors(read(a.manifest))
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('manifest');p.add_argument('--through',type=int,choices=range(1,10),default=9);a=p.parse_args()
+    problems=errors(read(a.manifest),through=a.through)
     print('BLOCKED: '+'; '.join(problems) if problems else 'PASS: readiness')
     raise SystemExit(bool(problems))

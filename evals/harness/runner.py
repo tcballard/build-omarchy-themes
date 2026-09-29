@@ -9,6 +9,7 @@ import time
 from pathlib import Path
 from common import ROOT, SKILL_PATH, FIXTURE_PATH, read, sha, inventory, private_write, restricted, evaluator
 from readiness import errors
+from container_host import build_command, template_hash, prepare_mounts
 
 
 def export_skills(commit, names, dest, expected):
@@ -36,8 +37,9 @@ def classify(exit_code, timed_out, raw_lines, setting, host):
     except (IndexError,ValueError,AttributeError,TypeError):
         return {**result,'failure':'host_metadata_missing','halt':True}
     result['reported']=first
-    expected={'model_id':setting['returned_model_id'],'effort':setting['effort'],'host_version':host['version'],'tools':host['tools']}
-    if any(first.get(k)!=v for k,v in expected.items()):
+    expected={'configured_model_id':setting['configured_model_id'],'requested_effort':setting['effort'],'host_version':host['version'],'tools':host['tools']}
+    if 'loaded_skills' in setting: expected['loaded_skills']=setting['loaded_skills']
+    if any((sorted(first.get(k,[]))!=sorted(v) if isinstance(v,list) and isinstance(first.get(k),list) else first.get(k)!=v) for k,v in expected.items()):
         return {**result,'failure':'host_settings_mismatch','halt':True}
     malformed=False
     for line in raw_lines[1:]:
@@ -51,11 +53,24 @@ def classify(exit_code, timed_out, raw_lines, setting, host):
         valid_summary=summary.get('type')=='host_summary' and type(summary.get('actions_complete')) is bool
     except (IndexError,ValueError,AttributeError,TypeError):
         valid_summary=False
-    if valid_summary: result['actions_complete']=summary['actions_complete']
+    if valid_summary:
+        result['summary']=summary
+        result['actions_complete']=summary['actions_complete']
+        requests=summary.get('requests',[])
+        if not isinstance(requests,list) or not any(r.get('query_source')=='main' for r in requests):
+            return {**result,'failure':'host_request_evidence_missing','halt':True}
+        for request in requests:
+            source=request.get('query_source')
+            if source not in ('main','subagent','auxiliary'):
+                return {**result,'failure':'host_query_source_unknown','halt':True}
+            if source in ('main','subagent') and (request.get('model')!=setting['configured_model_id'] or request.get('effort')!=setting['effort']):
+                return {**result,'failure':'host_request_settings_mismatch','halt':True}
     if not valid_summary: result['failure']='host_summary_missing_no_retry'
     elif timed_out: result['failure']='host_timeout_no_retry'
     elif exit_code!=0: result['failure']='host_exit_nonzero_no_retry'
     elif malformed: result['failure']='host_trace_invalid_no_retry'
+    elif summary.get('result_subtype')!='success': result['failure']='host_result_failure_no_retry'
+    elif not result['actions_complete']: result['failure']='host_incomplete_actions_no_retry'
     return result
 
 
@@ -105,7 +120,7 @@ def run(manifest_path, mapping_path, storage, resume=False):
     for session in sessions:
         if session['id'] in skipped: continue
         target=storage/session['id'];target.mkdir(mode=0o700)
-        spec=evaluator(session['case']);setting=m['settings'][session['setting']]
+        spec=evaluator(session['case']);setting={**m['settings'][session['setting']],'loaded_skills':spec['skills']}
         with tempfile.TemporaryDirectory(prefix='claude-eval-') as tmp:
             tmp=Path(tmp);fixture=tmp/'fixture';skills=tmp/'skills';skills.mkdir()
             shutil.copytree(ROOT/'evals/fixtures/claude-v0.2.1'/session['case'],fixture)
@@ -116,17 +131,10 @@ def run(manifest_path, mapping_path, storage, resume=False):
             other=m['arms']['candidate' if session['arm']=='baseline' else 'baseline']
             other_paths=sorted(SKILL_PATH+'/'+str(Path(p).relative_to('skills')) for p in other['skill_hashes'] if Path(p).parts[1] in spec['skills'])
             if expected_paths!=other_paths: raise ValueError('Arm install paths differ')
-            payload={'request':spec['raw_request'],'fixture_path':FIXTURE_PATH,'skill_path':SKILL_PATH,'model':setting['returned_model_id'],'effort':setting['effort'],'token_limit':m['limits']['tokens'],'time_limit_seconds':m['limits']['seconds'],'tools':host['tools']}
+            payload={'request':spec['raw_request'],'fixture_path':FIXTURE_PATH,'skill_path':SKILL_PATH,'model':setting['configured_model_id'],'effort':setting['effort'],'max_turns':m['limits']['max_turns'],'max_budget_usd':m['limits']['max_budget_usd'],'time_limit_seconds':m['limits']['seconds'],'tools':host['tools']}
             container_name='claude-eval-'+session['id']
-            cmd=['docker','run','--name',container_name,'--rm','--read-only','--cap-drop=ALL','--security-opt=no-new-privileges','--pids-limit=256','--network',host['api_only_network'],'--tmpfs','/tmp:rw,nosuid,nodev','--mount',f'type=bind,src={fixture},dst={FIXTURE_PATH}','--mount',f'type=bind,src={skills},dst={SKILL_PATH},readonly','--workdir',FIXTURE_PATH,'-i']
-            home=FIXTURE_PATH+'/home' if (fixture/'home').is_dir() else '/tmp/home'
-            env={'HOME':home,'XDG_CONFIG_HOME':'/tmp/config','XDG_CACHE_HOME':'/tmp/cache','XDG_DATA_HOME':'/tmp/data','XDG_STATE_HOME':'/tmp/state','CARGO_NET_OFFLINE':'true','CARGO_HOME':'/tmp/cargo-home','CARGO_TARGET_DIR':'/tmp/cargo-target','PIP_CACHE_DIR':'/tmp/pip-cache','npm_config_cache':'/tmp/npm-cache'}
-            env[host['config_environment_name']]='/tmp/host-config'
-            for name,value in env.items(): cmd+=['--env',name+'='+value]
-            for name in host['credential_environment_names']:
-                if name not in os.environ: raise ValueError('Provider credential unavailable')
-                cmd+=['--env',name]
-            cmd += [host['image']]+host['command']
+            prepare_mounts(fixture,skills)
+            cmd=build_command(host,fixture,skills,container_name,(fixture/'home').is_dir())
             before=inventory(fixture)
             shutil.copytree(fixture,target/'before')
             started=time.time();failure=None;timed_out=False
@@ -141,11 +149,12 @@ def run(manifest_path, mapping_path, storage, resume=False):
             except OSError:
                 code=127;failure='host_start_failed_no_retry'
             shutil.copytree(fixture,target/'after')
-            metadata={'session_id':session['id'],'host_version':host['version'],'effort_requested':setting['effort'],'model_requested':setting['returned_model_id'],'tools':host['tools'],'token_limit':m['limits']['tokens'],'time_limit_seconds':m['limits']['seconds'],'exit_status':code,'failure':failure,'elapsed_seconds':time.time()-started,'install_paths_match':True,'installed_paths':expected_paths,'before':before,'after':inventory(fixture)}
+            metadata={'session_id':session['id'],'host_version':host['version'],'effort_requested':setting['effort'],'model_requested':setting['configured_model_id'],'tools':host['tools'],'max_turns':m['limits']['max_turns'],'max_budget_usd':m['limits']['max_budget_usd'],'time_limit_seconds':m['limits']['seconds'],'exit_status':code,'failure':failure,'elapsed_seconds':time.time()-started,'install_paths_match':True,'installed_paths':expected_paths,'before':before,'after':inventory(fixture)}
             raw=(target/'raw.jsonl').read_text(errors='replace').splitlines() if (target/'raw.jsonl').exists() else []
             outcome=classify(code,timed_out,raw,setting,host)
             metadata.update({k:outcome[k] for k in ('failure','halt','exit_status')})
             metadata['reported']=outcome['reported']
+            metadata['summary']=outcome.get('summary',{})
             private_write(target/'record.json',metadata)
             private_write(target/'trace.json',{'session_id':session['id'],'exit_status':code,'failure':outcome['failure'],'metadata':{'actions_complete':outcome['actions_complete']},'events':outcome['events']})
             if outcome['halt']:

@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 CASES = ('accent-only', 'diagnose-staging', 'helper-unavailable', 'ideas-only', 'neighbour-bug', 'override-present')
 SETTINGS = ('fable-high', 'opus-medium', 'sonnet-medium', 'sonnet-low')
-SKILL_PATH = '/opt/evaluation/skills'
+SKILL_PATH = '/opt/evaluation/.claude/skills'
 FIXTURE_PATH = '/work/fixture'
 SECONDARY = ('closest_builtin_comparison', 'neighbour_followup_reported', 'override_named_before_edit')
 

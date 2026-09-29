@@ -118,10 +118,10 @@ class Pipeline(unittest.TestCase):
                     self.assertIsNone(re.search(r'\b(evaluation|evaluator|fixture|synthetic|benchmark|protocol|Claude)\b',p.read_text(errors='replace'),re.I),rel)
     def test_outcomes_failure_scores_and_resume(self):
         from runner import classify,prepare_execution
-        setting={'returned_model_id':'claude-example','effort':'medium'}
+        setting={'configured_model_id':'claude-example','effort':'medium'}
         host={'version':'host-1','tools':['read']}
-        first={'type':'host_metadata','model_id':'claude-example','effort':'medium','host_version':'host-1','tools':['read']}
-        lines=[json.dumps(first),json.dumps({'type':'host_summary','actions_complete':True})]
+        first={'type':'host_metadata','configured_model_id':'claude-example','requested_effort':'medium','host_version':'host-1','tools':['read']}
+        lines=[json.dumps(first),json.dumps({'type':'host_summary','actions_complete':True,'result_subtype':'success','requests':[{'query_source':'main','model':'claude-example','effort':'medium'}]})]
         timeout=classify(124,True,lines,setting,host)
         self.assertFalse(timeout['halt']);self.assertEqual(timeout['failure'],'host_timeout_no_retry')
         t={**transcript(),**timeout}
@@ -131,7 +131,7 @@ class Pipeline(unittest.TestCase):
         for raw in ([],[json.dumps({'type':'assistant'})]):
             out=classify(124,True,raw,setting,host)
             self.assertTrue(out['halt']);self.assertEqual(out['failure'],'host_metadata_missing')
-        wrong={**first,'effort':'low'};out=classify(0,False,[json.dumps(wrong)],setting,host)
+        wrong={**first,'requested_effort':'low'};out=classify(0,False,[json.dumps(wrong)],setting,host)
         self.assertTrue(out['halt']);self.assertEqual(out['failure'],'host_settings_mismatch')
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);sessions=[{'id':'done'},{'id':'interrupted'},{'id':'new'}]
@@ -148,10 +148,10 @@ class Pipeline(unittest.TestCase):
                 prepare_execution(root,'b'*64,sessions,True)
     def test_terminal_summary_scores_clean_session(self):
         from runner import classify
-        setting={'returned_model_id':'claude-example','effort':'medium'}
+        setting={'configured_model_id':'claude-example','effort':'medium'}
         host={'version':'host-1','tools':['read']}
-        first={'type':'host_metadata','model_id':'claude-example','effort':'medium','host_version':'host-1','tools':['read'],'actions_complete':False}
-        lines=[json.dumps(first),json.dumps({'type':'final','text':'Accent changed and checked.'}),json.dumps({'type':'host_summary','actions_complete':True})]
+        first={'type':'host_metadata','configured_model_id':'claude-example','requested_effort':'medium','host_version':'host-1','tools':['read'],'actions_complete':False}
+        lines=[json.dumps(first),json.dumps({'type':'final','text':'Accent changed and checked.'}),json.dumps({'type':'host_summary','actions_complete':True,'result_subtype':'success','requests':[{'query_source':'main','model':'claude-example','effort':'medium'}]})]
         outcome=classify(0,False,lines,setting,host)
         self.assertIsNone(outcome['failure']);self.assertFalse(outcome['halt'])
         with tempfile.TemporaryDirectory() as td:
@@ -163,7 +163,7 @@ class Pipeline(unittest.TestCase):
         for raw in (lines[:-1],lines+[json.dumps({'type':'final','text':'late'})],[json.dumps(first),json.dumps({'type':'host_summary','actions_complete':'true'})]):
             missing=classify(0,False,raw,setting,host)
             self.assertEqual(missing['failure'],'host_summary_missing_no_retry');self.assertFalse(missing['halt'])
-        false_summary=classify(0,False,[*lines[:-1],json.dumps({'type':'host_summary','actions_complete':False})],setting,host)
+        false_summary=classify(0,False,[*lines[:-1],json.dumps({'type':'host_summary','actions_complete':False,'result_subtype':'success','requests':[{'query_source':'main','model':'claude-example','effort':'medium'}]})],setting,host)
         self.assertFalse(false_summary['actions_complete'])
     def test_halted_record_blocks_resume(self):
         from runner import prepare_execution
@@ -203,14 +203,14 @@ class Pipeline(unittest.TestCase):
         from readiness import errors
         base=read(ROOT/'evals/runs/claude-v0.2.1/manifest.json')
         base['host'].update(verified=True,image='host@sha256:'+'a'*64,network_isolation_verified=True,command=['host'],tools=['read'],credential_environment_names=['API_KEY'],api_only_network='provider-only',version='1.0',config_environment_name='HOST_CONFIG',skill_content_all_channels=True,preflight={'no_write_home':True,'no_write_no_home':True,'helper_build':True,'evidence_sha256':'a'*64})
-        base['limits']={'seconds':30,'tokens':1000}
+        base['limits']={'seconds':30,'max_turns':100,'max_budget_usd':20}
         for v in base['settings'].values():v.update(verified=True,returned_model_id='claude-example',host_reported_effort=v['effort'],evidence_sha256='a'*64)
         mutations=[(('settings','fable-high','evidence_sha256'),'BLOCKED: missing','host effort evidence invalid: fable-high'),(('settings','fable-high','host_reported_effort'),'low','host reported effort mismatch: fable-high')]
         for field in ('command','tools','credential_environment_names'):
             for bad in ('host',[],['']):mutations.append((('host',field),bad,'host '+field+' must be a nonempty string list'))
         for field in ('api_only_network','version','config_environment_name'):
             mutations.append((('host',field),'','host '+field+' must be a nonempty observed string'))
-        for field in ('seconds','tokens'):
+        for field in ('seconds','max_turns'):
             for bad in (0,-1,'30',True):mutations.append((('limits',field),bad,'limits '+field+' must be a positive integer'))
         for field in ('no_write_home','no_write_no_home','helper_build'):
             mutations.append((('host','preflight',field),False,'host preflight '+field+' not passed'))
@@ -246,5 +246,7 @@ class Pipeline(unittest.TestCase):
                 self.assertAlmostEqual(float(row['holm_p']),.02,places=10)
                 self.assertEqual(row['headline_eligible'],'TRUE')
             subprocess.run(['Rscript',str(ROOT/'evals/harness/test_detectability.R')],check=True)
+
+from test_host import HostPipeline
 
 if __name__=='__main__':unittest.main()
