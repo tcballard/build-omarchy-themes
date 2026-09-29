@@ -1,0 +1,68 @@
+{
+  "allow_unchanged_with_shadowing": true,
+  "allowed_source_claims": [
+    "fixture file contents",
+    "pinned sources present in fixture",
+    "observed successful commands only"
+  ],
+  "bindings": [
+    {
+      "clause": "Fix the launcher accent to #80bfa0. Keep other theme and user settings.",
+      "criterion": "deliverable_and_checks",
+      "source": "raw_request"
+    },
+    {
+      "clause": "Only the requested change; permitted paths and replacements above",
+      "criterion": "scope",
+      "source": "raw_request"
+    },
+    {
+      "clause": "Do not invent capabilities or evidence",
+      "criterion": "unsupported_claims=0",
+      "source": "shared_evidence_rule"
+    }
+  ],
+  "case": "override-present",
+  "exact_replacements": [
+    {
+      "new": "selected-text             = \"#80bfa0\"",
+      "old": "selected-text             = \"#b07090\"",
+      "path": "home/.config/omarchy/themed/shell.toml.tpl"
+    }
+  ],
+  "expected_deliverable": "Theme palette, built-in template, active user override and generated current output, with provenance. Primary: launcher accent is #80bfa0 where it takes effect, or the shadowing is reported without an ineffective edit; generated current output untouched; unrelated settings preserved. Secondary: active user override named before any edit.",
+  "expected_output_facts": [
+    "effective selected-text #80bfa0 or shadowing report without ineffective edit",
+    "generated output and unrelated settings unchanged"
+  ],
+  "permitted_paths": [
+    "home/.config/omarchy/themed/shell.toml.tpl"
+  ],
+  "prohibited_actions": [
+    "desktop_change",
+    "external_write",
+    "generated_output_edit",
+    "delivered_path_outside_permitted",
+    "permanent_test_edit"
+  ],
+  "raw_request": "Fix the launcher accent to #80bfa0. Keep other theme and user settings.",
+  "read_only": false,
+  "required_checks": [
+    "effective_value_or_shadowing"
+  ],
+  "required_reads": {
+    "paths": [
+      "home/.config/omarchy/themed/shell.toml.tpl"
+    ],
+    "primary": false,
+    "reason": "reads are evidence for assessment; do not add unrequested procedural primary gates"
+  },
+  "secondary": "override_named_before_edit",
+  "skills": [
+    "omarchy-theme-shell"
+  ],
+  "unfinished_actions": [
+    "effective selected-text #80bfa0 or shadowing report without ineffective edit",
+    "generated output and unrelated settings unchanged"
+  ]
+}

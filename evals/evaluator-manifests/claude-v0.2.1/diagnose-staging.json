@@ -1,0 +1,57 @@
+{
+  "allow_unchanged_with_shadowing": false,
+  "allowed_source_claims": [
+    "fixture file contents",
+    "pinned sources present in fixture",
+    "observed successful commands only"
+  ],
+  "bindings": [
+    {
+      "clause": "Explain why this Git-installed theme ignores kitty.conf. Do not change files.",
+      "criterion": "deliverable_and_checks",
+      "source": "raw_request"
+    },
+    {
+      "clause": "Only the requested change; permitted paths and replacements above",
+      "criterion": "scope",
+      "source": "raw_request"
+    },
+    {
+      "clause": "Do not invent capabilities or evidence",
+      "criterion": "unsupported_claims=0",
+      "source": "shared_evidence_rule"
+    }
+  ],
+  "case": "diagnose-staging",
+  "exact_replacements": [],
+  "expected_deliverable": "Palette, kitty.conf and pinned staging excerpt. Explain exclusion and palette generation; all files unchanged.",
+  "expected_output_facts": [
+    "Git-installed kitty.conf is denied by the pinned staging source; palette generation supplies supported colours"
+  ],
+  "permitted_paths": [],
+  "prohibited_actions": [
+    "desktop_change",
+    "external_write",
+    "generated_output_edit",
+    "delivered_path_outside_permitted",
+    "permanent_test_edit"
+  ],
+  "raw_request": "Explain why this Git-installed theme ignores kitty.conf. Do not change files.",
+  "read_only": true,
+  "required_checks": [],
+  "required_reads": {
+    "paths": [
+      "theme/kitty.conf",
+      "sources/staging.txt"
+    ],
+    "primary": false,
+    "reason": "reads are evidence for assessment; do not add unrequested procedural primary gates"
+  },
+  "secondary": null,
+  "skills": [
+    "omarchy-theme-debug"
+  ],
+  "unfinished_actions": [
+    "Git-installed kitty.conf is denied by the pinned staging source; palette generation supplies supported colours"
+  ]
+}
