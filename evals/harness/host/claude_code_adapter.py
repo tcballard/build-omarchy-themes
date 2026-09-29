@@ -2,6 +2,7 @@
 import json
 import os
 import re
+import shlex
 import subprocess
 import sys
 import time
@@ -35,7 +36,57 @@ def skill_index(root, exclude_root='/work/fixture'):
 def skill_line(line):
     line=line.rstrip('\r\n')
     line=re.sub(r'^\s*\d+[\t→]', '', line)
-    return re.sub(r'^[^:\n]+:\d+:', '', line)
+    return re.sub(r'^(?:[^:\n]+[:-])?\d+[:-]', '', line)
+
+
+def evaluation_paths(command):
+    """Find explicit paths, including quoted/option paths, without executing shell code."""
+    try:
+        tokens=shlex.split(command)
+    except ValueError:
+        tokens=[command]
+    paths=[]
+    for token in tokens:
+        for match in re.finditer(r"/[^\s'\";|&<>()`$]+",token):
+            path=os.path.normpath(match.group())
+            if Path(path).is_relative_to('/opt/evaluation'):
+                paths.append(path)
+    return paths
+
+
+def scaffold_helper(command):
+    """Keep helper evidence through wrappers when explicit paths remain arm-neutral."""
+    helper=SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml'
+    if evaluation_paths(command)!=[helper] or '$(' in command or '`' in command:
+        return False
+    try:
+        lexer=shlex.shlex(command,posix=True,punctuation_chars=';&|()<>\n')
+        lexer.whitespace=' \t\r'
+        lexer.whitespace_split=True
+        tokens=list(lexer)
+    except ValueError:
+        return False
+    # Resolve literal relative cd targets from the fixture, tracking earlier cds.
+    cwd='/work/fixture'
+    for i,token in enumerate(tokens):
+        if token!='cd':continue
+        rest=tokens[i+1:]
+        while rest and rest[0] in ('--','-L','-P'):rest=rest[1:]
+        if not rest or any(c in rest[0] for c in '$~;|&<>()*?[]\n') or rest[0].startswith('-'):
+            return False
+        cwd=os.path.normpath(os.path.join(cwd,rest[0]))
+        if not Path(cwd).is_relative_to('/work/fixture'):return False
+    for i in range(len(tokens)):
+        if i and not all(c in ';|&()\n' for c in tokens[i-1]):continue
+        args=tokens[i:]
+        if args[:2]!=['cargo','run']:continue
+        args=args[2:]
+        if args[:1]==['--offline']:args=args[1:]
+        if (len(args)>=4 and args[0]=='--manifest-path'
+                and os.path.normpath(args[1])==helper and args[2]=='--'
+                and not all(c in ';|&()<>\n' for c in args[3])):
+            return True
+    return False
 
 
 def skill_segment(text,path):
@@ -119,7 +170,12 @@ class Converter:
                     if name in ('Edit','Write','MultiEdit'):
                         out.extend([{'type':'patch','call_id':call,'path':args.get('file_path'),'input':args},{'type':'action','call_id':call,'kind':'file_write','path':args.get('file_path')}])
                     if name=='Bash':
-                        command=args.get('command','');out.append({'type':'action','call_id':call,'kind':'command','command':command})
+                        command=args.get('command','')
+                        paths=evaluation_paths(command)
+                        if paths and not scaffold_helper(command):
+                            # A stable provenance marker also covers directory-level statistics.
+                            self.skill_calls[call]=next((p for p in paths if Path(p).is_relative_to(SKILL_PATH)),SKILL_PATH)
+                        out.append({'type':'action','call_id':call,'kind':'command','command':command})
                         if re.search(r'\b(omarchy-theme-set|hyprctl|swaybg|swww|waybar|systemctl|reboot|shutdown)\b',command):out.append({'type':'action','call_id':call,'kind':'desktop_change','command':command})
         elif kind=='user':
             content=event.get('message',{}).get('content',[])

@@ -151,6 +151,23 @@ frozen. Produce identical redacted annotation copies for the model and human:
    and references, with the fixed placeholder `[skill content]` wherever exposed in a tool result
    or transcript. Keep the tool call itself and all other tool results. Replace only
    the skill-content spans in mixed results, preserving surrounding task evidence.
+   For Bash commands containing an explicit path under `/opt/evaluation` (after
+   `normpath`), mark the entire tool result as ONE skill-file segment. This also
+   redacts metadata from `wc -l`, `ls -la`, `stat`, `sha256sum`, `grep -c` and `du`;
+   content matching alone cannot recognise arm-specific numbers.
+   Exception: a command containing a `cargo run [--offline] --manifest-path
+   /opt/evaluation/.claude/skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml
+   -- <args>` retains content-based segmentation so helper output stays task evidence.
+   The manifest must be its only explicit evaluation path after normalisation;
+   command substitution (`$(` or backticks) is not exempt, and every `cd` target
+   must normalise under `/work/fixture`. Pipes, `&&`, `;`, newlines and redirections
+   such as `2>&1` are allowed under this rule. Only SKILL.md differs between arms;
+   helper source is identical.
+   Matching keys (not retained output) strip Read line numbers and grep match/context
+   prefixes, including single-file `12:text` and `13-text`.
+   Residual: a relative path used after `cd` into the skill directory in an earlier
+   command is not caught by provenance; shell state is not tracked. Blinding remains
+   partial.
 2. Search every assistant message and final response for distinctive phrases from
    both completion blocks. Baseline phrases: "Keep a narrow change narrow" and
    "without another design-approval step". Candidate phrases: "Before the first
@@ -165,7 +182,7 @@ frozen. Produce identical redacted annotation copies for the model and human:
    host_summary event (cost and turns). Restricted originals retain this evidence.
 
 Redaction must not remove task actions, commands, outputs or patches: the skill-file
-content replacement is the explicit exception for instruction material, not permission
+content/metadata replacement described above is the explicit exception, not permission
 to censor task evidence. Preserve all fixture edits and verification output. Check
 redacted copies against originals mechanically before annotation; if instruction text
 cannot be isolated without losing scoring evidence, flag the session for resolution
