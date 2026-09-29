@@ -12,7 +12,7 @@ results <- list(); strata <- list()
 for (setting in settings) {
   x <- array(0L,c(2L,2L,6L),dimnames=list(arm=c('candidate','baseline'),outcome=c('complete','incomplete'),case=cases))
   for (i in seq_along(cases)) for (arm in c('candidate','baseline')) {
-    rows <- subset(d, d$setting==setting & d$case==cases[i] & d$arm==arm)
+    rows <- d[d$setting==setting & d$case==cases[i] & d$arm==arm, , drop=FALSE]
     stopifnot(nrow(rows)==3L)
     x[arm,,i] <- c(sum(rows$completion),3L-sum(rows$completion))
   }

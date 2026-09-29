@@ -108,6 +108,7 @@ class Pipeline(unittest.TestCase):
                                 value=int(arm=='candidate' or ci>=2)
                                 w.writerow([f'synthetic-{si}-{ci}-{arm}-{rep}',setting,case,arm,value])
             subprocess.run(['Rscript',str(ROOT/'evals/harness/analysis.R'),str(data),str(td/'analysis')],check=True)
+            print((td/'analysis/versions.txt').read_text(), flush=True)
             rows=list(csv.DictReader((td/'analysis/settings.csv').open()))
             self.assertEqual(len(rows),4)
             for row in rows:
