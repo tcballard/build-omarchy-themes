@@ -216,8 +216,8 @@
   },
   "scripts": {
     "evals/harness/README.md": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
-      "sha256": "8fe9784ee181e34106cb809266d2614fb899aae7132ac6b73af93ec7c986a683"
+      "commit": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
+      "sha256": "5da53799c9d0b32738f53bd594c01d327638ac2852682487fd726a0260a37429"
     },
     "evals/harness/analysis.R": {
       "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
@@ -264,8 +264,8 @@
       "sha256": "98a4bc6f10c83f5072da5e9c19c5f0b5f070cf100fd17a33246f59a5b623d57b"
     },
     "evals/harness/runner.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
-      "sha256": "48a741841ac2896eba153300d8d4122c760add37204f93c4d08f24b7aa28d50a"
+      "commit": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
+      "sha256": "ef45737e82f56fc96477e0679795b76df295db4d715bc331f78e8747521ed444"
     },
     "evals/harness/score.py": {
       "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
@@ -276,8 +276,8 @@
       "sha256": "13583defac9a5dee4d41d52a9c51e07b037967aae8081cd90e36e96efe3f6664"
     },
     "evals/harness/test_pipeline.py": {
-      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
-      "sha256": "3061308d8b5d9f5b99b4a91da4e54293d0273ba00816a037782789d683a2427f"
+      "commit": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
+      "sha256": "c992b197182c694da459eb2de46146735708335b2ea2fe8eebf2615028a45617"
     }
   },
   "settings": {
@@ -324,14 +324,14 @@
       "stats": "4.3.3"
     },
     "R_version": "4.3.3 (2024-02-29)",
-    "ci_head": "ddcac42afc8f83661c835db084b0ad961ef73893",
+    "ci_head": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
     "ci_python_version": "3.12.14",
-    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36552822997",
-    "job_id": 109354843909,
-    "job_log_sha256": "fed0e4dd3640b9e6888556f1b6080641cc9d6ea5854eb1c9a1683a4605415181",
-    "local_result": "14 passed; R unavailable locally, verified in CI",
+    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36554056315",
+    "job_id": 109358855176,
+    "job_log_sha256": "3ac0ab23df2680f01d1a03d021bfcbf520fc5fac5f50e96859d83f8274c4733e",
+    "local_result": "16 passed; R unavailable locally, verified in CI",
     "python_version": "3.12.14",
-    "result": "15 synthetic tests passed, including exact R analysis; no skips and no provider sessions",
+    "result": "17 synthetic tests passed including R; no skips or provider sessions",
     "status": "PASS"
   }
 }
