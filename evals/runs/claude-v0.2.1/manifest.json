@@ -5,11 +5,11 @@
     "host_version": "BLOCKED: no compatible host connected; not yet observed",
     "human_auditor": "Tom Ballard",
     "model_snapshot_id": "BLOCKED: no compatible host connected; not yet observed",
-    "prompt_sha256": "3e6ebc23e3cb0d9a5cf1e8b13c2705e2014b2eae6742554b307bcb350f254b45",
+    "prompt_sha256": "d72c5842ce3c7cbfdb5d7a2f2ecd525d9e4f7c8a369f3d888487c7cfd715045b",
     "provider_family": "OpenAI",
     "requested_model": "GPT-6 Astra",
     "rubric_sha256": "98a4bc6f10c83f5072da5e9c19c5f0b5f070cf100fd17a33246f59a5b623d57b",
-    "scoring_commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
+    "scoring_commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
     "software_versions": "BLOCKED: no compatible host connected; not yet observed",
     "verified": false
   },
@@ -93,60 +93,68 @@
   },
   "audit": {
     "count": 29,
-    "python_version": "BLOCKED: record at sample generation",
+    "python": "BLOCKED: record at sample generation",
     "seed": 20260929,
     "session_ids": "BLOCKED: mapping not generated"
   },
   "evaluator_manifests": {
     "evals/evaluator-manifests/claude-v0.2.1/accent-only.json": {
-      "commit": "dea571d85439b9275ce5fff9fb2ea92bb0af249b",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "fffca0a78d700899da4f4dcb11e413921572564147237aa93e11b9c6e26b6339"
     },
     "evals/evaluator-manifests/claude-v0.2.1/diagnose-staging.json": {
-      "commit": "dea571d85439b9275ce5fff9fb2ea92bb0af249b",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "6589e133c1552fe193137b202e98ed9774707a57141733ace18b62c1d1686a1e"
     },
     "evals/evaluator-manifests/claude-v0.2.1/helper-unavailable.json": {
-      "commit": "dea571d85439b9275ce5fff9fb2ea92bb0af249b",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "82294381b3cfb1d69a8d1a6223f2d29cd9e05bad89907b0ae2d7ad24e0c209be"
     },
     "evals/evaluator-manifests/claude-v0.2.1/ideas-only.json": {
-      "commit": "dea571d85439b9275ce5fff9fb2ea92bb0af249b",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "66f481d6a2316dcc0faa6fcf7ab46e7b81af0bd92ef4d5140ca0ba137bd7421f"
     },
     "evals/evaluator-manifests/claude-v0.2.1/neighbour-bug.json": {
-      "commit": "dea571d85439b9275ce5fff9fb2ea92bb0af249b",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "6563c33aa3f41dc8b39c9a63e26b6ac3d8e8d6ea1dde4861364fc75646f4e273"
     },
     "evals/evaluator-manifests/claude-v0.2.1/override-present.json": {
-      "commit": "dea571d85439b9275ce5fff9fb2ea92bb0af249b",
-      "sha256": "5b2dcfb1ad6950c02d32b4914ea5d2130036a8c24545a20bde91150eeaf22314"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "075a6a3c3cf99445879231da3f3ba5468f821eae1f88f05ed15c91e3bf1336bc"
     }
   },
   "fixture_manifests": {
     "evals/fixture-manifests/claude-v0.2.1/accent-only.json": {
-      "commit": "a72bfcf4c85185b3df7dc836604ea3d496d0496a",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "674e90ed77fd288a037e34acc72fb46591d38c559451bec7e570b24970cc2cff"
     },
     "evals/fixture-manifests/claude-v0.2.1/diagnose-staging.json": {
-      "commit": "a72bfcf4c85185b3df7dc836604ea3d496d0496a",
-      "sha256": "7df136105e81d4410f63365244ac60a13916cf737d0ea579a7a83fee9967f096"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "c6309cdd8c29ec2caf44b8b9060db2823360e0a49e714b876e38719156252102"
     },
     "evals/fixture-manifests/claude-v0.2.1/helper-unavailable.json": {
-      "commit": "a72bfcf4c85185b3df7dc836604ea3d496d0496a",
-      "sha256": "66c011c0d5f53622f9cea14d40f25832c0fd173daa1c36d4cc7d5d041bd1059e"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "59239488bec16577eb4079933e41ef79bea573eda5a4feefebbfc6d60ba95f67"
     },
     "evals/fixture-manifests/claude-v0.2.1/ideas-only.json": {
-      "commit": "a72bfcf4c85185b3df7dc836604ea3d496d0496a",
-      "sha256": "aeb2a980c6a9d1329b822ffb3a6088525685ac934ed3025f39d972d66857e2b3"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "d9da5ee779803e3433c333083257e85c48433adacf85da91ea67bad08a79b077"
     },
     "evals/fixture-manifests/claude-v0.2.1/neighbour-bug.json": {
-      "commit": "a72bfcf4c85185b3df7dc836604ea3d496d0496a",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "e7473e5885cb2804ab7e7af0b7dbc409dbe287c1dfd71413463ef03291d1243b"
     },
     "evals/fixture-manifests/claude-v0.2.1/override-present.json": {
-      "commit": "a72bfcf4c85185b3df7dc836604ea3d496d0496a",
-      "sha256": "eb663c6f4706c27c0f9f882db547b5dd22e36af60228aabbfbfa5b5106d7ef60"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "d81ce41d3b339fa03d0de38cb5eaca1eace0ad2c96e057e809d5554790a90911"
+    },
+    "evals/fixture-manifests/claude-v0.2.1/provenance/ideas-only.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "cf01932807688c2240ddb33e64d17959142802290c350ebbe5c2daa96bc46f71"
+    },
+    "evals/fixture-manifests/claude-v0.2.1/provenance/override-present.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "6710fbeb1d3323709b8c36149d502320d0496a70bb917a95edc0490816bb2e65"
     }
   },
   "freeze": {
@@ -172,10 +180,18 @@
   "host": {
     "api_only_network": "BLOCKED: no compatible host connected; not yet observed",
     "command": "BLOCKED: no compatible host connected; not yet observed",
+    "config_environment_name": "BLOCKED: host config relocation unobserved",
     "credential_environment_names": "BLOCKED: no compatible host connected; not yet observed",
     "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
     "image": "BLOCKED: no compatible host connected; not yet observed",
     "network_isolation_verified": false,
+    "preflight": {
+      "evidence_sha256": "BLOCKED: scratch pre-flight not performed; no provider sessions authorised",
+      "helper_build": false,
+      "no_write_home": false,
+      "no_write_no_home": false
+    },
+    "skill_content_all_channels": false,
     "skill_install_path": "/opt/evaluation/skills",
     "tools": "BLOCKED: no compatible host connected; not yet observed",
     "verified": false,
@@ -189,60 +205,79 @@
     "session_ids": "BLOCKED: real session IDs not generated",
     "sha256": "BLOCKED: freeze steps 5 and 6 incomplete"
   },
-  "protocol_sha256": "ef559f733f8ab7ac9109a65d9d0af3949d755d3e089cd385346234ffc5af3939",
+  "protocol_sha256": "674ce2c8faff0d715f27865447d18168fdd8e1885a8fe0300867b2ccf88f4f75",
   "readiness": "BLOCKED",
+  "redaction_phrases": {
+    "baseline": "0e46dc52f77d86b0225d9021e93eb419eeaafc0b",
+    "candidate": "dfb78e54ff5857c9a04be4b4d36f2938e29d213c",
+    "generator_commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+    "path": "evals/harness/phrases-claude-v0.2.1.json",
+    "sha256": "98848e4a57f3adfc310713d3dbd714ea8413dce087c4095b5a78afdd1ad0411d"
+  },
   "scripts": {
     "evals/harness/README.md": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
-      "sha256": "49e6e03210a0b5846e83d48abda16ff47cfd30e4b1ea5e29492888d1c4b8a75c"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "8fe9784ee181e34106cb809266d2614fb899aae7132ac6b73af93ec7c986a683"
     },
     "evals/harness/analysis.R": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "aafa38553ebf707309d0e00529632ad90134014313fc5aac2a231347dcb39a63"
     },
     "evals/harness/annotator-prompt.md": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
-      "sha256": "3e6ebc23e3cb0d9a5cf1e8b13c2705e2014b2eae6742554b307bcb350f254b45"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "d72c5842ce3c7cbfdb5d7a2f2ecd525d9e4f7c8a369f3d888487c7cfd715045b"
+    },
+    "evals/harness/assemble.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "4b6afd063dd53d160736b8002571143c4cf12fffb952d8ad6aab4acf7222db0b"
     },
     "evals/harness/audit.py": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "8d1bc9ac04ac8b9c0c499a985660e32ef49e72f794bdf2dc04f93c56e32e0f70"
     },
     "evals/harness/common.py": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "ca99f1d46ab1387686344f5161d674d5e531caa2065913f6ae7511591ff9377a"
     },
     "evals/harness/mapping.py": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "1cb40a45734ae231542b883f37d5712f0a3944658fcac5c619b9d9bc6eb89756"
     },
+    "evals/harness/phrases-claude-v0.2.1.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "98848e4a57f3adfc310713d3dbd714ea8413dce087c4095b5a78afdd1ad0411d"
+    },
+    "evals/harness/phrases.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "abd220242986309e3b141ff38d160702bc52345728dd17b50f2956bd7fe7b681"
+    },
     "evals/harness/readiness.py": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
-      "sha256": "3be396c60692fb050793e4339c71959d9454f5b7f8f1296941d4b00931c73f00"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "3c734849ef8d9a96c61d30fde7bcfd4b118d3510d31231d9c14076d5880f7e20"
     },
     "evals/harness/redact.py": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
-      "sha256": "733c5439e2dc2071837692c40ce00b6729b17656f5f1bddc812ed046e35c69b8"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "adeeb54b813aefe5f16dafc126f12d6fab962af56a2639856d2535b1067fbe85"
     },
     "evals/harness/rubric.md": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "98a4bc6f10c83f5072da5e9c19c5f0b5f070cf100fd17a33246f59a5b623d57b"
     },
     "evals/harness/runner.py": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
-      "sha256": "ffe463efc5b67835163fe9b53e33265568ff9533d583dbb04ddebc46607e79fe"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "48a741841ac2896eba153300d8d4122c760add37204f93c4d08f24b7aa28d50a"
     },
     "evals/harness/score.py": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
-      "sha256": "0bebb51103485bf5463700c210315d5694c84283cf12506e27be90a4d762790d"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "aa7de2d48b42ec7008da37adf15317254572fde8bbf75433f31fca2e9b008be1"
     },
     "evals/harness/test_detectability.R": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
       "sha256": "13583defac9a5dee4d41d52a9c51e07b037967aae8081cd90e36e96efe3f6664"
     },
     "evals/harness/test_pipeline.py": {
-      "commit": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
-      "sha256": "28123134c35ba1b7cfb6fda51d42fc68654db21da25d0fe2b6296711fbc07fdc"
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "3061308d8b5d9f5b99b4a91da4e54293d0273ba00816a037782789d683a2427f"
     }
   },
   "settings": {
@@ -289,14 +324,14 @@
       "stats": "4.3.3"
     },
     "R_version": "4.3.3 (2024-02-29)",
-    "ci_head": "0b8617ca9833f013d1ce33df98115c3a03bb7527",
+    "ci_head": "ddcac42afc8f83661c835db084b0ad961ef73893",
     "ci_python_version": "3.12.14",
-    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36550768843",
-    "job_id": 109348108004,
-    "job_log_sha256": "bcb7939b19de39669e5af5e4e82ce6371aba14b0f8324000053e625f2925730a",
-    "local_result": "9 passed; 1 R check skipped: R unavailable; no provider calls",
+    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36552822997",
+    "job_id": 109354843909,
+    "job_log_sha256": "fed0e4dd3640b9e6888556f1b6080641cc9d6ea5854eb1c9a1683a4605415181",
+    "local_result": "14 passed; R unavailable locally, verified in CI",
     "python_version": "3.12.14",
-    "result": "10 synthetic tests passed; includes exact R analysis and detectability; no real provider calls",
+    "result": "15 synthetic tests passed, including exact R analysis; no skips and no provider sessions",
     "status": "PASS"
   }
 }
