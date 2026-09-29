@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.1 — 2026-09-29
+
+- Add pinned evaluation fixtures, a headless Claude Code host, scratch preflight,
+  annotation/adjudication tooling and reproducible analysis.
+- Close skill-content and file-statistics redaction gaps while preserving fixture
+  and helper-check evidence, including safe shell wrappers.
+- Keep execution blocked on missing evidence; the Claude evaluation remains NOT RUN.
+- Leave all twelve theme skills unchanged from v0.2.0.
+
 ## 0.2.0 — 2026-09-29
 
 - Refresh runtime and registry guidance with eleven exact source pins; distinguish
