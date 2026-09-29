@@ -27,6 +27,7 @@ def protected_events(trace):
 def redact(original, forbidden_ids, case=None):
     matcher=pattern(case or original['case'])
     trace = copy.deepcopy(original)
+    trace['events']=[e for e in trace['events'] if e['type']!='host_summary']
     spans = []
     def log(kind):
         spans.append({'span_id': f'span-{len(spans)+1:04d}', 'kind': kind})
@@ -40,7 +41,8 @@ def redact(original, forbidden_ids, case=None):
                     path = Path(s['path'])
                     if not path.is_relative_to(SKILL_PATH):
                         raise ValueError('Non-skill content marked as skill file')
-                    s['text'] = f'[skill file: file-{len(spans)+1:04d}]'
+                    s.clear()
+                    s.update(kind='skill_file',text='[skill content]')
                     log('skill_file')
                 elif s['kind'] != 'task_output':
                     raise ValueError('Unknown result segment')

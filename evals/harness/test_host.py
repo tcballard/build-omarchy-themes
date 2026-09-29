@@ -2,6 +2,7 @@
 import copy
 import json
 import tempfile
+import subprocess
 import unittest
 from pathlib import Path
 from common import ROOT,SECONDARY,evaluator,sha,read
@@ -81,6 +82,63 @@ class HostPipeline(unittest.TestCase):
         self.assertEqual(redacted['events'][0],trace['events'][0])
         self.assertIn('[skill quote]',redacted['events'][1]['text'])
         self.assertTrue(log['protected_evidence_unchanged'])
+
+    def test_cross_arm_skill_redaction(self):
+        from common import CASES,SKILL_PATH
+        from redact import redact
+        manifest=read(ROOT/'evals/runs/claude-v0.2.1/manifest.json')
+        with tempfile.TemporaryDirectory() as td:
+            roots={}
+            for arm in ('baseline','candidate'):
+                root=Path(td)/arm;root.mkdir();roots[arm]=root
+                commit=manifest['arms'][arm]['commit']
+                for rel in manifest['arms'][arm]['skill_hashes']:
+                    target=root/Path(rel).relative_to('skills');target.parent.mkdir(parents=True,exist_ok=True)
+                    target.write_bytes(subprocess.check_output(['git','show',commit+':'+rel],cwd=ROOT))
+            for case in CASES:
+                fixture=ROOT/'evals/fixtures/claude-v0.2.1'/case
+                for skill in evaluator(case)['skills']:
+                    for mode in ('Read','Grep','Glob','cat','head','Skill','system','numbered-bash','grep-bash'):
+                        copies=[]
+                        for arm,root in roots.items():
+                            index=skill_index(root,exclude_root=fixture)
+                            for line,path in index.items():index[line]=SKILL_PATH+'/'+str(Path(path).relative_to(root))
+                            path=SKILL_PATH+'/'+skill+'/SKILL.md'
+                            text=(root/skill/'SKILL.md').read_text()
+                            if mode=='head':text=''.join(text.splitlines(keepends=True)[:15])
+                            if mode in ('Read','numbered-bash'):text=''.join(str(i)+'→'+line for i,line in enumerate(text.splitlines(keepends=True),1))
+                            if mode in ('Grep','grep-bash'):text=''.join(path+':'+str(i)+':'+line for i,line in enumerate(text.splitlines(keepends=True),1))
+                            if mode=='Glob':text=path+'\n'
+                            c=Converter({'effort':'high'},'test',index)
+                            c.feed({'type':'system','subtype':'init','model':'same','tools':[]})
+                            if mode in ('Skill','system'):
+                                event={'type':'system','text':text} if mode=='system' else {'type':'user','message':{'content':text}}
+                                events=c.feed(event)
+                            else:
+                                tool=mode if mode in ('Read','Grep','Glob') else 'Bash'
+                                args={'file_path':path} if tool=='Read' else {'path':path} if tool in ('Grep','Glob') else {'command':mode+' '+path}
+                                events=c.feed({'type':'assistant','message':{'content':[{'type':'tool_use','id':'read','name':tool,'input':args}]}})
+                                events+=c.feed({'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':'read','content':text}]}})
+                            events.append({'type':'host_summary','cost_usd':1 if arm=='baseline' else 2,'turns':3 if arm=='baseline' else 4})
+                            trace={'session_id':'same','case':case,'events':events}
+                            redacted,_=redact(trace,[])
+                            self.assertFalse(any(e['type']=='host_summary' for e in redacted['events']))
+                            self.assertEqual(sum(s['text']=='[skill content]' for e in redacted['events'] if e['type']=='tool_result' for s in e['segments']),1,(case,skill,mode,arm))
+                            copies.append(json.dumps(redacted,sort_keys=True))
+                        self.assertEqual(*copies,(case,skill,mode))
+
+    def test_fixture_and_cargo_provenance(self):
+        from common import SKILL_PATH
+        fixture=ROOT/'evals/fixtures/claude-v0.2.1/accent-only'
+        index=skill_index(ROOT/'skills',exclude_root=fixture)
+        c=Converter({'effort':'high'},'test',index)
+        c.feed({'type':'system','subtype':'init'})
+        palette=(fixture/'theme/colors.toml').read_text()
+        for tool,args,output in [('Read',{'file_path':'/work/fixture/theme/colors.toml'},palette),('Bash',{'command':'cargo run --manifest-path '+SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml -- check /work/fixture/theme'},'PASS: local authoring subset only\n')]:
+            c.feed({'type':'assistant','message':{'content':[{'type':'tool_use','id':tool,'name':tool,'input':args}]}})
+            result=c.feed({'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':tool,'content':output}]}})[0]
+            self.assertTrue(all(s['kind']=='task_output' for s in result['segments']))
+            self.assertEqual(''.join(s['text'] for s in result['segments']),output)
 
     def test_otel_normalization(self):
         with tempfile.TemporaryDirectory() as td:

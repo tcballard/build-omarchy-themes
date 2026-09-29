@@ -148,7 +148,7 @@ Keep complete originals in restricted storage for verification after annotations
 frozen. Produce identical redacted annotation copies for the model and human:
 
 1. Replace the contents of any file under the skill directory, including SKILL.md
-   and references, with `[skill file: <opaque id>]` wherever exposed in a tool result
+   and references, with the fixed placeholder `[skill content]` wherever exposed in a tool result
    or transcript. Keep the tool call itself and all other tool results. Replace only
    the skill-content spans in mixed results, preserving surrounding task evidence.
 2. Search every assistant message and final response for distinctive phrases from
@@ -161,6 +161,8 @@ frozen. Produce identical redacted annotation copies for the model and human:
    the redaction script, its commit and a per-session redaction log in the run
    manifest. Logs record opaque span IDs, replacement kinds/counts and input/output
    hashes; never include removed skill text or the sealed arm mapping.
+   Annotation copies omit skill-content hashes and paths, segment counts, and the
+   host_summary event (cost and turns). Restricted originals retain this evidence.
 
 Redaction must not remove task actions, commands, outputs or patches: the skill-file
 content replacement is the explicit exception for instruction material, not permission

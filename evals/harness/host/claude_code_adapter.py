@@ -10,31 +10,59 @@ from pathlib import Path
 SKILL_PATH='/opt/evaluation/.claude/skills'
 
 
+class SkillIndex(dict):
+    pass
+
+
 def skill_index(root, exclude_root='/work/fixture'):
     excluded=set()
     for path in Path(exclude_root).rglob('*'):
         if not path.is_file(): continue
         try: excluded.update(path.read_text().splitlines())
         except UnicodeDecodeError: continue
-    lines={}
+    lines=SkillIndex();lines.all_lines=set();lines.excluded=excluded
     for path in sorted(Path(root).rglob('*')):
         if not path.is_file(): continue
         try: text=path.read_text()
         except UnicodeDecodeError: continue
         for line in text.splitlines():
+            lines.all_lines.add(line)
             if len(line)>=12 and any(c.isalnum() for c in line) and line not in excluded:
                 lines.setdefault(line,str(path))
     return lines
 
 
-def segments(text,index):
+def skill_line(line):
+    line=line.rstrip('\r\n')
+    line=re.sub(r'^\s*\d+[\t→]', '', line)
+    return re.sub(r'^[^:\n]+:\d+:', '', line)
+
+
+def skill_segment(text,path):
     import hashlib
-    result=[]
+    return {'kind':'skill_file','path':path,'text':text,'sha256':hashlib.sha256(text.encode()).hexdigest()}
+
+
+def segments(text,index):
+    result=[];run=[];path=None
+    all_lines=getattr(index,'all_lines',set(index))
+    excluded=getattr(index,'excluded',set())
     for line in text.splitlines(keepends=True):
-        key=line.rstrip('\r\n')
-        if key in index:
-            result.append({'kind':'skill_file','path':index[key],'text':line,'sha256':hashlib.sha256(line.encode()).hexdigest()})
-        else: result.append({'kind':'task_output','text':line})
+        key=skill_line(line)
+        if run and (not key.strip() or (key in all_lines and key not in excluded)):
+            run.append(line)
+        elif key in index:
+            if run: result.append(skill_segment(''.join(run),path))
+            run=[line];path=index[key]
+            # Include an adjacent short/blank prefix only after a trusted anchor.
+            while result and result[-1]['kind']=='task_output':
+                previous=skill_line(result[-1]['text'])
+                if previous.strip() and (previous not in all_lines or previous in excluded):break
+                run.insert(0,result.pop()['text'])
+        else:
+            if run: result.append(skill_segment(''.join(run),path));run=[]
+            result.append({'kind':'task_output','text':line})
+    if run: result.append(skill_segment(''.join(run),path))
     return result
 
 
@@ -66,7 +94,7 @@ def telemetry_requests(path):
 class Converter:
     def __init__(self,payload,version,index):
         self.payload=payload;self.version=version;self.index=index
-        self.started=False;self.calls=set();self.results=set();self.models=set();self.result=None;self.invalid=False
+        self.skill_calls={};self.started=False;self.calls=set();self.results=set();self.models=set();self.result=None;self.invalid=False
     def feed(self,event):
         kind=event.get('type');out=[]
         if kind=='system' and event.get('subtype')=='init':
@@ -83,6 +111,11 @@ class Converter:
                     call=block['id'];name=block['name'];args=block.get('input',{})
                     if call in self.calls:self.invalid=True
                     self.calls.add(call);out.append({'type':'tool_call','id':call,'name':name,'arguments':args})
+                    if name in ('Read','Grep','Glob'):
+                        source=args.get('file_path') or args.get('path')
+                        if isinstance(source,str):
+                            source=os.path.normpath(os.path.join('/work/fixture',source))
+                            if Path(source).is_relative_to(SKILL_PATH):self.skill_calls[call]=source
                     if name in ('Edit','Write','MultiEdit'):
                         out.extend([{'type':'patch','call_id':call,'path':args.get('file_path'),'input':args},{'type':'action','call_id':call,'kind':'file_write','path':args.get('file_path')}])
                     if name=='Bash':
@@ -94,7 +127,7 @@ class Converter:
             for i,block in enumerate(content):
                 if block.get('type')=='tool_result':
                     call=block['tool_use_id'];self.results.add(call)
-                    out.append({'type':'tool_result','call_id':call,'is_error':block.get('is_error',False),'segments':segments(content_text(block.get('content','')),self.index)})
+                    out.append({'type':'tool_result','call_id':call,'is_error':block.get('is_error',False),'segments':([skill_segment(content_text(block.get('content','')),self.skill_calls[call])] if call in self.skill_calls else segments(content_text(block.get('content','')),self.index))})
                 elif block.get('type')=='text':
                     out.append({'type':'tool_result','call_id':'invocation-'+str(event.get('uuid',''))+'-'+str(i),'segments':segments(block['text'],self.index)})
         elif kind=='system' and any(key in event for key in ('content','text','message')):
