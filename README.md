@@ -14,7 +14,7 @@ check a development handoff, verify the desktop and submit to the Theme Registry
 
 ## Status and compatibility
 
-**v0.2.0.** Source-informed guidance for Omarchy 4 theme workflows.
+**v0.2.1.** Evaluation tooling and redaction fixes. The twelve theme skills are unchanged; the Claude evaluation remains **NOT RUN**.
 Upstream runtime and registry contracts were inspected on 29 September 2026 at recorded revisions.
 No live Omarchy desktop acceptance or provider-directory acceptance is claimed.
 See [acceptance evidence](evals/ACCEPTANCE.md) and [source provenance](NOTICE.md).
