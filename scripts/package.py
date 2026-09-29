@@ -7,6 +7,9 @@ import re
 import subprocess
 import zipfile
 from pathlib import Path
+from check_bundle import validate as validate_bundle
+from check_contracts import validate as validate_contracts
+from sync_openai_adapter import compare
 
 ROOT = Path(__file__).resolve().parent.parent
 NAME = 'build-omarchy-themes'
@@ -25,6 +28,11 @@ def main():
     args = p.parse_args()
     if git('status', '--porcelain').strip():
         raise SystemExit('Commit the reviewed changes before packaging; working tree is not clean.')
+    errors = validate_bundle(ROOT)
+    errors += validate_contracts(json.loads((ROOT/'contracts/sources.json').read_text()))
+    errors += compare(ROOT/'skills', ROOT/'plugins'/NAME/'skills')
+    if errors:
+        raise SystemExit('Release validation failed: ' + '; '.join(errors))
     commit = git('rev-parse', 'HEAD').decode().strip()
     entries = []
     for row in git('ls-tree', '-rz', 'HEAD').split(b'\0'):

@@ -1,6 +1,6 @@
 {
   "name": "build-omarchy-themes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Design, build, test, migrate and publish Omarchy themes with portable agent skills.",
   "author": {
     "name": "Tom Ballard",

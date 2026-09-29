@@ -14,8 +14,8 @@ check a development handoff, verify the desktop and submit to the Theme Registry
 
 ## Status and compatibility
 
-**v0.1.0 development preview.** Source-informed guidance for Omarchy 4 theme workflows.
-Upstream contracts were inspected on 14 September 2026 on development branches.
+**v0.2.0.** Source-informed guidance for Omarchy 4 theme workflows.
+Upstream runtime and registry contracts were inspected on 29 September 2026 at recorded revisions.
 No live Omarchy desktop acceptance or provider-directory acceptance is claimed.
 See [acceptance evidence](evals/ACCEPTANCE.md) and [source provenance](NOTICE.md).
 Compatibility means the installed Omarchy version reported by `omarchy-version`,
@@ -58,7 +58,9 @@ Or: “Explain why this theme works locally but loses its terminal colours when 
 - [omarchy-theme-release](skills/omarchy-theme-release/SKILL.md): Prepare a reproducible Omarchy theme release with compatibility notes, media provenance and installation evidence.
 - [omarchy-theme-publish](skills/omarchy-theme-publish/SKILL.md): Prepare or submit an Omarchy theme to the Theme Registry using its current form and validation workflow.
 
-See [workflow entry points](docs/WORKFLOWS.md).
+See [workflow entry points](docs/WORKFLOWS.md) and [Models and hosts](docs/FRONTIER-MODELS.md).
+The instructions are informed by current provider guidance; this is not a claim of
+measured cross-model improvement. The host selects the model and effort level.
 
 ## Theme helper
 
@@ -96,3 +98,7 @@ published by the packaging command.
 
 MIT for bundle code and instructions. Wallpaper and third-party artwork licences
 must be established separately for each theme.
+
+The workflow guidance is provider-informed. No Claude model has executed the skills;
+the two ChatGPT Work smoke exercises had no exposed model identifier and predate the
+guidance correction. See the [planned Claude evaluation](evals/CLAUDE.md).

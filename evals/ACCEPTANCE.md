@@ -1,3 +1,23 @@
+# Acceptance evidence — v0.2.0 preparation, 29 September 2026
+
+- Twelve canonical skills and generated OpenAI copies pass structure/parity checks.
+- Ten governance regressions pass: versions/provider paths/shared references,
+  clean-tree deterministic archives, contract drift and unavailable-source handling.
+- Installer lifecycle test passes, including protection of locally modified files.
+- Two independent fresh-context workflow exercises pass: accent-only repair without
+  a helper, and read-only staging diagnosis. Input hashes and observed outcomes are
+  in [the run record](runs/2026-09-29.json). The evaluator independently checked the
+  accent-only byte change and unchanged diagnosis fixture. These predate the replacement completion block and are historical candidate-only
+  smoke tests, not validation of that block or a model benchmark.
+- Eleven exact upstream files retrieved through the GitHub connector and reviewed;
+  direct network execution of the new --live checker is a separate CI check.
+- Local Rust tests: NOT RUN because Cargo is unavailable. Require full GitHub CI for
+  the release candidate; do not reuse v0.1.0 results as fresh execution evidence.
+- Live Omarchy desktop, upstream registry validation of a finished theme, live host
+  discovery and Claude execution: NOT RUN. No Claude model has executed the skills.
+
+## Historical v0.1.0 evidence
+
 # Acceptance evidence — 14 September 2026
 
 Version 0.1.0 development preview.
