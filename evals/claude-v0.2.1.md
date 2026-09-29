@@ -114,7 +114,7 @@ match or an unreviewed model judgement is not mechanical semantic ground truth.
 Use an OpenAI model annotator from a different provider family than the Claude models
 under test, plus maintainer Tom Ballard as the human auditor and second annotator.
 Neither sees arm labels, skill-version identifiers or previous scores during annotation.
-Choose custodian option (b): before execution, a committed script generates opaque
+Custodian: option (b). before execution, a committed script generates opaque
 session IDs and the random arm mapping, writing the mapping to a file outside the
 repository without printing it. Commit only the mapping file's SHA-256; keep its
 contents, random seed and any mapping-revealing execution metadata out of logs,
