@@ -1,0 +1,42 @@
+{
+  "case": "diagnose-staging",
+  "files": [
+    {
+      "mode": "0644",
+      "path": "sources/omarchy-theme-set.txt",
+      "sha256": "097342e8591058c719cb0772950c19ccbf42573d8b1ad18e28e65104a746c018"
+    },
+    {
+      "mode": "0644",
+      "path": "sources/staging.txt",
+      "sha256": "eb238cece3d8b7acac6e46e8dd6bf2e1557c1430a1f678262d00babd5ac15838"
+    },
+    {
+      "mode": "0644",
+      "path": "theme/colors.toml",
+      "sha256": "30afa8d5fcc15543c05e71b14825f10b436d8f3a77269c658b55520eb05f71e7"
+    },
+    {
+      "mode": "0644",
+      "path": "theme/kitty.conf",
+      "sha256": "36ea81fa968cb87d37c07e754e7e5b8e350b7526281b81386390fd7dfb30f89b"
+    }
+  ],
+  "fixture_kind": "synthetic desktop fixture with pinned source excerpts",
+  "upstream_sources": {
+    "sources/omarchy-theme-set.txt": {
+      "full_file": "sources/omarchy-theme-set.txt",
+      "sha256": "097342e8591058c719cb0772950c19ccbf42573d8b1ad18e28e65104a746c018",
+      "upstream_blob": "10faf872988041e4a9788fd538dc324e95a5d391",
+      "upstream_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "upstream_path": "bin/omarchy-theme-set"
+    },
+    "sources/staging.txt": {
+      "full_file": "sources/omarchy-theme-set.txt",
+      "sha256": "eb238cece3d8b7acac6e46e8dd6bf2e1557c1430a1f678262d00babd5ac15838",
+      "upstream_blob": "10faf872988041e4a9788fd538dc324e95a5d391",
+      "upstream_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "upstream_path": "bin/omarchy-theme-set"
+    }
+  }
+}

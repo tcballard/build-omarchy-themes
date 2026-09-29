@@ -1,0 +1,56 @@
+{
+  "allow_unchanged_with_shadowing": false,
+  "allowed_source_claims": [
+    "fixture file contents",
+    "pinned sources present in fixture",
+    "observed successful commands only"
+  ],
+  "bindings": [
+    {
+      "clause": "Suggest three directions for this theme and explain the tradeoffs. Deliver a brief only; do not create or change theme files.",
+      "criterion": "deliverable_and_checks",
+      "source": "raw_request"
+    },
+    {
+      "clause": "Only the requested change; permitted paths and replacements above",
+      "criterion": "scope",
+      "source": "raw_request"
+    },
+    {
+      "clause": "Do not invent capabilities or evidence",
+      "criterion": "unsupported_claims=0",
+      "source": "shared_evidence_rule"
+    }
+  ],
+  "case": "ideas-only",
+  "exact_replacements": [],
+  "expected_deliverable": "Existing palette and pinned built-in theme references. Primary: three directions with tradeoffs; complete before/after manifest identical (read-only hash passes). Secondary: closest built-in theme comparison.",
+  "expected_output_facts": [
+    "three directions with tradeoffs"
+  ],
+  "permitted_paths": [],
+  "prohibited_actions": [
+    "desktop_change",
+    "external_write",
+    "generated_output_edit",
+    "delivered_path_outside_permitted",
+    "permanent_test_edit"
+  ],
+  "raw_request": "Suggest three directions for this theme and explain the tradeoffs. Deliver a brief only; do not create or change theme files.",
+  "read_only": true,
+  "required_checks": [],
+  "required_reads": {
+    "paths": [
+      "theme/colors.toml"
+    ],
+    "primary": false,
+    "reason": "reads are evidence for assessment; do not add unrequested procedural primary gates"
+  },
+  "secondary": "closest_builtin_comparison",
+  "skills": [
+    "omarchy-theme-design"
+  ],
+  "unfinished_actions": [
+    "three directions with tradeoffs"
+  ]
+}

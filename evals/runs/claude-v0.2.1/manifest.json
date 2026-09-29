@@ -1,0 +1,337 @@
+{
+  "annotator": {
+    "blinding": "partial",
+    "effort": "BLOCKED: no compatible host connected; not yet observed",
+    "host_version": "BLOCKED: no compatible host connected; not yet observed",
+    "human_auditor": "Tom Ballard",
+    "model_snapshot_id": "BLOCKED: no compatible host connected; not yet observed",
+    "prompt_sha256": "d72c5842ce3c7cbfdb5d7a2f2ecd525d9e4f7c8a369f3d888487c7cfd715045b",
+    "provider_family": "OpenAI",
+    "requested_model": "GPT-6 Astra",
+    "rubric_sha256": "98a4bc6f10c83f5072da5e9c19c5f0b5f070cf100fd17a33246f59a5b623d57b",
+    "scoring_commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+    "software_versions": "BLOCKED: no compatible host connected; not yet observed",
+    "verified": false
+  },
+  "arms": {
+    "baseline": {
+      "commit": "0e46dc52f77d86b0225d9021e93eb419eeaafc0b",
+      "skill_hashes": {
+        "skills/omarchy-theme-apps/SKILL.md": "05931385307144c59f87cf69fd66d01660ef349dd17efd56aedd2d36b1e95fff",
+        "skills/omarchy-theme-apps/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-debug/SKILL.md": "0da43e953e67a1582cf135a0c4cf2b0bb5463b266d7da369bc313ddd5b089f9c",
+        "skills/omarchy-theme-debug/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-demo/SKILL.md": "b08211b53cf734fc84c13816998a75cc422740a37f69cbf8478873e5a5d4a2ba",
+        "skills/omarchy-theme-demo/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-design/SKILL.md": "31e02025f430803c3908b526bec294746da3484f631b8d05aef566354b6ebd3b",
+        "skills/omarchy-theme-design/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-migrate/SKILL.md": "c1d05e620a031a8cbd19559f9d9039dec962448ff1b486cfb6cd89907c75281d",
+        "skills/omarchy-theme-migrate/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-palette/SKILL.md": "cd81ddbaaa10b61b1efbd8ca84b53f1feba5ef56fde22d77fe0878117f00ab5e",
+        "skills/omarchy-theme-palette/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-publish/SKILL.md": "75256b491411aed43b5a84ef027ed31ec3363f77f1fe3615cbc0d3862324c765",
+        "skills/omarchy-theme-publish/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-release/SKILL.md": "0b82cf73537515c5285bbfd0035f9b8c8e6e529d4a90e0577ff9268f2b6f7833",
+        "skills/omarchy-theme-release/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-scaffold/SKILL.md": "0222246b298273350c19ad18c81b028e98a74277acaaa2338e3ad4b4d02471d8",
+        "skills/omarchy-theme-scaffold/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-scaffold/references/handoff.md": "1f7ffffb7898c7f22ffbef1eb9fcfb7a5e45d71a917dfd45051b7de6a57de870",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.lock": "892fdf96047f5ef2326accf0ef1b1452d00345bb2860ce802f9285337d846c95",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml": "e263e02e91b245635d7a83b2b613e1d9701a960d5c69307177f6ca453224c455",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/src/handoff.rs": "42cd709f2a70b0e0b9971d07b2c3f094b1d445c18165dff685064bd6034ef826",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/src/main.rs": "f7925e8dd00400ce3051862ed8803d5978dcc3ac6bffcbf2d8275cf15fdfbafb",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/starter.toml": "30afa8d5fcc15543c05e71b14825f10b436d8f3a77269c658b55520eb05f71e7",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/templates/README.md": "a9ecde210717a5a3fc9e847341032f718267780ac6deaf96925b248e77c28cf2",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/templates/checks.tsv": "ef1db257d3931d1fc0a06338f83073238fe35a62f8455e3f9c6e4609620d146d",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/templates/media.tsv": "331ce6f346fb14cb1fb72e422fc412046d475f42c825d129d3333b4f970b81be",
+        "skills/omarchy-theme-shell/SKILL.md": "7997d1815b12d2348cee73234c3c907a737d4d51ba450f744f404b75c99c5d5f",
+        "skills/omarchy-theme-shell/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-test/SKILL.md": "0939764be3ab8986cf247aa9443d51153800b9dc09d63d829581a2ec8474de36",
+        "skills/omarchy-theme-test/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-wallpapers/SKILL.md": "c60d7f009a8d2a5a71f92707728bd9e14fbcde7a6ba678102b3abb41d37029c9",
+        "skills/omarchy-theme-wallpapers/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d"
+      }
+    },
+    "candidate": {
+      "commit": "dfb78e54ff5857c9a04be4b4d36f2938e29d213c",
+      "skill_hashes": {
+        "skills/omarchy-theme-apps/SKILL.md": "65e110a77d39b10ca73949befc3703c92c8f9e77d00efb8b877e4f4902e3852e",
+        "skills/omarchy-theme-apps/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-debug/SKILL.md": "d9691cf3bcc5647ee9657babdfd2b9ddc4b890289ac7b21658379a3e4d7b43d0",
+        "skills/omarchy-theme-debug/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-demo/SKILL.md": "c3afed1f5a4110cfb6bcdd9dff27afa269ab0e83add42a48d3f03137a94525c5",
+        "skills/omarchy-theme-demo/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-design/SKILL.md": "a3e0e912e4f31e9e8475bfd8db538e3ef8bb8098f73cd5b26ed35d471895e936",
+        "skills/omarchy-theme-design/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-migrate/SKILL.md": "b23cf73298ea7af62050b4b098d4fbd91159dd4a7c78df55fd27837c73370150",
+        "skills/omarchy-theme-migrate/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-palette/SKILL.md": "7c32f4f15e1b5c82447c09bd1ff6d96e53279bd244bc21aaf818b7e7fa0b2a7c",
+        "skills/omarchy-theme-palette/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-publish/SKILL.md": "15be0bebeb3de38eabe1de9c2ba47c8d6cdf9fb4f0ca9972993bc530a895c315",
+        "skills/omarchy-theme-publish/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-release/SKILL.md": "fabe863532476b949e326362e311a55cc40e1aae66af9f496da3b495432ef99d",
+        "skills/omarchy-theme-release/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-scaffold/SKILL.md": "f3198c3c3802dafd57f66d0784befbea25132ef7116cff1da83c6ca16b416e3d",
+        "skills/omarchy-theme-scaffold/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-scaffold/references/handoff.md": "1f7ffffb7898c7f22ffbef1eb9fcfb7a5e45d71a917dfd45051b7de6a57de870",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.lock": "892fdf96047f5ef2326accf0ef1b1452d00345bb2860ce802f9285337d846c95",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml": "e263e02e91b245635d7a83b2b613e1d9701a960d5c69307177f6ca453224c455",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/src/handoff.rs": "42cd709f2a70b0e0b9971d07b2c3f094b1d445c18165dff685064bd6034ef826",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/src/main.rs": "f7925e8dd00400ce3051862ed8803d5978dcc3ac6bffcbf2d8275cf15fdfbafb",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/starter.toml": "30afa8d5fcc15543c05e71b14825f10b436d8f3a77269c658b55520eb05f71e7",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/templates/README.md": "a9ecde210717a5a3fc9e847341032f718267780ac6deaf96925b248e77c28cf2",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/templates/checks.tsv": "ef1db257d3931d1fc0a06338f83073238fe35a62f8455e3f9c6e4609620d146d",
+        "skills/omarchy-theme-scaffold/scripts/theme-tool/templates/media.tsv": "331ce6f346fb14cb1fb72e422fc412046d475f42c825d129d3333b4f970b81be",
+        "skills/omarchy-theme-shell/SKILL.md": "32b38381401aa950c3051806fa65bde134e54c5ce456f7725529a77b1265562f",
+        "skills/omarchy-theme-shell/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-test/SKILL.md": "92b071271d9739658b7779fdeea909194a2428b4dafa19ebfdcf2fb6fdb70251",
+        "skills/omarchy-theme-test/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d",
+        "skills/omarchy-theme-wallpapers/SKILL.md": "3e8e32f50cb3aeb5b25e899615d64d4e3a455055d16b781d792ef7382c3e27c5",
+        "skills/omarchy-theme-wallpapers/references/contract.md": "faf2ed2f1178a2797a8cc8300794ab075278b7f63271792191a9e32da913115d"
+      }
+    }
+  },
+  "audit": {
+    "count": 29,
+    "python": "BLOCKED: record at sample generation",
+    "seed": 20260929,
+    "session_ids": "BLOCKED: mapping not generated"
+  },
+  "evaluator_manifests": {
+    "evals/evaluator-manifests/claude-v0.2.1/accent-only.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "fffca0a78d700899da4f4dcb11e413921572564147237aa93e11b9c6e26b6339"
+    },
+    "evals/evaluator-manifests/claude-v0.2.1/diagnose-staging.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "6589e133c1552fe193137b202e98ed9774707a57141733ace18b62c1d1686a1e"
+    },
+    "evals/evaluator-manifests/claude-v0.2.1/helper-unavailable.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "82294381b3cfb1d69a8d1a6223f2d29cd9e05bad89907b0ae2d7ad24e0c209be"
+    },
+    "evals/evaluator-manifests/claude-v0.2.1/ideas-only.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "66f481d6a2316dcc0faa6fcf7ab46e7b81af0bd92ef4d5140ca0ba137bd7421f"
+    },
+    "evals/evaluator-manifests/claude-v0.2.1/neighbour-bug.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "6563c33aa3f41dc8b39c9a63e26b6ac3d8e8d6ea1dde4861364fc75646f4e273"
+    },
+    "evals/evaluator-manifests/claude-v0.2.1/override-present.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "075a6a3c3cf99445879231da3f3ba5468f821eae1f88f05ed15c91e3bf1336bc"
+    }
+  },
+  "fixture_manifests": {
+    "evals/fixture-manifests/claude-v0.2.1/accent-only.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "674e90ed77fd288a037e34acc72fb46591d38c559451bec7e570b24970cc2cff"
+    },
+    "evals/fixture-manifests/claude-v0.2.1/diagnose-staging.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "c6309cdd8c29ec2caf44b8b9060db2823360e0a49e714b876e38719156252102"
+    },
+    "evals/fixture-manifests/claude-v0.2.1/helper-unavailable.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "59239488bec16577eb4079933e41ef79bea573eda5a4feefebbfc6d60ba95f67"
+    },
+    "evals/fixture-manifests/claude-v0.2.1/ideas-only.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "d9da5ee779803e3433c333083257e85c48433adacf85da91ea67bad08a79b077"
+    },
+    "evals/fixture-manifests/claude-v0.2.1/neighbour-bug.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "e7473e5885cb2804ab7e7af0b7dbc409dbe287c1dfd71413463ef03291d1243b"
+    },
+    "evals/fixture-manifests/claude-v0.2.1/override-present.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "d81ce41d3b339fa03d0de38cb5eaca1eace0ad2c96e057e809d5554790a90911"
+    },
+    "evals/fixture-manifests/claude-v0.2.1/provenance/ideas-only.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "cf01932807688c2240ddb33e64d17959142802290c350ebbe5c2daa96bc46f71"
+    },
+    "evals/fixture-manifests/claude-v0.2.1/provenance/override-present.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "6710fbeb1d3323709b8c36149d502320d0496a70bb917a95edc0490816bb2e65"
+    }
+  },
+  "freeze": {
+    "order": [
+      "fixtures",
+      "evaluator manifests",
+      "scripts",
+      "synthetic pipeline",
+      "host/model settings",
+      "annotator",
+      "mapping",
+      "audit sample",
+      "committed run manifest",
+      "execution"
+    ],
+    "revision_rule": "Any change after the committed freeze requires a declared protocol revision.",
+    "state": "BLOCKED"
+  },
+  "guide_review": {
+    "date": "2026-09-29",
+    "record": "docs/FRONTIER-MODELS.md"
+  },
+  "host": {
+    "api_only_network": "BLOCKED: no compatible host connected; not yet observed",
+    "command": "BLOCKED: no compatible host connected; not yet observed",
+    "config_environment_name": "BLOCKED: host config relocation unobserved",
+    "credential_environment_names": "BLOCKED: no compatible host connected; not yet observed",
+    "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+    "image": "BLOCKED: no compatible host connected; not yet observed",
+    "network_isolation_verified": false,
+    "preflight": {
+      "evidence_sha256": "BLOCKED: scratch pre-flight not performed; no provider sessions authorised",
+      "helper_build": false,
+      "no_write_home": false,
+      "no_write_no_home": false
+    },
+    "skill_content_all_channels": false,
+    "skill_install_path": "/opt/evaluation/skills",
+    "tools": "BLOCKED: no compatible host connected; not yet observed",
+    "verified": false,
+    "version": "BLOCKED: no compatible host connected; not yet observed"
+  },
+  "limits": {
+    "seconds": "BLOCKED: declare with host verification",
+    "tokens": "BLOCKED: declare with host verification"
+  },
+  "mapping": {
+    "session_ids": "BLOCKED: real session IDs not generated",
+    "sha256": "BLOCKED: freeze steps 5 and 6 incomplete"
+  },
+  "protocol_sha256": "674ce2c8faff0d715f27865447d18168fdd8e1885a8fe0300867b2ccf88f4f75",
+  "readiness": "BLOCKED",
+  "redaction_phrases": {
+    "baseline": "0e46dc52f77d86b0225d9021e93eb419eeaafc0b",
+    "candidate": "dfb78e54ff5857c9a04be4b4d36f2938e29d213c",
+    "generator_commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+    "path": "evals/harness/phrases-claude-v0.2.1.json",
+    "sha256": "98848e4a57f3adfc310713d3dbd714ea8413dce087c4095b5a78afdd1ad0411d"
+  },
+  "scripts": {
+    "evals/harness/README.md": {
+      "commit": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
+      "sha256": "5da53799c9d0b32738f53bd594c01d327638ac2852682487fd726a0260a37429"
+    },
+    "evals/harness/analysis.R": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "aafa38553ebf707309d0e00529632ad90134014313fc5aac2a231347dcb39a63"
+    },
+    "evals/harness/annotator-prompt.md": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "d72c5842ce3c7cbfdb5d7a2f2ecd525d9e4f7c8a369f3d888487c7cfd715045b"
+    },
+    "evals/harness/assemble.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "4b6afd063dd53d160736b8002571143c4cf12fffb952d8ad6aab4acf7222db0b"
+    },
+    "evals/harness/audit.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "8d1bc9ac04ac8b9c0c499a985660e32ef49e72f794bdf2dc04f93c56e32e0f70"
+    },
+    "evals/harness/common.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "ca99f1d46ab1387686344f5161d674d5e531caa2065913f6ae7511591ff9377a"
+    },
+    "evals/harness/mapping.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "1cb40a45734ae231542b883f37d5712f0a3944658fcac5c619b9d9bc6eb89756"
+    },
+    "evals/harness/phrases-claude-v0.2.1.json": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "98848e4a57f3adfc310713d3dbd714ea8413dce087c4095b5a78afdd1ad0411d"
+    },
+    "evals/harness/phrases.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "abd220242986309e3b141ff38d160702bc52345728dd17b50f2956bd7fe7b681"
+    },
+    "evals/harness/readiness.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "3c734849ef8d9a96c61d30fde7bcfd4b118d3510d31231d9c14076d5880f7e20"
+    },
+    "evals/harness/redact.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "adeeb54b813aefe5f16dafc126f12d6fab962af56a2639856d2535b1067fbe85"
+    },
+    "evals/harness/rubric.md": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "98a4bc6f10c83f5072da5e9c19c5f0b5f070cf100fd17a33246f59a5b623d57b"
+    },
+    "evals/harness/runner.py": {
+      "commit": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
+      "sha256": "ef45737e82f56fc96477e0679795b76df295db4d715bc331f78e8747521ed444"
+    },
+    "evals/harness/score.py": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "aa7de2d48b42ec7008da37adf15317254572fde8bbf75433f31fca2e9b008be1"
+    },
+    "evals/harness/test_detectability.R": {
+      "commit": "ddcac42afc8f83661c835db084b0ad961ef73893",
+      "sha256": "13583defac9a5dee4d41d52a9c51e07b037967aae8081cd90e36e96efe3f6664"
+    },
+    "evals/harness/test_pipeline.py": {
+      "commit": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
+      "sha256": "c992b197182c694da459eb2de46146735708335b2ea2fe8eebf2615028a45617"
+    }
+  },
+  "settings": {
+    "fable-high": {
+      "effort": "high",
+      "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+      "evidence_sha256": "BLOCKED: no compatible host connected; not yet observed",
+      "host_reported_effort": "BLOCKED: no compatible host connected; not yet observed",
+      "requested_model": "Claude Fable 5.1",
+      "returned_model_id": "BLOCKED: no compatible host connected; not yet observed",
+      "verified": false
+    },
+    "opus-medium": {
+      "effort": "medium",
+      "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+      "evidence_sha256": "BLOCKED: no compatible host connected; not yet observed",
+      "host_reported_effort": "BLOCKED: no compatible host connected; not yet observed",
+      "requested_model": "Claude Opus 5.5",
+      "returned_model_id": "BLOCKED: no compatible host connected; not yet observed",
+      "verified": false
+    },
+    "sonnet-low": {
+      "effort": "low",
+      "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+      "evidence_sha256": "BLOCKED: no compatible host connected; not yet observed",
+      "host_reported_effort": "BLOCKED: no compatible host connected; not yet observed",
+      "requested_model": "Claude Sonnet 5.5",
+      "returned_model_id": "BLOCKED: no compatible host connected; not yet observed",
+      "verified": false
+    },
+    "sonnet-medium": {
+      "effort": "medium",
+      "effort_configuration": "BLOCKED: no compatible host connected; not yet observed",
+      "evidence_sha256": "BLOCKED: no compatible host connected; not yet observed",
+      "host_reported_effort": "BLOCKED: no compatible host connected; not yet observed",
+      "requested_model": "Claude Sonnet 5.5",
+      "returned_model_id": "BLOCKED: no compatible host connected; not yet observed",
+      "verified": false
+    }
+  },
+  "status": "NOT RUN",
+  "synthetic_pipeline": {
+    "R_packages": {
+      "stats": "4.3.3"
+    },
+    "R_version": "4.3.3 (2024-02-29)",
+    "ci_head": "057b4c6d19647bf5d4edd1e564613943f4cc66b5",
+    "ci_python_version": "3.12.14",
+    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36554056315",
+    "job_id": 109358855176,
+    "job_log_sha256": "3ac0ab23df2680f01d1a03d021bfcbf520fc5fac5f50e96859d83f8274c4733e",
+    "local_result": "16 passed; R unavailable locally, verified in CI",
+    "python_version": "3.12.14",
+    "result": "17 synthetic tests passed including R; no skips or provider sessions",
+    "status": "PASS"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "case": "helper-unavailable",
+  "files": [
+    {
+      "mode": "0644",
+      "path": "README.md",
+      "sha256": "9fe0a09cb826d7dd7ef20c585f21dd34097eea3b1a036f0ef78b2d306cf636f5"
+    },
+    {
+      "mode": "0644",
+      "path": "backgrounds/forest.png",
+      "sha256": "1778938dfe1f982ab660faf679c0e829f8a2bc80248b2f2a883c61ea0c8da0d2"
+    }
+  ],
+  "fixture_kind": "synthetic desktop fixture with pinned source excerpts"
+}

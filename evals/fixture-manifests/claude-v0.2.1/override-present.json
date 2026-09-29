@@ -1,0 +1,52 @@
+{
+  "case": "override-present",
+  "files": [
+    {
+      "mode": "0644",
+      "path": "home/.config/omarchy/themed/shell.toml.tpl",
+      "sha256": "a1332c1a1aedc4934df48dc3c79a58e27723e70f49b7c7e8c4bb814896c284f6"
+    },
+    {
+      "mode": "0644",
+      "path": "home/.local/state/omarchy/current/theme/shell.toml",
+      "sha256": "472a2948d39985900661de10fb9537a2196b0613cc19c1b51f46e2738ce8b1a0"
+    },
+    {
+      "mode": "0644",
+      "path": "omarchy/default/themed/shell.toml.tpl",
+      "sha256": "bdc8e76a5a9a700adaca0d2fa44a2a340584892fd507e3fcbd4f9a4843765242"
+    },
+    {
+      "mode": "0644",
+      "path": "sources/omarchy-theme-set-templates.txt",
+      "sha256": "68977e7f0ac1f7efa32edc359c465a2ac51b836b1aa2876cbb5d84514650d651"
+    },
+    {
+      "mode": "0644",
+      "path": "sources/template-resolution.txt",
+      "sha256": "8426d53f16e264039a13f37397b33ef704e93c2f2c189d535c4a28567f8afb93"
+    },
+    {
+      "mode": "0644",
+      "path": "theme/colors.toml",
+      "sha256": "30afa8d5fcc15543c05e71b14825f10b436d8f3a77269c658b55520eb05f71e7"
+    }
+  ],
+  "fixture_kind": "synthetic desktop fixture with pinned source excerpts",
+  "upstream_sources": {
+    "sources/omarchy-theme-set-templates.txt": {
+      "full_file": "sources/omarchy-theme-set-templates.txt",
+      "sha256": "68977e7f0ac1f7efa32edc359c465a2ac51b836b1aa2876cbb5d84514650d651",
+      "upstream_blob": "fdac2a479dfb93a5e1962819efae34e937c12bdc",
+      "upstream_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "upstream_path": "bin/omarchy-theme-set-templates"
+    },
+    "sources/template-resolution.txt": {
+      "full_file": "sources/omarchy-theme-set-templates.txt",
+      "sha256": "8426d53f16e264039a13f37397b33ef704e93c2f2c189d535c4a28567f8afb93",
+      "upstream_blob": "fdac2a479dfb93a5e1962819efae34e937c12bdc",
+      "upstream_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "upstream_path": "bin/omarchy-theme-set-templates"
+    }
+  }
+}
