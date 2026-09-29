@@ -218,12 +218,12 @@
     "version": "BLOCKED: no compatible host connected; not yet observed"
   },
   "host_image_smoke": {
-    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36557115426",
-    "job_id": 109368829854,
-    "job_log_sha256": "c8c0e9cb29132f8740c4dab3a0ff635000c9ad1cf34442aa72e25237442d378d",
-    "local_image_id": "sha256:92261fa13e14f783dde0c8d3b637fed9c711d5be63dd7f1142218967db814902",
+    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36558547149",
+    "job_id": 109373531602,
+    "job_log_sha256": "9d53e887b3573e983b9453878402d1280b0bf7ba747e6283218f3f4d6013ff32",
+    "local_image_id": "sha256:9bb496ef224a4e713206bb96f004b28ef1f0b602eefaee93c5846f9721006c92",
     "scope": "CI build, Claude Code version and offline Rust scaffold/check only. Image not pushed; no provider calls or live pre-flight.",
-    "source_commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+    "source_commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
     "status": "PASS"
   },
   "limits": {
@@ -298,8 +298,8 @@
       "sha256": "a03b24aed48711afa8d821b66dfa3a1bcde16a9ceed3effe0c0bf2c9e245e12e"
     },
     "evals/harness/host/claude_code_adapter.py": {
-      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
-      "sha256": "975799be5e359ee871ed3bd80aac90506ae618c8b56783c0705d3aa1c584bcb1"
+      "commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
+      "sha256": "29df7bac08b01b70540c9dae6ab10adb16863570677ca9e06c67f34c511d4c78"
     },
     "evals/harness/host/otel.yaml": {
       "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
@@ -326,8 +326,8 @@
       "sha256": "abd220242986309e3b141ff38d160702bc52345728dd17b50f2956bd7fe7b681"
     },
     "evals/harness/preflight.py": {
-      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
-      "sha256": "1a3f7560320059e15940b6c43aceaa228ab313a5b9f60f601e28f4004bcd984f"
+      "commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
+      "sha256": "918d38ea0ace27201115706e93bc27a0b54f507f127304545671427b61090c5c"
     },
     "evals/harness/prepare_packets.py": {
       "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
@@ -358,8 +358,8 @@
       "sha256": "13583defac9a5dee4d41d52a9c51e07b037967aae8081cd90e36e96efe3f6664"
     },
     "evals/harness/test_host.py": {
-      "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
-      "sha256": "bd8d661eacb19230955c68c93384e052d1b887a4a4df389f70e43d63df3b2ca9"
+      "commit": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
+      "sha256": "610010b1477dd20d13d9dfe4770ff80571a0fdd7be620a002ca6eadf26be38c9"
     },
     "evals/harness/test_pipeline.py": {
       "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
@@ -414,14 +414,14 @@
       "stats": "4.3.3"
     },
     "R_version": "4.3.3 (2024-02-29)",
-    "ci_head": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
+    "ci_head": "b7021b60c058768a6e663529d2f5db1f9b30d1b0",
     "ci_python_version": "3.12.14",
-    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36557115426",
-    "job_id": 109368830077,
-    "job_log_sha256": "14e32859719fed3264273c4578025d36a886f60c0c0804263d1559bc4152353d",
-    "local_result": "21 passed; R unavailable locally, verified in CI",
+    "ci_url": "https://github.com/tcballard/build-omarchy-themes/actions/runs/36558547149",
+    "job_id": 109373531371,
+    "job_log_sha256": "0deed4514999b756e018a79c5568077f4fa01ad11fc7de6442fa1bb7dc90f68e",
+    "local_result": "22 passed; R unavailable locally, verified in CI",
     "python_version": "3.12.14",
-    "result": "22 synthetic tests passed including R; no skips or provider sessions",
+    "result": "23 synthetic tests passed including R; no skips or provider sessions",
     "status": "PASS"
   }
 }
