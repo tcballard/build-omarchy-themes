@@ -235,7 +235,7 @@
     "session_ids": "BLOCKED: real session IDs not generated",
     "sha256": "BLOCKED: freeze steps 5 and 6 incomplete"
   },
-  "protocol_sha256": "37f15ae23324429b948ccea19ad4ab791b7b90e6f30d1d2fe159ffcb30004595",
+  "protocol_sha256": "b7f50a61ec7031a3580c28cc837b22835e43c1b4703252faeb28e782aae412ef",
   "readiness": "BLOCKED",
   "redaction_phrases": {
     "baseline": "0e46dc52f77d86b0225d9021e93eb419eeaafc0b",
@@ -298,8 +298,8 @@
       "sha256": "a03b24aed48711afa8d821b66dfa3a1bcde16a9ceed3effe0c0bf2c9e245e12e"
     },
     "evals/harness/host/claude_code_adapter.py": {
-      "commit": "4ac5e5927d1c341c82f801e0a19defb859e37a69",
-      "sha256": "04343e9ba7f22e7a50ed8ec08b20cec90abaa030962c6d367870d98d93f4d489"
+      "commit": "3a9b2e269d8f58481eda38ad46a1331876e1f00f",
+      "sha256": "61e0c80ee6971cd09b4126c3b3b86e0fbb09f1764db9e899d14d4f3547d96582"
     },
     "evals/harness/host/otel.yaml": {
       "commit": "eef04de6e6fe218fcfbaf8690af93ba24cbc6541",
@@ -358,8 +358,8 @@
       "sha256": "13583defac9a5dee4d41d52a9c51e07b037967aae8081cd90e36e96efe3f6664"
     },
     "evals/harness/test_host.py": {
-      "commit": "4ac5e5927d1c341c82f801e0a19defb859e37a69",
-      "sha256": "519c7c3e1eeced8e1ec8fcd15be6dbd3e392be54817ef78f0fff0e7fa5c97295"
+      "commit": "3a9b2e269d8f58481eda38ad46a1331876e1f00f",
+      "sha256": "e363436399f700825ff718a7d0254c4b54102d61e19a24857f97cc979dc25cbc"
     },
     "evals/harness/test_pipeline.py": {
       "commit": "36e0831cebcecd72ea65749447e5d1da6b638810",
