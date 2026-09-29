@@ -10,14 +10,20 @@ from pathlib import Path
 SKILL_PATH='/opt/evaluation/.claude/skills'
 
 
-def skill_index(root):
+def skill_index(root, exclude_root='/work/fixture'):
+    excluded=set()
+    for path in Path(exclude_root).rglob('*'):
+        if not path.is_file(): continue
+        try: excluded.update(path.read_text().splitlines())
+        except UnicodeDecodeError: continue
     lines={}
     for path in sorted(Path(root).rglob('*')):
         if not path.is_file(): continue
         try: text=path.read_text()
         except UnicodeDecodeError: continue
         for line in text.splitlines():
-            if line: lines.setdefault(line,str(path))
+            if len(line)>=12 and any(c.isalnum() for c in line) and line not in excluded:
+                lines.setdefault(line,str(path))
     return lines
 
 
@@ -125,7 +131,7 @@ def main():
                 if time.monotonic()>deadline:raise RuntimeError('Local collector not ready')
                 time.sleep(.05)
         version=subprocess.check_output(['claude','--version'],text=True,env=env).strip()
-        converter=Converter(payload,version,skill_index(SKILL_PATH))
+        converter=Converter(payload,version,skill_index(SKILL_PATH,exclude_root='/work/fixture'))
         proc=subprocess.Popen(command(payload),stdout=subprocess.PIPE,stderr=sys.stderr,text=True,env=env,cwd='/work/fixture')
         for line in proc.stdout:
             sys.stderr.write('CLAUDE_STREAM '+line);sys.stderr.flush()

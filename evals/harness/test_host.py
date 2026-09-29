@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from common import ROOT,SECONDARY,evaluator,sha,read
-from host.claude_code_adapter import Converter,segments,telemetry_requests,command
+from host.claude_code_adapter import Converter,segments,telemetry_requests,command,skill_index
 from runner import classify,build_command,template_hash
 from annotation import validate,finish
 from annotate import annotate_one
@@ -60,6 +60,28 @@ class HostPipeline(unittest.TestCase):
             self.assertEqual(converted[0]['segments'][0]['kind'],'skill_file',shell)
             self.assertEqual(converted[0]['segments'][1]['text'],'Kept output.')
         self.assertIn('--max-budget-usd',command(payload));self.assertIn('/opt/evaluation',command(payload))
+    def test_skill_index_preserves_fixture_evidence(self):
+        fixture=ROOT/'evals/fixtures/claude-v0.2.1/accent-only'
+        index=skill_index(ROOT/'skills',exclude_root=fixture)
+        palette=(fixture/'theme/colors.toml').read_text()
+        output=segments(palette,index)
+        self.assertTrue(output)
+        self.assertTrue(all(s['kind']=='task_output' for s in output))
+        self.assertEqual(''.join(s['text'] for s in output),palette)
+        skill=(ROOT/'skills/omarchy-theme-scaffold/SKILL.md').read_text()
+        self.assertTrue(any(s['kind']=='skill_file' for s in segments(skill,index)))
+        self.assertTrue(all(len(line)>=12 and any(c.isalnum() for c in line) for line in index))
+        for line in ('---','}','```','!!!!!!!!!!!!!!!!'):
+            self.assertEqual(segments(line,index)[0]['kind'],'task_output')
+        from redact import redact
+        trace={'session_id':'synthetic','case':'accent-only','events':[
+            {'type':'tool_result','call_id':'palette','segments':output},
+            {'type':'final','text':'Before the first change, say in one line what you will do.'}]}
+        redacted,log=redact(trace,[])
+        self.assertEqual(redacted['events'][0],trace['events'][0])
+        self.assertIn('[skill quote]',redacted['events'][1]['text'])
+        self.assertTrue(log['protected_evidence_unchanged'])
+
     def test_otel_normalization(self):
         with tempfile.TemporaryDirectory() as td:
             path=Path(td)/'otel.jsonl'

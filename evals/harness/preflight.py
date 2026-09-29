@@ -57,7 +57,7 @@ def _run(manifest,storage,evidence):
         # Exercise skill invocation and raw reads without creating a theme.
         outcome,record=session('sonnet-low','Read the first 15 lines of '+SKILL_PATH+'/omarchy-theme-scaffold/SKILL.md using Bash head, then invoke the omarchy-theme-scaffold skill for a read-only explanation. Do not create or change files. Reply only OK.')
         from host.claude_code_adapter import skill_index
-        index=skill_index(skills);known=set(index)
+        index=skill_index(skills,exclude_root=fixture);known=set(index)
         marked=False
         for event in outcome['events']:
             if event.get('type')=='tool_result':
