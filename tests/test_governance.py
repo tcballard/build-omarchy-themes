@@ -53,7 +53,8 @@ class Bundle(unittest.TestCase):
         path = self.root/'skills/omarchy-theme-palette/references/contract.md'
         path.write_text(path.read_text()+'\nChanged contract\n')
         self.assertIn('shared contract references differ', check_bundle.validate(self.root))
-        (self.root/'docs/releases/v0.2.0.md').unlink()
+        version=(self.root/'VERSION').read_text().strip()
+        (self.root/f'docs/releases/v{version}.md').unlink()
         self.assertIn('release notes missing for VERSION', check_bundle.validate(self.root))
 
     def test_provider_paths_and_completion_drift(self):
