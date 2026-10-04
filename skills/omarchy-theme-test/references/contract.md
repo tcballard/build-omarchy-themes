@@ -1,4 +1,4 @@
-# Omarchy theme contract — checked 29 September 2026
+# Omarchy theme contract — checked 4 October 2026
 
 These are observations of `omacom/omarchy`'s **quattro** development branch and
 `omacom/omarchy-theme-registry`'s **master** branch, not proof of stable release behaviour.
@@ -71,7 +71,7 @@ Sources:
 
 ## Revisions and installation paths
 
-The reviewed runtime is `omacom/omarchy@e332dc975d5f635294c497ebb54feb98dc3d89eb`
+The reviewed runtime is `omacom/omarchy@6520ac7d2527795b71781dc2659a42fa4ed859a3`
 (`quattro`); the registry is
 `omacom/omarchy-theme-registry@d8fb987ba0b6c78347d87207543b47186a6788e0`
 (`master`). These snapshots can differ from the installed version and from each other.
@@ -97,3 +97,31 @@ Template rendering now batches work and supports mix and gradient functions. Thi
 does not change the observed user-template precedence or whole-section override
 behaviour. Check rendered output against the target resolver/template when a value
 is unexpected; the local strict helper still does not implement gradient syntax.
+
+## Machine overrides and consumer refresh
+
+The running shell merges `~/.config/omarchy/shell.toml` over theme shell values,
+per key, and watches that user file for changes. It survives theme switches.
+This is distinct from theme `shell.<section>.toml`, which replaces an entire
+section during generation. Inspect both before diagnosing ignored colours,
+font sizes or spacing. Preserve machine preferences; theme distributions should
+not write them. `shell.json` remains layout/behaviour configuration.
+
+`Color.qml` replaces the merged dictionary so bindings re-evaluate, then passes
+it to `Style.applyShellValues`. Active theme files load at startup; runtime theme
+switches push data through shell IPC. The user override has its own file watcher.
+Do not assume every native app uses that same watcher or precedence: inspect the
+consumer and test switching while it remains open. Native app compatibility is
+not established by shell source inspection.
+
+`[font] base-size` sets the scale root; the reviewed shell applies a 1px minimum,
+not an upper clamp. Font family follows the system monospace alias. Shell border
+values support gradients and per-side widths; `border` is canonical, while
+`border-gradient` is a legacy alias. Use theme-aware border consumers when full
+specifications matter, not only the flat first-stop colour.
+
+Additional sources pinned in contracts/sources.json:
+- https://github.com/omacom/omarchy/blob/quattro/docs/theming.md
+- https://github.com/omacom/omarchy/blob/quattro/docs/omarchy-shell.md
+- https://github.com/omacom/omarchy/blob/quattro/shell/Commons/Color.qml
+- https://github.com/omacom/omarchy/blob/quattro/shell/Commons/Style.qml

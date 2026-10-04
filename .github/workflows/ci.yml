@@ -14,8 +14,12 @@ jobs:
           python-version: '3.12'
       - name: Verify Rust toolchain
         run: rustup show active-toolchain
+      - name: Install image decoder for project gate tests
+        run: python3 -m pip install -r skills/omarchy-theme-scaffold/scripts/requirements-media.txt
       - name: Test bundle
         run: ./scripts/test
+      - name: Verify current upstream contract bytes
+        run: python3 scripts/check_contracts.py --live
       - name: Verify reproducible packages
         run: |
           python3 scripts/package.py --output-dir dist/first

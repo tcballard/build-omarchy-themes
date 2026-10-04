@@ -1,0 +1,41 @@
+{
+  "status": "fixtures prepared; execution recorded separately",
+  "cases": {
+    "personal-override": {
+      "request": "Explain why the bar font stays large when I switch from Moss to Paper. Keep my personal preferences and do not change files or the desktop.",
+      "skill": "omarchy-theme-debug",
+      "files": {
+        "current/theme/shell.toml": "ed8f93069ac4bed9abdc6c03f0126232ba1f1b64622aac1e040f83b1e70b1bbc",
+        "observations.txt": "26e8c0b8bbfbfe256bf0785380c359ca19ac165a2a9880807b3f2639206c8c27",
+        "request.txt": "ea760205075344463763171710d69f5fbf319624bea90303c1c8f52ae160b68a",
+        "sources/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e",
+        "theme/shell.toml": "ed8f93069ac4bed9abdc6c03f0126232ba1f1b64622aac1e040f83b1e70b1bbc",
+        "user/shell.toml": "73d7badbb18c860d90b92a4fc0b3c2e206d08cd175de1b8edf8ce5028f152dab"
+      }
+    },
+    "git-staging": {
+      "request": "My theme uses the right terminal colours from a local folder but ignores kitty.conf after a Git install. Explain what to fix. Do not edit or apply anything.",
+      "skill": "omarchy-theme-debug",
+      "files": {
+        "current/theme/kitty.conf": "98238fe8b8feb4e7dc41b164a5036596189775de67fb02f9fbf7896c6a3b4f62",
+        "observations.txt": "66afade7d4430e3b6bbec7f8eb286b0916cdc462b58f947b73fc8761ac2a0c77",
+        "request.txt": "e310e5e5925cebf56d2f935439af3b0aea1dccccb79829ae796a62ff13ac6dcd",
+        "sources/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e",
+        "theme/colors.toml": "d2d8249b1c4b794242305c076559245b6990b013fad909cf38806f79dea9eaa5",
+        "theme/kitty.conf": "adf35af7e3698297d5872805157bbf7159b7c02731a6e1cab125df8813e053fd"
+      }
+    },
+    "stale-app": {
+      "request": "After changing to a light theme, the shell updates but my still-open paint app stays dark. Diagnose the owner of the problem from these files. Do not edit files or restart anything.",
+      "skill": "omarchy-theme-apps",
+      "files": {
+        "app/theme-reader.py": "dcc257b936281a49865a5a015eda422f22f77fad3add5a15afe7e063b2b4e131",
+        "current/theme/colors.toml": "4c5b16a5f2c730d1993b14d5f8ffaf1fa75c9853f87856918e0f274b78cbac7d",
+        "observations.txt": "a4dabe76d24f001eeb631ff7313cf458df168e6205c0bb8630ecce9d565fb5e2",
+        "request.txt": "ddf207aacbc761a91de1824f8d91287ca564c9ea755b9e983eab993535710004",
+        "sources/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e",
+        "theme/colors.toml": "4c5b16a5f2c730d1993b14d5f8ffaf1fa75c9853f87856918e0f274b78cbac7d"
+      }
+    }
+  }
+}

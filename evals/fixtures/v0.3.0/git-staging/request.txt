@@ -1,0 +1,1 @@
+My theme uses the right terminal colours from a local folder but ignores kitty.conf after a Git install. Explain what to fix. Do not edit or apply anything.

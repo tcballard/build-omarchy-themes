@@ -1,3 +1,29 @@
+# Acceptance evidence — v0.3.0 candidate, 4 October 2026
+
+- Twelve canonical skills and OpenAI copies pass structure, version, shared-reference
+  and adapter parity checks. Seven skill bodies gain guidance; all twelve receive
+  the refreshed shared contract.
+- 22 portable regressions pass: 10 governance, 11 project-gate and one installer
+  lifecycle test. New gates exercise thresholds, missing/unsupported values,
+  repeated rules, opt-in/root-scoped ignored files, malformed TOML, unreadable
+  inventory, links, image corruption/format mismatch, missing decoder, resource
+  limits and animated frames. Python 3.11+; local Pillow 12.3.0.
+- Fresh Git HTTPS checkouts verified all eleven existing pinned sources against
+  recorded blob identities and current content: unchanged. Four additional shell
+  sources reviewed and pinned. See runs/2026-10-04-contracts.json. Direct HTTP
+  --live transport did not complete locally; do not call it an HTTP pass.
+- Three fresh-context, read-only synthetic workflow exercises pass: personal
+  override, Git staging and stale application. Fixture hashes unchanged; responses
+  and skill hashes recorded in runs/2026-10-04-workflows.json. Candidate smoke
+  evidence only, not measured model improvement or real-app validation.
+- Local Rust checks: NOT RUN (Cargo unavailable). Full CI and clean-commit release
+  packaging must pass for the exact candidate before release.
+- Live desktop, Familiar/Paint/Task Manager acceptance, installed host discovery,
+  registry submission and Claude model evaluation: NOT RUN. Existing Claude
+  evaluation tooling and its original 144-session plan remain unchanged.
+
+---
+
 # Acceptance evidence — v0.2.0 preparation, 29 September 2026
 
 - Twelve canonical skills and generated OpenAI copies pass structure/parity checks.

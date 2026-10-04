@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 — Unreleased
+
+- Teach machine-level shell overrides, theme/template precedence and current border/control semantics.
+- Add an application validation matrix for live switching, user preferences and stale consumers.
+- Add opt-in contrast, ignored-file and decoded-image project gates; retain default advisory checks.
+- Add regression tests and three isolated theme workflow scenarios; keep live desktop and Claude evaluation evidence separate.
+
 ## 0.2.1 — 2026-09-29
 
 - Add pinned evaluation fixtures, a headless Claude Code host, scratch preflight,

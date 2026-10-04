@@ -14,8 +14,8 @@ check a development handoff, verify the desktop and submit to the Theme Registry
 
 ## Status and compatibility
 
-**v0.2.1.** Evaluation tooling and redaction fixes. The twelve theme skills are unchanged; the Claude evaluation remains **NOT RUN**.
-Upstream runtime and registry contracts were inspected on 29 September 2026 at recorded revisions.
+**v0.3.0 candidate.** Personal shell overrides, application validation and optional CI gates. The Claude evaluation remains **NOT RUN**.
+Upstream runtime and registry contracts were inspected on 4 October 2026 at recorded revisions.
 No live Omarchy desktop acceptance or provider-directory acceptance is claimed.
 See [acceptance evidence](evals/ACCEPTANCE.md) and [source provenance](NOTICE.md).
 Compatibility means the installed Omarchy version reported by `omarchy-version`,
@@ -74,8 +74,10 @@ cargo run --manifest-path skills/omarchy-theme-scaffold/scripts/theme-tool/Cargo
 It creates an original starter palette without replacing existing directories,
 reports missing keys and ignored files, rejects symlinks, and measures contrast.
 It deliberately supports a strict flat authoring subset, not all upstream TOML,
-legacy migration or gradient syntax. Registry checks, decoded-image validation,
-licensing, live rendering and final screenshots remain separate gates.
+legacy migration or gradient syntax. The optional [project gates](skills/omarchy-theme-scaffold/references/project-gates.md)
+add explicit contrast thresholds, ignored-file failures and image decoding with
+Python 3.11+ and Pillow. Registry acceptance, licensing, video decoding, live
+rendering and final screenshots remain separate gates.
 
 Before any theme archive or PR, follow [development handoff](skills/omarchy-theme-scaffold/references/handoff.md). The scaffold supplies badges, installation/rollback and honest evidence defaults; `snapshot` binds evidence to files and `handoff` checks documentation, media references and evidence consistency. A missing live desktop stays visible without blocking a development PR.
 
@@ -85,6 +87,7 @@ repository is an **agent bundle**, not a theme to pass to `omarchy theme install
 ## Verification and packaging
 
 ```sh
+python3 -m pip install -r skills/omarchy-theme-scaffold/scripts/requirements-media.txt
 ./scripts/test
 python3 scripts/sync_openai_adapter.py --check
 python3 scripts/package.py --output-dir dist

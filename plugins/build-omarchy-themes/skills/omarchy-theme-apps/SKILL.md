@@ -15,6 +15,8 @@ When one app is wrong, compare source palette, generated current output, applica
 
 Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.
 
+Use [the application matrix](references/app-matrix.md) when validating theme switching across applications. Familiar, Familiar Paint and Task Manager are useful candidates when installed, not required dependencies or claimed compatible apps. Record their exact revisions and results; test switching while open, selection/focus/disabled states, font and display scale, and personal overrides. Trace failures to theme, template, override or consumer before choosing which project to change.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.

@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-04",
+  "host": "ChatGPT Work fresh subagent contexts",
+  "model": "not exposed by the tool; inherited model, no override",
+  "scope": "three candidate-only read-only synthetic exercises, no baseline comparison",
+  "responses": "transcribed final responses, Markdown formatting removed; not full tool traces",
+  "cases": {
+    "personal-override": {
+      "request": "Explain why the bar font stays large when I switch from Moss to Paper. Keep my personal preferences and do not change files or the desktop.",
+      "fixture_before": {
+        "current/theme/shell.toml": "ed8f93069ac4bed9abdc6c03f0126232ba1f1b64622aac1e040f83b1e70b1bbc",
+        "observations.txt": "26e8c0b8bbfbfe256bf0785380c359ca19ac165a2a9880807b3f2639206c8c27",
+        "request.txt": "ea760205075344463763171710d69f5fbf319624bea90303c1c8f52ae160b68a",
+        "sources/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e",
+        "theme/shell.toml": "ed8f93069ac4bed9abdc6c03f0126232ba1f1b64622aac1e040f83b1e70b1bbc",
+        "user/shell.toml": "73d7badbb18c860d90b92a4fc0b3c2e206d08cd175de1b8edf8ce5028f152dab"
+      },
+      "fixture_after": {
+        "current/theme/shell.toml": "ed8f93069ac4bed9abdc6c03f0126232ba1f1b64622aac1e040f83b1e70b1bbc",
+        "observations.txt": "26e8c0b8bbfbfe256bf0785380c359ca19ac165a2a9880807b3f2639206c8c27",
+        "request.txt": "ea760205075344463763171710d69f5fbf319624bea90303c1c8f52ae160b68a",
+        "sources/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e",
+        "theme/shell.toml": "ed8f93069ac4bed9abdc6c03f0126232ba1f1b64622aac1e040f83b1e70b1bbc",
+        "user/shell.toml": "73d7badbb18c860d90b92a4fc0b3c2e206d08cd175de1b8edf8ce5028f152dab"
+      },
+      "skill_files": {
+        "SKILL.md": "fe02a9b0b7deb9376212e9cc84668aa8b8cf22cf7f7336865df36270ac6c5052",
+        "references/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e"
+      },
+      "response_plain_text": "The bar stays large because your personal ~/.config/omarchy/shell.toml sets [font] base-size = 18. The supplied contract says this file overrides theme values per key and survives theme switches.\nThe theme source and staged output both specify base-size = 12, so the fixture shows successful staging; your personal value of 18 wins.\nKeep your override as requested\u2014no repair is needed. If you later want fonts to follow each theme, the specific change would be to remove only your personal base-size override, preserving other preferences.\nI read the fixture and guidance only. No files or desktop settings changed; live verification was unavailable.",
+      "assessment": "PASS: correct layer, evidence-limited diagnosis, concrete next step and no fixture changes"
+    },
+    "git-staging": {
+      "request": "My theme uses the right terminal colours from a local folder but ignores kitty.conf after a Git install. Explain what to fix. Do not edit or apply anything.",
+      "fixture_before": {
+        "current/theme/kitty.conf": "98238fe8b8feb4e7dc41b164a5036596189775de67fb02f9fbf7896c6a3b4f62",
+        "observations.txt": "66afade7d4430e3b6bbec7f8eb286b0916cdc462b58f947b73fc8761ac2a0c77",
+        "request.txt": "e310e5e5925cebf56d2f935439af3b0aea1dccccb79829ae796a62ff13ac6dcd",
+        "sources/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e",
+        "theme/colors.toml": "d2d8249b1c4b794242305c076559245b6990b013fad909cf38806f79dea9eaa5",
+        "theme/kitty.conf": "adf35af7e3698297d5872805157bbf7159b7c02731a6e1cab125df8813e053fd"
+      },
+      "fixture_after": {
+        "current/theme/kitty.conf": "98238fe8b8feb4e7dc41b164a5036596189775de67fb02f9fbf7896c6a3b4f62",
+        "observations.txt": "66afade7d4430e3b6bbec7f8eb286b0916cdc462b58f947b73fc8761ac2a0c77",
+        "request.txt": "e310e5e5925cebf56d2f935439af3b0aea1dccccb79829ae796a62ff13ac6dcd",
+        "sources/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e",
+        "theme/colors.toml": "d2d8249b1c4b794242305c076559245b6990b013fad909cf38806f79dea9eaa5",
+        "theme/kitty.conf": "adf35af7e3698297d5872805157bbf7159b7c02731a6e1cab125df8813e053fd"
+      },
+      "skill_files": {
+        "SKILL.md": "fe02a9b0b7deb9376212e9cc84668aa8b8cf22cf7f7336865df36270ac6c5052",
+        "references/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e"
+      },
+      "response_plain_text": "The fixture shows provenance-sensitive staging: the URL Git installation retains .git metadata, and staging reports ignored kitty.conf. Under the supplied Quattro contract, Git-installed terminal configs are excluded and Kitty\u2019s config is generated from the palette.\nYour source kitty.conf requests foreground #ff00ff, but colors.toml specifies #eeeeee. The generated Kitty file uses #eeeeee and background #111111, matching the palette. A local folder can stage the full config, explaining the different result.\nFix the theme\u2019s root colors.toml so its foreground is \"#ff00ff\" if that is the intended shared foreground. For Kitty-specific customization, inspect the target Kitty template and any user template at ~/.config/omarchy/themed/kitty.conf.tpl; user templates take precedence. Do not remove .git, change provenance, or edit generated current output.\nNext step: record the installed omarchy-version, confirm its staging/template behavior, then verify the corrected theme through the same URL Git install path when applying changes is authorized.\nRead-only comparison completed; nothing edited or applied. No live install or reload was tested because this is an offline fixture. The supplied contract describes Quattro commit 6520ac7d2527795b71781dc2659a42fa4ed859a3, not a confirmed installed release.",
+      "assessment": "PASS: correct layer, evidence-limited diagnosis, concrete next step and no fixture changes"
+    },
+    "stale-app": {
+      "request": "After changing to a light theme, the shell updates but my still-open paint app stays dark. Diagnose the owner of the problem from these files. Do not edit files or restart anything.",
+      "fixture_before": {
+        "app/theme-reader.py": "dcc257b936281a49865a5a015eda422f22f77fad3add5a15afe7e063b2b4e131",
+        "current/theme/colors.toml": "4c5b16a5f2c730d1993b14d5f8ffaf1fa75c9853f87856918e0f274b78cbac7d",
+        "observations.txt": "a4dabe76d24f001eeb631ff7313cf458df168e6205c0bb8630ecce9d565fb5e2",
+        "request.txt": "ddf207aacbc761a91de1824f8d91287ca564c9ea755b9e983eab993535710004",
+        "sources/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e",
+        "theme/colors.toml": "4c5b16a5f2c730d1993b14d5f8ffaf1fa75c9853f87856918e0f274b78cbac7d"
+      },
+      "fixture_after": {
+        "app/theme-reader.py": "dcc257b936281a49865a5a015eda422f22f77fad3add5a15afe7e063b2b4e131",
+        "current/theme/colors.toml": "4c5b16a5f2c730d1993b14d5f8ffaf1fa75c9853f87856918e0f274b78cbac7d",
+        "observations.txt": "a4dabe76d24f001eeb631ff7313cf458df168e6205c0bb8630ecce9d565fb5e2",
+        "request.txt": "ddf207aacbc761a91de1824f8d91287ca564c9ea755b9e983eab993535710004",
+        "sources/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e",
+        "theme/colors.toml": "4c5b16a5f2c730d1993b14d5f8ffaf1fa75c9853f87856918e0f274b78cbac7d"
+      },
+      "skill_files": {
+        "SKILL.md": "3f3a7249cd50128a0bc306dcbc9ea7562cb418cb2a3762ec1ad2f49ef103f2ad",
+        "references/app-matrix.md": "3b843926f2c59b051334c3c3788323f4ceaf3a3a3f112877024f64eaa45d6a37",
+        "references/contract.md": "aa6d198ddc8df8043899d71f0dfea7b0eaa39f4b2d1fb53ef8ed00f78c613d9e"
+      },
+      "response_plain_text": "The problem belongs to the paint app\u2019s theme consumer: it caches the palette at startup and never reloads it.\nBoth theme/colors.toml and current/theme/colors.toml contain the same light colours: foreground #111111, background #ffffff.\napp/theme-reader.py reads the file once into PALETTE; current_palette() always returns that cached value.\nobservations.txt reports no watcher or user override, and says a previous reopening loaded the light colours.\nThe concrete next step is an app-side change to detect theme changes, reread the current palette, and update existing UI bindings. Then verify light \u2192 dark \u2192 light switching while the app remains open.\nThis diagnosis applies to the synthetic fixture, not verified Familiar Paint production code. App and installed Omarchy versions are unspecified. No files were edited, nothing was restarted, and live switching was not tested because no desktop is available.",
+      "assessment": "PASS: correct layer, evidence-limited diagnosis, concrete next step and no fixture changes"
+    }
+  },
+  "not_run": [
+    "live Omarchy desktop",
+    "real Familiar/Paint/Task Manager acceptance",
+    "Claude evaluation"
+  ]
+}

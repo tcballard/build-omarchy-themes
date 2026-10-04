@@ -17,6 +17,8 @@ A light variant needs its own hierarchy and ANSI tuning, not a mechanical invers
 
 Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.
 
+When the project chooses enforceable contrast thresholds, resolve the scaffold skill's `scripts/check_policy.py` and repeat `--contrast KEY/KEY=RATIO` for each agreed pair. Evaluate selected text against the actual resolved selection foreground, not an assumed foreground key. Missing or non-hex selected values fail this narrow check; do not rewrite valid gradients or aliases merely to satisfy it. A numerical pass is not evidence for transparency, image backgrounds or every UI state.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.
