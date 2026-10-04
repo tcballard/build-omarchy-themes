@@ -17,6 +17,10 @@ Verify bar orientation, active/hover/selected/focus/disabled states, menu sizing
 
 Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.
 
+For personal font, spacing or bar preferences, inspect `~/.config/omarchy/shell.toml` before editing theme sources. At the reviewed revision its keys override the active theme and are watched live. Keep personal preferences there when requested; keep distributable styling in the theme. `shell.json` configures behaviour/layout, not these theme tokens. Do not clear user overrides to make a screenshot match.
+
+Read [shell examples](references/shell-examples.md) for precedence, whole-section replacement and border/control examples. Test theme switching both with and without relevant overrides in a disposable session; record which layer supplied the result.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.

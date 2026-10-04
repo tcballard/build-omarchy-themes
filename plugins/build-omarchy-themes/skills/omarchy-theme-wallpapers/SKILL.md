@@ -17,6 +17,8 @@ Before delivering a theme archive or PR, run the scaffold skill’s development 
 
 Check clearance by cropping and enlarging the regions under the bar and lock controls, not from the full frame. Never print image bytes or base64 into the conversation.
 
+For a reproducible image check, resolve the scaffold skill's `scripts/check_policy.py` and select `--check-images`. It requires Python 3.11+ and Pillow; read its project gate reference for installation and resource limits. It decodes supported still/animated image files and fails corruption or extension mismatch. It does not decode videos, prove artwork rights or establish good crops; preserve those separate checks.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.

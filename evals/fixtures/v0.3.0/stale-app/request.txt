@@ -1,0 +1,1 @@
+After changing to a light theme, the shell updates but my still-open paint app stays dark. Diagnose the owner of the problem from these files. Do not edit files or restart anything.

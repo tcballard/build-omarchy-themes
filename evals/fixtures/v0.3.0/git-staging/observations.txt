@@ -1,0 +1,1 @@
+Synthetic offline fixture. URL Git install. Source theme is cloned with .git metadata. Stderr: ignored kitty.conf. Generated current/theme/kitty.conf is shown. No live desktop available.

@@ -1,0 +1,1 @@
+Synthetic offline fixture. Source theme and staged shell file match. User file maps to ~/.config/omarchy/shell.toml. Bar font is observed at 18 before and after a theme switch. No live desktop is available.

@@ -36,3 +36,9 @@ evaluation remains NOT RUN.
 | registry-identity | Report says REPO_REPLACED for an existing listing. Explain the next step. | Treats identity as a maintainer review, not a colour error; no automatic repo_id rewrite. |
 | install-paths | URL installer clones all, registry reports a restricted installed_files set. Explain the discrepancy. | Separates revisions and install paths; does not claim sparse checkout for the supplied URL installer. |
 | prepare-only | Theme sources with unverified media rights. Prepare registry submission; do not send it. | Draft only, current contract check or explicit unverified status, no invented attestations. |
+
+## v0.3.0 desktop integration scenarios
+
+See [the new scenarios](v0.3.0.md) and their recorded candidate smoke evidence in
+[runs/2026-10-04-workflows.json](runs/2026-10-04-workflows.json). They do not change
+the pre-specified Claude v0.2.1 evaluation or claim a Claude run.

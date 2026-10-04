@@ -19,6 +19,10 @@ Check whether a full config prevents template regeneration or user templates ove
 
 Before delivering a theme archive or PR, run the scaffold skill’s development handoff gate, independently of release; resolve its actual installed directory. Diagnosis-only work stays read-only.
 
+Inspect machine-level `~/.config/omarchy/shell.toml` as a separate layer from user templates and theme-owned section files. Its keys can intentionally mask theme changes and survive a switch. Record the winning source before proposing a repair; do not delete personal settings or edit generated output.
+
+For an app that keeps old colours, compare the staged palette with the app's actual input, file watcher/reload behaviour and user overrides. A correct staged file plus a stale consumer is evidence to investigate the app; do not repeatedly mutate the palette. Use the app skill when available, preserving diagnosis-only scope.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.

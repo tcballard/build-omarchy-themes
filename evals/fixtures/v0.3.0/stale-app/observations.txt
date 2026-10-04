@@ -1,0 +1,1 @@
+Synthetic offline fixture. Both supplied palette files match. App logs say palette read once at startup, with no watcher. User override absent. Reopening the app previously loaded the light colours. No live desktop available.

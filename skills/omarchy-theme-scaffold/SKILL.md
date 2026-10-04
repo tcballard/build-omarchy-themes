@@ -20,6 +20,8 @@ The destination must not already exist. The scaffold supplies an original starte
 
 The helper accepts a deliberately narrow flat palette syntax and performs local structural/contrast checks. It does not claim full TOML, legacy or registry parity. `--release` adds the recommended preview.png presence check, not a complete publish gate. Installing this agent bundle does not install or apply a desktop theme. Before handing back an archive or opening a development PR, follow [development handoff](references/handoff.md) and run `handoff`, independently of Theme Release. Hand back files and outstanding live/media checks.
 
+For optional project requirements, read [project gates](references/project-gates.md). The separate Python checker can enforce chosen contrast pairs, reject ignored root files, and decode images. Keep the Rust helper's default advisory behaviour; select gates from the user's brief rather than inventing universal registry rules.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.

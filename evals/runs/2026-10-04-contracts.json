@@ -1,0 +1,109 @@
+{
+  "checked": "2026-10-04",
+  "transport": "fresh Git HTTPS checkouts and Git object verification",
+  "result": "PASS: eleven existing pinned files unchanged; four additional sources reviewed",
+  "http_live_checker": "Direct HTTP transport did not complete; not claimed as an HTTP --live pass",
+  "sources": [
+    {
+      "repository": "omacom/omarchy-theme-registry",
+      "path": ".github/ISSUE_TEMPLATE/submit-theme.yml",
+      "previous_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "current_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy-theme-registry",
+      "path": "packages/schema/src/constants.ts",
+      "previous_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "current_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy-theme-registry",
+      "path": "packages/validator/src/inspect.ts",
+      "previous_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "current_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy-theme-registry",
+      "path": "packages/validator/src/validate.ts",
+      "previous_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "current_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy-theme-registry",
+      "path": "README.md",
+      "previous_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "current_commit": "d8fb987ba0b6c78347d87207543b47186a6788e0",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "bin/omarchy-theme-color",
+      "previous_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "bin/omarchy-theme-install",
+      "previous_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "bin/omarchy-theme-set",
+      "previous_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "bin/omarchy-theme-set-templates",
+      "previous_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "default/themed/shell.toml.tpl",
+      "previous_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "themes/tokyo-night/colors.toml",
+      "previous_commit": "e332dc975d5f635294c497ebb54feb98dc3d89eb",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "unchanged"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "docs/theming.md",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "newly reviewed: shell precedence, border/control semantics and live user override"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "docs/omarchy-shell.md",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "newly reviewed: shell precedence, border/control semantics and live user override"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "shell/Commons/Color.qml",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "newly reviewed: shell precedence, border/control semantics and live user override"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "path": "shell/Commons/Style.qml",
+      "current_commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "content": "newly reviewed: shell precedence, border/control semantics and live user override"
+    }
+  ]
+}

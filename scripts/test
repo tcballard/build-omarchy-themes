@@ -8,6 +8,7 @@ python3 scripts/check_bundle.py
 python3 scripts/check_contracts.py
 if [ "${1:-}" = "--portable-only" ]; then
   python3 -m unittest discover -s tests -p test_governance.py -v
+  python3 -m unittest discover -s tests -p test_policy.py -v
   PYTHONPATH=tests python3 -m unittest test_bundle.ThemeWorkflow.test_installer_lifecycle_and_modified_files -v
   echo 'NOT RUN: Rust helper and Rust-dependent workflow tests'
 else

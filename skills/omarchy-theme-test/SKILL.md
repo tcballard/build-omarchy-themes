@@ -19,6 +19,10 @@ Before delivering changed theme files as an archive or PR, use the scaffold skil
 
 When judging legibility or contrast in a screenshot, crop and enlarge the bar, launcher and notification regions and inspect each; don't judge from the full frame or thumbnail alone. Inspect images with a decoder or image tool; never print image bytes or base64 into the conversation.
 
+For agreed CI requirements, resolve the scaffold skill and read its `references/project-gates.md` only if that installed path exists; otherwise use the manual contract checks and report the helper unavailable. Run `python3 "<scaffold-skill-dir>/scripts/check_policy.py" THEME` with explicit selected flags. Missing keys, unsupported selected colour values and a missing image decoder fail the requested gate; never silently skip them. These project gates do not establish registry or accessibility compliance.
+
+Include personal override persistence and a still-open application in live switching tests. Separate generated-file correctness from consumer refresh; mark absent applications NOT RUN rather than installing them just for coverage.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.
