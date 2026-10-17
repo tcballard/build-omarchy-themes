@@ -18,8 +18,9 @@ check a development handoff, verify the desktop and submit to the Theme Registry
 
 ## Status and compatibility
 
-**v0.3.0 candidate.** Personal shell overrides, application validation and optional CI gates. The Claude evaluation remains **NOT RUN**.
-Upstream runtime and registry contracts were inspected on 4 October 2026 at recorded revisions.
+**v0.4.0.** Community-informed app defaults, lighter skills and alignment with Omarchy’s Theme button. The Claude evaluation remains **NOT RUN**.
+Runtime contracts were refreshed on 17 October 2026; registry contracts retain their
+4 October review. Exact revisions are recorded in the source manifest.
 No live Omarchy desktop acceptance or provider-directory acceptance is claimed.
 See [acceptance evidence](evals/ACCEPTANCE.md) and [source provenance](NOTICE.md).
 Compatibility means the installed Omarchy version reported by `omarchy-version`,

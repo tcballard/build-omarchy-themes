@@ -1,6 +1,14 @@
 # Changelog
 
-## 0.3.0 — Unreleased
+## 0.4.0 — 2026-10-17
+
+- Feed community theme feedback into explicit icon and Chromium colour choices.
+- Shorten the twelve skills and align personal theme work with Omarchy’s built-in Theme button and guide.
+- Refresh source contracts for current Quattro theme application and shell behaviour.
+- Remove redundant comments and make manifest hashing independent of inherited Git repository settings.
+- Preserve optional archive and registry workflows, with honest live-testing limits.
+
+## 0.3.0 — 2026-10-04
 
 - Teach machine-level shell overrides, theme/template precedence and current border/control semantics.
 - Add an application validation matrix for live switching, user preferences and stale consumers.
