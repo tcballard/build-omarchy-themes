@@ -20,12 +20,13 @@ For existing themes, adapt the bundled templates without overwriting their READM
 
 ```sh
 cargo run --manifest-path "<scaffold-skill-dir>/scripts/theme-tool/Cargo.toml" -- snapshot /path/to/theme evidence/local-1.manifest --implementation
-# Run the actual checks, retaining commands, outputs and upstream commit/blob IDs.
 cargo run --manifest-path "<scaffold-skill-dir>/scripts/theme-tool/Cargo.toml" -- check /path/to/theme
-# Update evidence/checks.tsv with only results actually observed.
 cargo run --manifest-path "<scaffold-skill-dir>/scripts/theme-tool/Cargo.toml" -- snapshot /path/to/theme evidence/delivery-1.manifest
 cargo run --manifest-path "<scaffold-skill-dir>/scripts/theme-tool/Cargo.toml" -- handoff /path/to/theme evidence/delivery-1.manifest
 ```
+
+Retain check commands, outputs and upstream commit/blob IDs. Record only observed
+results in `evidence/checks.tsv` before taking the delivery snapshot.
 
 Snapshots are immutable Git SHA-1 blob manifests; use a new filename after changes.
 The delivery manifest includes every regular file except `.git` and `evidence/`.

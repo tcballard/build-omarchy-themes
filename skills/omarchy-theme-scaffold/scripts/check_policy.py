@@ -63,7 +63,6 @@ def files(root):
 
 
 def check_image(path):
-    # Import only when explicitly selected. Missing decoder fails the gate.
     from PIL import Image
     if path.stat().st_size > MAX_BYTES:
         raise ValueError('image exceeds 50 MiB project limit')

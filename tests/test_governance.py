@@ -1,18 +1,21 @@
-"""Release and contract regressions; fixtures never contact a live service."""
 import copy
 import json
+import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'scripts'))
 import check_bundle
 import check_contracts
+import install_agent_skills
 
 class Bundle(unittest.TestCase):
     def setUp(self):
@@ -94,6 +97,24 @@ class Bundle(unittest.TestCase):
         result=self.command(sys.executable,'scripts/package.py','--output-dir',str(Path(self.tmp.name)/'dirty'))
         self.assertNotEqual(result.returncode,0)
         self.assertIn('working tree is not clean',result.stderr)
+
+class InstallerPathPolicy(unittest.TestCase):
+    def test_only_root_owned_top_level_symlinks_are_allowed(self):
+        anchor = Path(Path.cwd().anchor)
+        for relative, uid, allowed in [('alias', 0, True), ('alias', 1000, False),
+                                       ('parent/alias', 0, False), ('parent/alias', 1000, False)]:
+            with self.subTest(relative=relative, uid=uid):
+                alias = anchor / relative
+                target = alias / 'skills'
+                def metadata(path):
+                    mode = stat.S_IFLNK if path == alias else stat.S_IFDIR
+                    return os.stat_result((mode | 0o755, 1, 1, 1, uid, 0, 0, 0, 0, 0))
+                with patch.object(Path, 'lstat', autospec=True, side_effect=metadata):
+                    if allowed:
+                        install_agent_skills._reject_symlink_components(target, 'fixture')
+                    else:
+                        with self.assertRaisesRegex(ValueError, 'reached through symlink'):
+                            install_agent_skills._reject_symlink_components(target, 'fixture')
 
 class Contracts(unittest.TestCase):
     def fixture(self):

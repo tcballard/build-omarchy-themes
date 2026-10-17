@@ -219,7 +219,6 @@ table: arm (baseline/candidate) × outcome (complete/incomplete) × case, with t
 runs per arm per case. Use a two-sided exact Mantel–Haenszel test stratified by case:
 
 ```r
-# x[arm, outcome, case]; each arm has three observations per case.
 stopifnot(identical(dim(x), c(2L, 2L, 6L)))
 stopifnot(all(apply(x, c(1, 3), sum) == 3L))
 result <- mantelhaen.test(x, exact = TRUE, alternative = "two.sided")

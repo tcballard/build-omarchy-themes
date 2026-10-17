@@ -26,7 +26,6 @@ const DENIED: &[&str] = &[
 ];
 const STARTER: &str = include_str!("../starter.toml");
 
-// A deliberately narrow authoring syntax, NOT a general TOML/legacy parser.
 fn palette(text: &str) -> Result<BTreeMap<String, String>, String> {
     let mut values = BTreeMap::new();
     for (i, line) in text.lines().enumerate() {
@@ -125,7 +124,6 @@ fn scaffold(dest: &Path) -> Result<(), String> {
             "use a lowercase slug starting with a letter, with letters, digits and hyphens".into(),
         );
     }
-    // create_dir, not create_dir_all: existing destinations (including symlinks) are never replaced.
     fs::create_dir(dest).map_err(|e| format!("cannot create destination: {e}"))?;
     let result = (|| -> io::Result<()> {
         new_file(&dest.join("colors.toml"), STARTER)?;
@@ -193,7 +191,6 @@ fn walk(
     }
     Ok(())
 }
-// Narrow portable authoring checks; existence of an icon variant needs the target desktop.
 fn icon_name(text: &str) -> bool {
     let name = text.strip_suffix('\n').unwrap_or(text);
     !name.is_empty()
@@ -231,7 +228,6 @@ fn check(root: &Path, release: bool) -> Result<(), String> {
     if !errors.is_empty() {
         return Err(errors.join("\n"));
     }
-    // Refuse to read palette through a link, including when other findings exist.
     let p = root.join("colors.toml");
     let pm = fs::symlink_metadata(&p).map_err(|e| format!("colors.toml: {e}"))?;
     if !pm.is_file() || pm.file_type().is_symlink() || pm.len() > 1024 * 1024 {

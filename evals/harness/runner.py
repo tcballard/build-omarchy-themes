@@ -13,7 +13,6 @@ from container_host import build_command, template_hash, prepare_mounts
 
 
 def export_skills(commit, names, dest, expected):
-    # Only skill files: protocol/evaluator metadata can never enter the container.
     rows=subprocess.check_output(['git','ls-tree','-r',commit,'--','skills/'],cwd=ROOT,text=True).splitlines()
     exported={}
     for row in rows:
@@ -80,7 +79,6 @@ def prepare_execution(storage, manifest_sha256, sessions, resume=False):
     if resume:
         if not marker.is_file() or read(marker).get('manifest_sha256')!=manifest_sha256:
             raise ValueError('Resume manifest mismatch or execution marker missing')
-        # Check every existing record before making any resume mutations.
         for record in storage.glob('*/record.json'):
             if read(record).get('halt') is True:
                 raise ValueError('Halted record blocks resume; protocol revision required')
@@ -95,7 +93,6 @@ def prepare_execution(storage, manifest_sha256, sessions, resume=False):
         if not (target/'record.json').exists():
             record={'session_id':session['id'],'exit_status':125,'failure':'interrupted_no_retry'}
             private_write(target/'record.json',record)
-            # Preserve incomplete exports as evidence; the terminal failure trace is separate.
             if (target/'trace.json').exists(): (target/'trace.json').rename(target/'interrupted-trace.json')
             private_write(target/'trace.json',{**record,'metadata':{'actions_complete':False},'events':[]})
             interrupted.append(session['id'])
@@ -116,7 +113,6 @@ def run(manifest_path, mapping_path, storage, resume=False):
     subprocess.run(['docker','image','inspect',host['image']],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     sessions=read(mapping_path)['sessions']
     skipped=prepare_execution(storage,sha(Path(manifest_path).read_bytes()),sessions,resume)
-    # Do not stream stdout, errors or per-session progress to a human annotator.
     for session in sessions:
         if session['id'] in skipped: continue
         target=storage/session['id'];target.mkdir(mode=0o700)
@@ -127,7 +123,6 @@ def run(manifest_path, mapping_path, storage, resume=False):
             arm=m['arms'][session['arm']]
             exported=export_skills(arm['commit'],spec['skills'],skills,arm['skill_hashes'])
             expected_paths=sorted(SKILL_PATH+'/'+str(Path(p).relative_to('skills')) for p in exported)
-            # Host-side directory names must match across arms before launch.
             other=m['arms']['candidate' if session['arm']=='baseline' else 'baseline']
             other_paths=sorted(SKILL_PATH+'/'+str(Path(p).relative_to('skills')) for p in other['skill_hashes'] if Path(p).parts[1] in spec['skills'])
             if expected_paths!=other_paths: raise ValueError('Arm install paths differ')

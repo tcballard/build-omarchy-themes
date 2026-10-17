@@ -1,4 +1,3 @@
-"""Synthetic records only. Imports only pure runner helpers; never contacts any model/provider."""
 import copy
 import csv
 import json

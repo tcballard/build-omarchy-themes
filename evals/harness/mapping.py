@@ -8,7 +8,6 @@ from common import CASES, SETTINGS, read, write, restricted, private_write, sha
 
 
 def generate(destination):
-    # SystemRandom draws from the OS; no reproducible seed is disclosed or persisted.
     rng = random.SystemRandom()
     sessions = []
     for case in CASES:

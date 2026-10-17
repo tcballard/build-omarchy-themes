@@ -1,5 +1,4 @@
 #!/bin/sh
-# Explicit Phase 2 operator action; no provider request, no evaluation execution.
 set -eu
 image=$1
 case "$image" in *@sha256:*) ;; *) echo 'Digest-pinned image required' >&2; exit 1;; esac

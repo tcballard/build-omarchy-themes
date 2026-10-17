@@ -1,7 +1,10 @@
-"""Black-box handoff regressions. Runtime rows below are synthetic test fixtures."""
+import hashlib
+import os
 from pathlib import Path
+import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 from test_bundle import tool
 
 
@@ -38,11 +41,33 @@ class Handoff(unittest.TestCase):
             self.assertIn(message, result.stderr)
 
     def row(self, state, manifest, kind='local', version='-'):
-        # Deliberately fictional command/results; tests verify consistency only.
         row = f'{state}\t{kind}\t{manifest}\tfixture-repo@' + 'a' * 40
         row += f'\t{version}\tfixture-command (not executed)\tsynthetic test result\n'
         with (self.root / 'evidence/checks.tsv').open('a') as file:
             file.write(row)
+
+    def test_snapshot_uses_sha1_under_inherited_sha256_repository(self):
+        repository = Path(self.tmp.name) / 'sha256-repository'
+        self.ok(subprocess.run(
+            ['git', 'init', '--object-format=sha256', str(repository)],
+            text=True, capture_output=True,
+        ))
+        with patch.dict(os.environ, {
+            'GIT_DIR': str(repository / '.git'),
+            'GIT_COMMON_DIR': str(repository / '.git'),
+            'GIT_WORK_TREE': str(repository),
+            'GIT_DEFAULT_HASH': 'sha256',
+            'GIT_CONFIG_COUNT': '1',
+            'GIT_CONFIG_KEY_0': 'extensions.objectFormat',
+            'GIT_CONFIG_VALUE_0': 'sha256',
+        }):
+            manifest = self.snapshot()
+            self.ok(self.handoff(manifest))
+        for line in (self.root / manifest).read_text().splitlines()[1:]:
+            digest, path = line.split('\t')
+            content = (self.root / path).read_bytes()
+            blob = f'blob {len(content)}\0'.encode() + content
+            self.assertEqual(digest, hashlib.sha1(blob).hexdigest(), path)
 
     def test_fresh_scaffold_handoff_without_runtime_claim(self):
         result = self.ok(self.handoff())

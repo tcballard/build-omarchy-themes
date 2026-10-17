@@ -32,11 +32,10 @@ def _run(manifest,storage,evidence):
     with tempfile.TemporaryDirectory(prefix='claude-scratch-preflight-') as td:
         tmp=Path(td);skills=tmp/'skills';skills.mkdir();fixture=tmp/'fixture';fixture.mkdir()
         export_skills(m['arms']['candidate']['commit'],['omarchy-theme-scaffold'],skills,m['arms']['candidate']['skill_hashes'])
-        # Scratch files never come from evals/fixtures.
         (fixture/'note.txt').write_text('A small scratch document.\n')
         for path in [tmp,fixture,skills,*skills.rglob('*')]:
             if path.is_dir():path.chmod(0o755)
-        os.chmod(fixture,0o777) # isolated disposable tree writable by container UID 1000
+        os.chmod(fixture,0o777)
         version=invoke(host,fixture,skills,'claude-preflight-version',{},60,['claude','--version']);evidence.append(version)
         if version['exit_status']!=0:raise ValueError('Host version unavailable')
         host['version']=version['stdout'].strip()
@@ -54,7 +53,6 @@ def _run(manifest,storage,evidence):
         for key in m['settings']:
             outcome,record=session(key,'Reply only OK. Do not create, edit or delete any files.')
             m['settings'][key].update(verified=True,returned_model_id=next(r['model'] for r in outcome['summary']['requests'] if r['query_source']=='main'),host_reported_effort=m['settings'][key]['effort'],evidence_sha256=sha(json.dumps(record,sort_keys=True).encode()))
-        # Exercise skill invocation and raw reads without creating a theme.
         outcome,record=session('sonnet-low','Read the first 15 lines of '+SKILL_PATH+'/omarchy-theme-scaffold/SKILL.md using Bash head and read the complete file with the Read tool, then invoke the omarchy-theme-scaffold skill for a read-only explanation. Do not create or change files. Reply only OK.')
         from host.claude_code_adapter import skill_index
         index=skill_index(skills,exclude_root=fixture)
@@ -82,11 +80,9 @@ def _run(manifest,storage,evidence):
         if not marked or seen_reads!=read_calls:raise ValueError('Skill segmentation was not exercised')
         cargo=['cargo','run','--offline','--manifest-path',SKILL_PATH+'/omarchy-theme-scaffold/scripts/theme-tool/Cargo.toml','--']
         for args in (['scaffold','/tmp/omarchy-scratch-theme'],):
-            # Scaffold and check share one container so the scratch tree survives.
             command=['sh','-c','cargo run --offline --manifest-path '+cargo[4]+' -- scaffold /tmp/omarchy-scratch-theme && cargo run --offline --manifest-path '+cargo[4]+' -- check /tmp/omarchy-scratch-theme']
             record=invoke(host,fixture,skills,'claude-preflight-helper',{},180,command);evidence.append(record)
             if record['exit_status']!=0:raise ValueError('Offline helper check failed')
-        # The successful tiny sessions prove authenticated Anthropic calls through the proxy.
         for name,command in [('deny-proxy',['curl','--fail','--max-time','10','https://example.com']),('deny-direct',['curl','--noproxy','*','--fail','--max-time','10','https://api.anthropic.com'])]:
             record=invoke(host,fixture,skills,'claude-preflight-'+name,{},30,command);evidence.append(record)
             if record['exit_status']==0:raise ValueError('API-only network probe unexpectedly succeeded')

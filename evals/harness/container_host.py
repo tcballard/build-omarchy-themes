@@ -1,4 +1,3 @@
-"""Single locked command/environment builder used by execution and scratch pre-flight."""
 import hashlib
 import json
 from pathlib import Path
