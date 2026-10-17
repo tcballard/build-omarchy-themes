@@ -50,5 +50,5 @@ focus-border-width = "2 2 2 4"
 Keep other state defaults. Test keyboard focus separately from hover, selected and
 disabled states. A colour change does not prove a visible focus indicator.
 QML consumers need `BorderSurface`/`Border.surfaceSpec` for full gradients and
-per-side widths; a flat `Color.<section>.border` value exposes only a fallback.
+per-side widths; a flat `Commons.Color.<section>.border` value exposes only a fallback.
 Fix that consumer in its owning project, not by flattening all theme borders.

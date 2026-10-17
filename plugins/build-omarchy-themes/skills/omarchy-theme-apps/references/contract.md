@@ -71,7 +71,7 @@ Sources:
 
 ## Revisions and installation paths
 
-The reviewed runtime is `omacom/omarchy@6520ac7d2527795b71781dc2659a42fa4ed859a3`
+The 4 October baseline runtime is `omacom/omarchy@6520ac7d2527795b71781dc2659a42fa4ed859a3`
 (`quattro`); the registry is
 `omacom/omarchy-theme-registry@d8fb987ba0b6c78347d87207543b47186a6788e0`
 (`master`). These snapshots can differ from the installed version and from each other.
@@ -162,3 +162,30 @@ Sources at the revision above:
 - `bin/omarchy-theme-set` and `bin/omarchy-theme-set-templates`
 - `themes/everforest/icons.theme` and `themes/matte-black/icons.theme`
 Learning: https://github.com/tcballard/omarchy-theme-roadster-8k/pull/7
+
+## Agents panel entry point — checked 17 October 2026
+
+At Quattro `f4357a3b2667047aa3c295d89337fc0ff751b41f`, the Theme tile in
+`shell/plugins/agents/Panel.qml` asks the default agent to ask about inspiration,
+build using the shipped Omarchy skill's theming guide, and switch to the result.
+It calls `omarchy-agent-prompt`, then `omarchy-agent --prompt`; it does not install
+or explicitly invoke this bundle. Read the installed guide first. A personal theme
+can live solely in `~/.config/omarchy/themes/<slug>`; never edit packaged stock files.
+Apply within the task's authority, preserving the prior theme/background. Before
+sharing, also test Git-installed staging; local authoring permits files it discards.
+Sources: `default/agents/skills/omarchy/{SKILL.md,theming.md}` and the commands above.
+
+Reviewed runtime deltas from the 4 October baseline at this revision:
+- GUI/script theme switches can return before GTK/browser retints finish. Use
+  `OMARCHY_THEME_WAIT=1` when a test immediately reads those settings; inspect
+  `~/.local/state/omarchy/theme-set.log` and stderr. Retint failure does not change
+  the theme-switch exit status, so exit zero alone is not an application pass.
+- Template generation applies the user's glassy mode after rendering; preserve it.
+  The image-picker backdrop scrim tokens are gone. Bar dimensions include icon
+  sizing and notch calibration; inspect actual consumers instead of copying old keys.
+- QML palette references use `Commons.Color` to avoid Qt 6.12's `Color` collision.
+- Optional silent intros pair `backgrounds/NAME.ext` with
+  `backgrounds/intros/NAME.mp4`; use only when requested and verify still fallback.
+  Fcitx candidate-window theming also preserves a separately chosen user theme.
+Installer changes were localization-only; staging exclusions and override precedence
+remain as described. See `contracts/sources.json` for per-file reviewed identities.

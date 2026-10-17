@@ -9,6 +9,10 @@
 A companion to [Build Omarchy Plugins](https://github.com/tcballard/build-omarchy-plugins):
 **twelve portable agent skills for turning a visual idea into an installable Omarchy theme.**
 
+Works alongside Omarchy’s shipped `omarchy` skill and the dev Agents panel’s Theme
+button. Read the installed guide first; use this bundle for deeper authoring and checks.
+Personal themes can stay local. Repositories, packaging and registry work are optional.
+
 Design the palette, style the shell, check applications, prepare wallpapers,
 check a development handoff, verify the desktop and submit to the Theme Registry.
 

@@ -1,5 +1,5 @@
 {
-  "checked": "2026-10-04",
+  "checked": "2026-10-17",
   "status": "Reviewed source snapshots; not a live desktop or stable-release compatibility claim",
   "sources": [
     {
@@ -41,113 +41,155 @@
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "bin/omarchy-theme-color",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
       "blob_sha": "c5d09ca27dea179881cd40b73e40fb955a6a6758"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "bin/omarchy-theme-install",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
-      "blob_sha": "b324fe55085447831cf7039ade3b630daa01b475"
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "65a761126cc569489a23eac51b37ccb23ecf982a"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "bin/omarchy-theme-set",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
-      "blob_sha": "10faf872988041e4a9788fd538dc324e95a5d391"
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "6fc1d94430e530aace40de61cffa6fa3a5ecebc7"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "bin/omarchy-theme-set-templates",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
-      "blob_sha": "fdac2a479dfb93a5e1962819efae34e937c12bdc"
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "be745e6f2d95fb5d4e417f110fef92e8fc0885db"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "default/themed/shell.toml.tpl",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
-      "blob_sha": "b0a68d8b0c44ca0b146c727beb72d27f8a27b5d4"
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "fda55cec8c3b8f64b7b2db67fd43347198cb51a0"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "themes/tokyo-night/colors.toml",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
       "blob_sha": "58e6785259b83a72a5921e2cfec4c66192860b7e"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "docs/theming.md",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
-      "blob_sha": "29986291c9f2898b21a824f2da5270fb4775ea56"
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "ace5a667e8a279c3aff58458035e690ed78a2d8a"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "docs/omarchy-shell.md",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
-      "blob_sha": "32d7af9fb6dec6cb3986e19442abca0effb398cd"
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "d08afa81f1f1ad086afdc1691422961a107f7965"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "shell/Commons/Color.qml",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
-      "blob_sha": "4fd2452b3b93dfeb2fc32d571d38e96d98ffbbc2"
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "0dbcbf675db9b56e8211097e1a4d6a7e873f13db"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "shell/Commons/Style.qml",
-      "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
-      "blob_sha": "0582356cfdae3d8e31432fdb5fec5d555258bd40"
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "a4026972216059f60b364c1804774b6ba46f0b9c"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "bin/omarchy-theme-set-gnome",
-      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
       "blob_sha": "ca298ffb8cd4d3e888987ff420b5959d6f6056ea"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "bin/omarchy-theme-set-browser",
-      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
       "blob_sha": "d04be45db5b5e7b7edd92f68db55c945bfe90970"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "install/helpers/browser-policy.sh",
-      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
       "blob_sha": "9f826af0254a8a82ec54e5387631c5de3e8cc181"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "default/themed/chromium.theme.tpl",
-      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
       "blob_sha": "84059b28b8466a9799a65a1405e2f8a5790ca650"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "themes/everforest/icons.theme",
-      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
       "blob_sha": "140e422c21a66e30fff122ec3924577019688d8a"
     },
     {
       "repository": "omacom/omarchy",
       "ref": "quattro",
       "path": "themes/matte-black/icons.theme",
-      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
       "blob_sha": "a3c0a4ca6d3ca74fa7a2b04472bb028b08a7066a"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "shell/plugins/agents/Panel.qml",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "330a7de3296af4e5e4382984435a96dfb4928d30"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "bin/omarchy-agent-prompt",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "f5024b2f011bd3de453e2b59582c872f95f7882e"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "bin/omarchy-agent",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "6d0e585d4981e6fb4d5bbfc05e0a0a23dab510ed"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "default/agents/skills/omarchy/SKILL.md",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "eb3cca877772d48c027395055406d3b37d2ee473"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "default/agents/skills/omarchy/theming.md",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "5212aa15b0ae37ea2ec732508803d59092274afd"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "bin/omarchy-theme-set-glass",
+      "commit": "f4357a3b2667047aa3c295d89337fc0ff751b41f",
+      "blob_sha": "ebdb093c1a8352c86fed224074c19a8a56990bcb"
     }
   ]
 }
