@@ -62,7 +62,12 @@ fn tree(root: &Path) -> Result<Vec<String>, String> {
 fn git_blob_sha1(root: &Path, path: &str) -> Result<String, String> {
     let bytes = fs::read(root.join(path)).map_err(|e| e.to_string())?;
     let mut child = Command::new("git")
-        .args(["--git-dir=/dev/null", "hash-object", "--no-filters", "--stdin"])
+        .args([
+            "--git-dir=/dev/null",
+            "hash-object",
+            "--no-filters",
+            "--stdin",
+        ])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
