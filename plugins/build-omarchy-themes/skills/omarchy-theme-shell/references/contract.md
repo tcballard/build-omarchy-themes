@@ -71,7 +71,7 @@ Sources:
 
 ## Revisions and installation paths
 
-The reviewed runtime is `omacom/omarchy@6520ac7d2527795b71781dc2659a42fa4ed859a3`
+The 4 October baseline runtime is `omacom/omarchy@6520ac7d2527795b71781dc2659a42fa4ed859a3`
 (`quattro`); the registry is
 `omacom/omarchy-theme-registry@d8fb987ba0b6c78347d87207543b47186a6788e0`
 (`master`). These snapshots can differ from the installed version and from each other.
@@ -125,3 +125,67 @@ Additional sources pinned in contracts/sources.json:
 - https://github.com/omacom/omarchy/blob/quattro/docs/omarchy-shell.md
 - https://github.com/omacom/omarchy/blob/quattro/shell/Commons/Color.qml
 - https://github.com/omacom/omarchy/blob/quattro/shell/Commons/Style.qml
+
+## Explicit application colour choices — checked 17 October 2026
+
+At Quattro `cce8b1c971df64a7610b818ff8819e4bea04584a`, ship these two
+root files for new themes, rather than relying on incidental defaults:
+
+- `icons.theme`: one installed icon-theme name with a trailing newline. The GNOME
+  theme command reads it as data with quoted command substitution; absence uses
+  `Yaru-blue`. Choose a verified Yaru variant matching the accent (for example
+  `Yaru-red` for Roadster; `Yaru-sage` for the Moss starter). Never assume an
+  arbitrary suffix is installed. No session bus means the GNOME command defers.
+- `chromium.theme`: one decimal `r,g,b` line, each component 0–255. The built-in
+  template otherwise derives it from `background_rgb`. An explicit staged file
+  prevents template replacement. The browser policy parser converts it to hex;
+  the privileged upstream writer applies `BrowserThemeColor` to Chromium, Chrome,
+  Edge and Brave. Invalid input falls back to the upstream policy default.
+
+Both files survive Git-installed staging. Neither adds an executable hook or a
+new dependency. A seed does not promise exact browser surface colours. For a
+neutral near-black design choose equal channels such as `10,10,10` (`#0a0a0a`):
+Roadster’s slightly blue background (`9,10,15`) produced an unwanted navy scheme
+in the contributor’s live test. Do not impose Roadster’s red/black on other themes.
+Choose intentional tinted seeds for coloured designs and verify light variants
+separately. Missing files on existing themes are advisory, not registry failures.
+
+Verify fresh Git installation/staging, the GNOME setting, generated browser policy,
+and actual folder/browser appearance; distinguish portable checks from live tests.
+Preserve prior theme/background and restore after temporary live checks.
+
+Sources at the revision above:
+- `bin/omarchy-theme-set-gnome`
+- `bin/omarchy-theme-set-browser`
+- `install/helpers/browser-policy.sh`
+- `default/themed/chromium.theme.tpl`
+- `bin/omarchy-theme-set` and `bin/omarchy-theme-set-templates`
+- `themes/everforest/icons.theme` and `themes/matte-black/icons.theme`
+Learning: https://github.com/tcballard/omarchy-theme-roadster-8k/pull/7
+
+## Agents panel entry point — checked 17 October 2026
+
+At Quattro `f4357a3b2667047aa3c295d89337fc0ff751b41f`, the Theme tile in
+`shell/plugins/agents/Panel.qml` asks the default agent to ask about inspiration,
+build using the shipped Omarchy skill's theming guide, and switch to the result.
+It calls `omarchy-agent-prompt`, then `omarchy-agent --prompt`; it does not install
+or explicitly invoke this bundle. Read the installed guide first. A personal theme
+can live solely in `~/.config/omarchy/themes/<slug>`; never edit packaged stock files.
+Apply within the task's authority, preserving the prior theme/background. Before
+sharing, also test Git-installed staging; local authoring permits files it discards.
+Sources: `default/agents/skills/omarchy/{SKILL.md,theming.md}` and the commands above.
+
+Reviewed runtime deltas from the 4 October baseline at this revision:
+- GUI/script theme switches can return before GTK/browser retints finish. Use
+  `OMARCHY_THEME_WAIT=1` when a test immediately reads those settings; inspect
+  `~/.local/state/omarchy/theme-set.log` and stderr. Retint failure does not change
+  the theme-switch exit status, so exit zero alone is not an application pass.
+- Template generation applies the user's glassy mode after rendering; preserve it.
+  The image-picker backdrop scrim tokens are gone. Bar dimensions include icon
+  sizing and notch calibration; inspect actual consumers instead of copying old keys.
+- QML palette references use `Commons.Color` to avoid Qt 6.12's `Color` collision.
+- Optional silent intros pair `backgrounds/NAME.ext` with
+  `backgrounds/intros/NAME.mp4`; use only when requested and verify still fallback.
+  Fcitx candidate-window theming also preserves a separately chosen user theme.
+Installer changes were localization-only; staging exclusions and override precedence
+remain as described. See `contracts/sources.json` for per-file reviewed identities.

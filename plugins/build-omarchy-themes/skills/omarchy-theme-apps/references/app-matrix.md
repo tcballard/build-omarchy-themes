@@ -14,6 +14,7 @@ scale, font size and light/dark mode. Do not copy a pass between versions.
 | Select text and focus controls with keyboard | Resolved selection text/background, visible focus, hover versus focus, disabled readability |
 | Change personal font/spacing override, then switch theme | Effective settings persist where the consumer supports them; unrelated preferences unchanged |
 | Change scale or use a second monitor where available | Clipping, dialogs, menus and target sizes; unavailable hardware stays NOT RUN |
+| Check Files folder icons and Chromium-family browser after switching | `icons.theme` survives staging; GNOME `icon-theme` names an installed variant; `chromium.theme` parses to the intended `BrowserThemeColor` in `color.json`; visually inspect both consumers, then reopen |
 | Reopen app and restore original desktop | Reload differences, original theme/background/settings restored |
 
 Start read-only: source palette → generated output → machine override → app input

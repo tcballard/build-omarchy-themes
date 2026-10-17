@@ -15,9 +15,24 @@ class ThemeWorkflow(unittest.TestCase):
   with tempfile.TemporaryDirectory() as tmp:
    dest=Path(tmp)/'omarchy-sample-theme'
    self.assertEqual(tool('scaffold',dest).returncode,0)
+   self.assertEqual((dest/'icons.theme').read_text(),'Yaru-sage\n')
+   self.assertEqual((dest/'chromium.theme').read_text(),'27,33,28\n')
    self.assertEqual(tool('check',dest).returncode,0)
    self.assertNotEqual(tool('check',dest,'--release').returncode,0)
    self.assertFalse((dest/'preview.png').exists())
+ def test_application_colour_checks(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   dest=Path(tmp)/'omarchy-sample-theme';tool('scaffold',dest)
+   (dest/'chromium.theme').write_text('300,10,10\n')
+   self.assertNotEqual(tool('check',dest).returncode,0)
+   (dest/'chromium.theme').write_text('10,10,10\n')
+   (dest/'icons.theme').write_text('Yaru-red\nextra\n')
+   self.assertNotEqual(tool('check',dest).returncode,0)
+   (dest/'icons.theme').unlink();(dest/'chromium.theme').unlink()
+   result=tool('check',dest)
+   self.assertEqual(result.returncode,0)
+   self.assertIn('icons.theme missing',result.stdout)
+   self.assertIn('chromium.theme missing',result.stdout)
  def test_existing_scaffold_preserved(self):
   with tempfile.TemporaryDirectory() as tmp:
    dest=Path(tmp)/'omarchy-sample-theme';dest.mkdir();(dest/'precious').write_text('keep')

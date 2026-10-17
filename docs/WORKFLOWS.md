@@ -1,9 +1,14 @@
 # Workflow entry points
 
-New theme: design → palette → scaffold → shell/apps/wallpapers as needed → test → development handoff.
+Personal theme / Agents panel: shipped Omarchy guide → inspiration → build locally
+→ apply when requested → inspect → preserve rollback. No repository, archive or
+registry gate is required. The panel launches the default agent, not this bundle.
+
+Distributable theme: design → palette → scaffold → shell/apps/wallpapers as needed
+→ test local and Git-installed paths → development handoff.
 Existing bug: debug → affected implementation skill → focused test → development handoff.
 Legacy theme: migrate → test → development handoff.
-Small colour adjustment: palette → focused test → development handoff.
+Small colour adjustment: palette → focused test; handoff only for an archive or PR.
 Diagnosis-only requests stay read-only; do not force every skill into every task.
 
 **Every theme archive or development PR reaches development handoff**, regardless
