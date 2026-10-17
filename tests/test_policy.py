@@ -1,4 +1,3 @@
-"""Project gates run against disposable sources; no desktop or network required."""
 import importlib.util
 from pathlib import Path
 import subprocess

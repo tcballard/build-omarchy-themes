@@ -14,3 +14,8 @@ Keep the shared `## Task completion` block byte-identical across all twelve cano
 skills and last in each file: check_bundle.py compares from that heading to EOF.
 Put skill-specific instructions above it, then regenerate and check OpenAI adapter
 parity. Provider-informed guidance is not evidence of execution on that provider.
+
+Default to code without comments. Delete narration and commented-out code; express
+intent through names, structure and checks. Keep legal notices, public contracts,
+required directives and proven external constraints. Preserve frozen fixtures and
+generated files. Fix workarounds before deleting their explanations.

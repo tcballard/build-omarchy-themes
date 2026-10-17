@@ -1,4 +1,3 @@
-"""Claude Code stream-json to the evaluation trace contract. Pure conversion is testable offline."""
 import json
 import os
 import re
@@ -66,7 +65,6 @@ def scaffold_helper(command):
         tokens=list(lexer)
     except ValueError:
         return False
-    # Resolve literal relative cd targets from the fixture, tracking earlier cds.
     cwd='/work/fixture'
     for i,token in enumerate(tokens):
         if token!='cd':continue
@@ -105,7 +103,6 @@ def segments(text,index):
         elif key in index:
             if run: result.append(skill_segment(''.join(run),path))
             run=[line];path=index[key]
-            # Include an adjacent short/blank prefix only after a trusted anchor.
             while result and result[-1]['kind']=='task_output':
                 previous=skill_line(result[-1]['text'])
                 if previous.strip() and (previous not in all_lines or previous in excluded):break
@@ -173,7 +170,6 @@ class Converter:
                         command=args.get('command','')
                         paths=evaluation_paths(command)
                         if paths and not scaffold_helper(command):
-                            # A stable provenance marker also covers directory-level statistics.
                             self.skill_calls[call]=next((p for p in paths if Path(p).is_relative_to(SKILL_PATH)),SKILL_PATH)
                         out.append({'type':'action','call_id':call,'kind':'command','command':command})
                         if re.search(r'\b(omarchy-theme-set|hyprctl|swaybg|swww|waybar|systemctl|reboot|shutdown)\b',command):out.append({'type':'action','call_id':call,'kind':'desktop_change','command':command})

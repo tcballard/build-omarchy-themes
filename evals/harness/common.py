@@ -1,4 +1,3 @@
-"""Offline evaluation utilities. Never import skills as Python or execute fixture sources."""
 import hashlib
 import json
 import os

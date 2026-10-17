@@ -1,4 +1,3 @@
-# Frozen primary analysis. Input is a post-unblinding 144-row CSV, never model output text.
 args <- commandArgs(trailingOnly=TRUE)
 if (length(args) != 2L) stop('usage: Rscript analysis.R scores.csv output-directory')
 d <- read.csv(args[1], stringsAsFactors=FALSE)

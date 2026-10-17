@@ -13,7 +13,6 @@ def pattern(case):
 SECRET_KEYS = {'arm', 'skill_commit', 'skill_version', 'skill_hashes'}
 
 def protected_events(trace):
-    # All actions, commands, non-skill output and patches are evidence that must survive.
     result = []
     for e in trace['events']:
         if e['type'] == 'tool_call':
@@ -31,7 +30,6 @@ def redact(original, forbidden_ids, case=None):
     spans = []
     def log(kind):
         spans.append({'span_id': f'span-{len(spans)+1:04d}', 'kind': kind})
-    # A tool result consists of typed segments, never inferred by regex from raw terminal output.
     for e in trace['events']:
         if e['type'] == 'tool_result':
             if 'segments' not in e:
@@ -57,14 +55,12 @@ def redact(original, forbidden_ids, case=None):
                 else: strip(obj[k])
         elif isinstance(obj, list):
             for x in obj: strip(x)
-    # Strip metadata only: never silently change commands or task evidence.
     strip(trace.setdefault('metadata', {}))
     before = protected_events(original)
     after = protected_events(trace)
     if before != after:
         raise ValueError('Protected task evidence changed: annotation blocked')
     encoded = json.dumps(trace, sort_keys=True)
-    # Unknown leaks are flagged; task content is not scrubbed to make a check pass.
     if any(x and x in encoded for x in forbidden_ids):
         raise ValueError('Skill-version identifier remains: annotation blocked')
     def strings(obj):

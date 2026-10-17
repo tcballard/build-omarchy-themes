@@ -1,4 +1,3 @@
-"""Shared schema and scoring for arm-blinded annotation packets."""
 import copy
 from common import SECONDARY, evaluator
 

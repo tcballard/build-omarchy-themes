@@ -1,4 +1,3 @@
-"""Offline host, pre-flight command and annotation integration checks; no provider calls."""
 import copy
 import json
 import tempfile
@@ -169,8 +168,22 @@ class HostPipeline(unittest.TestCase):
             self.assertEqual(result['segments'][0]['kind'],'skill_file')
         self.assertEqual(evaluation_paths('cat /opt/evaluation/../../work/fixture/theme/colors.toml'),[])
         self.assertEqual(evaluation_paths('ls /opt/evaluation-other'),[])
-        # Documented residual: a previous cd is not propagated to a later command.
-        self.assertEqual(evaluation_paths('wc -l SKILL.md'),[])
+
+    def test_bash_without_explicit_evaluation_paths_uses_content_provenance(self):
+        path='/opt/evaluation/.claude/skills/example/SKILL.md'
+        instruction='A distinctive skill instruction to match.'
+        c=Converter({'effort':'high'},'test',{instruction:path})
+        c.feed({'type':'system','subtype':'init'})
+        for call,command,output,expected in (
+            ('cd','cd '+str(Path(path).parent),'','skill_file'),
+            ('metadata','wc -l SKILL.md','30 SKILL.md\n','task_output'),
+            ('content','cat SKILL.md',instruction+'\n','skill_file')):
+            with self.subTest(command=command):
+                c.feed({'type':'assistant','message':{'content':[{'type':'tool_use','id':call,'name':'Bash','input':{'command':command}}]}})
+                result=c.feed({'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':call,'content':output}]}})[0]
+                self.assertEqual([s['kind'] for s in result['segments']],[expected])
+                self.assertEqual(''.join(s['text'] for s in result['segments']),output)
+                if call!='cd':self.assertEqual(evaluation_paths(command),[])
 
     def test_fixture_and_cargo_provenance(self):
         from common import SKILL_PATH

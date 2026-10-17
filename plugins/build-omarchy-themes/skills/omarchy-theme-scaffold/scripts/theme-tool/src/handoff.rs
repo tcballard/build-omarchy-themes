@@ -1,4 +1,3 @@
-//! Development consistency checks, not execution attestation or live acceptance.
 use std::{
     collections::BTreeMap,
     fs,
@@ -60,13 +59,10 @@ fn tree(root: &Path) -> Result<Vec<String>, String> {
     out.sort();
     Ok(out)
 }
-fn hash(root: &Path, path: &str) -> Result<String, String> {
-    // Stable Git blob SHA-1, independent of repo configuration, filters and index.
+fn git_blob_sha1(root: &Path, path: &str) -> Result<String, String> {
     let bytes = fs::read(root.join(path)).map_err(|e| e.to_string())?;
     let mut child = Command::new("git")
-        .args(["hash-object", "--stdin"])
-        .env_remove("GIT_DEFAULT_HASH")
-        .current_dir(std::env::temp_dir())
+        .args(["--git-dir=/dev/null", "hash-object", "--no-filters", "--stdin"])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .spawn()
@@ -94,7 +90,7 @@ fn manifest(root: &Path, implementation: bool) -> Result<Manifest, String> {
     tree(root)?
         .into_iter()
         .filter(|p| !p.starts_with("evidence/") && !(implementation && p.ends_with(".md")))
-        .map(|p| hash(root, &p).map(|h| (p, h)))
+        .map(|p| git_blob_sha1(root, &p).map(|h| (p, h)))
         .collect()
 }
 pub fn snapshot(root: &Path, path: &str, implementation: bool) -> Result<(), String> {
@@ -169,7 +165,6 @@ fn local_link(root: &Path, doc: &str, target: &str, errors: &mut Vec<String>) {
         return;
     }
     let path = target.split(['#', '?']).next().unwrap_or("");
-    // Percent-encoded paths and parent traversal need manual normalization; never silently skip them.
     if path.contains('%') || safe_relative(path).is_err() {
         errors.push(format!(
             "{doc}: unsupported local link {target}; use a plain relative path"
@@ -185,7 +180,6 @@ fn local_link(root: &Path, doc: &str, target: &str, errors: &mut Vec<String>) {
     }
 }
 fn links(root: &Path, doc: &str, text: &str, errors: &mut Vec<String>) {
-    // Supported authoring subset: inline Markdown, reference definitions, HTML and bare asset paths.
     for line in text.lines() {
         let mut tail = line;
         while let Some((_, rest)) = tail.split_once("](") {
@@ -232,7 +226,7 @@ fn links(root: &Path, doc: &str, text: &str, errors: &mut Vec<String>) {
 }
 
 pub fn check(root: &Path, delivery: &str) -> Result<(), String> {
-    let paths = tree(root)?; // Reject links before reading any content.
+    let paths = tree(root)?;
     let mut errors = Vec::new();
     let readme = fs::read_to_string(root.join("README.md")).map_err(|e| e.to_string())?;
     let credits =
