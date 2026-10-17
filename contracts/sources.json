@@ -106,6 +106,48 @@
       "path": "shell/Commons/Style.qml",
       "commit": "6520ac7d2527795b71781dc2659a42fa4ed859a3",
       "blob_sha": "0582356cfdae3d8e31432fdb5fec5d555258bd40"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "bin/omarchy-theme-set-gnome",
+      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "blob_sha": "ca298ffb8cd4d3e888987ff420b5959d6f6056ea"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "bin/omarchy-theme-set-browser",
+      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "blob_sha": "d04be45db5b5e7b7edd92f68db55c945bfe90970"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "install/helpers/browser-policy.sh",
+      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "blob_sha": "9f826af0254a8a82ec54e5387631c5de3e8cc181"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "default/themed/chromium.theme.tpl",
+      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "blob_sha": "84059b28b8466a9799a65a1405e2f8a5790ca650"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "themes/everforest/icons.theme",
+      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "blob_sha": "140e422c21a66e30fff122ec3924577019688d8a"
+    },
+    {
+      "repository": "omacom/omarchy",
+      "ref": "quattro",
+      "path": "themes/matte-black/icons.theme",
+      "commit": "cce8b1c971df64a7610b818ff8819e4bea04584a",
+      "blob_sha": "a3c0a4ca6d3ca74fa7a2b04472bb028b08a7066a"
     }
   ]
 }

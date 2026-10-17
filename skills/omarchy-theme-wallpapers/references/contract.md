@@ -125,3 +125,40 @@ Additional sources pinned in contracts/sources.json:
 - https://github.com/omacom/omarchy/blob/quattro/docs/omarchy-shell.md
 - https://github.com/omacom/omarchy/blob/quattro/shell/Commons/Color.qml
 - https://github.com/omacom/omarchy/blob/quattro/shell/Commons/Style.qml
+
+## Explicit application colour choices — checked 17 October 2026
+
+At Quattro `cce8b1c971df64a7610b818ff8819e4bea04584a`, ship these two
+root files for new themes, rather than relying on incidental defaults:
+
+- `icons.theme`: one installed icon-theme name with a trailing newline. The GNOME
+  theme command reads it as data with quoted command substitution; absence uses
+  `Yaru-blue`. Choose a verified Yaru variant matching the accent (for example
+  `Yaru-red` for Roadster; `Yaru-sage` for the Moss starter). Never assume an
+  arbitrary suffix is installed. No session bus means the GNOME command defers.
+- `chromium.theme`: one decimal `r,g,b` line, each component 0–255. The built-in
+  template otherwise derives it from `background_rgb`. An explicit staged file
+  prevents template replacement. The browser policy parser converts it to hex;
+  the privileged upstream writer applies `BrowserThemeColor` to Chromium, Chrome,
+  Edge and Brave. Invalid input falls back to the upstream policy default.
+
+Both files survive Git-installed staging. Neither adds an executable hook or a
+new dependency. A seed does not promise exact browser surface colours. For a
+neutral near-black design choose equal channels such as `10,10,10` (`#0a0a0a`):
+Roadster’s slightly blue background (`9,10,15`) produced an unwanted navy scheme
+in the contributor’s live test. Do not impose Roadster’s red/black on other themes.
+Choose intentional tinted seeds for coloured designs and verify light variants
+separately. Missing files on existing themes are advisory, not registry failures.
+
+Verify fresh Git installation/staging, the GNOME setting, generated browser policy,
+and actual folder/browser appearance; distinguish portable checks from live tests.
+Preserve prior theme/background and restore after temporary live checks.
+
+Sources at the revision above:
+- `bin/omarchy-theme-set-gnome`
+- `bin/omarchy-theme-set-browser`
+- `install/helpers/browser-policy.sh`
+- `default/themed/chromium.theme.tpl`
+- `bin/omarchy-theme-set` and `bin/omarchy-theme-set-templates`
+- `themes/everforest/icons.theme` and `themes/matte-black/icons.theme`
+Learning: https://github.com/tcballard/omarchy-theme-roadster-8k/pull/7

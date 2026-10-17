@@ -22,6 +22,8 @@ The helper accepts a deliberately narrow flat palette syntax and performs local 
 
 For optional project requirements, read [project gates](references/project-gates.md). The separate Python checker can enforce chosen contrast pairs, reject ignored root files, and decode images. Keep the Rust helper's default advisory behaviour; select gates from the user's brief rather than inventing universal registry rules.
 
+Include explicit `icons.theme` and `chromium.theme` in every new theme. The Moss starter uses `Yaru-sage` and its green background seed `27,33,28`; replace both for the requested design. Choose an available Yaru accent variant and an intentional browser seed. Neutral near-black themes should use equal RGB components (for example `10,10,10`) to avoid an amplified blue cast. These are authoring defaults, not registry requirements; omission warnings on existing themes do not authorise changing their appearance.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.

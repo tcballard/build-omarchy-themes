@@ -23,6 +23,8 @@ For agreed CI requirements, resolve the scaffold skill and read its `references/
 
 Include personal override persistence and a still-open application in live switching tests. Separate generated-file correctness from consumer refresh; mark absent applications NOT RUN rather than installing them just for coverage.
 
+For new themes, check that `icons.theme` and `chromium.theme` are explicit and intentional. Validate a single icon-theme name and exactly three decimal RGB components in 0–255; confirm the icon variant exists on the target. Exercise Git-installed staging and verify the resulting GNOME icon setting and Chromium policy, then inspect actual Files folders and an installed Chromium-family browser while switching away/back and after reopening. Generated settings alone do not prove appearance. Mark unavailable live checks NOT RUN. Missing files on an existing theme are advisory omissions, not an upstream registry failure.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.

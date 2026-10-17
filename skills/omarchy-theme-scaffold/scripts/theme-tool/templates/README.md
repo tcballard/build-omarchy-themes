@@ -34,6 +34,14 @@ as wallpaper collections, not desktop screenshots. See [credits](CREDITS.md).
 Palette: original starter from Build Omarchy Themes (MIT). Choose this theme's
 code licence separately; it does not establish artwork redistribution rights.
 
+## Application colours
+
+The Moss starter explicitly uses `Yaru-sage` folder icons and a green browser seed
+(`27,33,28`). Choose an installed icon variant and browser seed matching the final
+design. For neutral near-black themes use equal channels such as `10,10,10` to
+avoid an unintended navy tint. Browser seeds do not guarantee exact surface colours.
+Verify Files and an installed Chromium-family browser on the target desktop.
+
 ## Validation limits
 
 See [validation evidence](evidence/checks.tsv). All checks initially remain not run.

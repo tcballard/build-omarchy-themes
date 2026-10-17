@@ -129,6 +129,8 @@ fn scaffold(dest: &Path) -> Result<(), String> {
     fs::create_dir(dest).map_err(|e| format!("cannot create destination: {e}"))?;
     let result = (|| -> io::Result<()> {
         new_file(&dest.join("colors.toml"), STARTER)?;
+        new_file(&dest.join("icons.theme"), "Yaru-sage\n")?;
+        new_file(&dest.join("chromium.theme"), "27,33,28\n")?;
         fs::create_dir(dest.join("backgrounds"))?;
         new_file(
             &dest.join("README.md"),
@@ -191,6 +193,29 @@ fn walk(
     }
     Ok(())
 }
+// Narrow portable authoring checks; existence of an icon variant needs the target desktop.
+fn icon_name(text: &str) -> bool {
+    let name = text.strip_suffix('\n').unwrap_or(text);
+    !name.is_empty()
+        && name.len() <= 128
+        && name
+            .bytes()
+            .all(|c| c.is_ascii_alphanumeric() || b"-_.".contains(&c))
+}
+fn browser_seed(text: &str) -> bool {
+    if text.trim().lines().count() != 1 {
+        return false;
+    }
+    let parts: Vec<_> = text.trim().split(',').collect();
+    parts.len() == 3
+        && parts.iter().all(|p| {
+            let p = p.trim();
+            !p.is_empty()
+                && p.len() <= 3
+                && p.bytes().all(|c| c.is_ascii_digit())
+                && p.parse::<u8>().is_ok()
+        })
+}
 fn check(root: &Path, release: bool) -> Result<(), String> {
     let meta = fs::symlink_metadata(root).map_err(|e| e.to_string())?;
     if !meta.is_dir() || meta.file_type().is_symlink() {
@@ -213,6 +238,22 @@ fn check(root: &Path, release: bool) -> Result<(), String> {
         return Err("colors.toml must be a regular file <=1 MiB".into());
     }
     let values = palette(&fs::read_to_string(&p).map_err(|e| e.to_string())?)?;
+    for (name, valid) in [
+        ("icons.theme", icon_name as fn(&str) -> bool),
+        ("chromium.theme", browser_seed as fn(&str) -> bool),
+    ] {
+        let file = root.join(name);
+        if !file.exists() {
+            warnings.push(format!("{name} missing; choose an explicit application colour for new themes"));
+        } else {
+            let meta = fs::symlink_metadata(&file).map_err(|e| e.to_string())?;
+            if !meta.is_file() || meta.len() > 1024 {
+                errors.push(format!("{name} must be a regular file <=1 KiB"));
+            } else if !valid(&fs::read_to_string(&file).map_err(|e| e.to_string())?) {
+                errors.push(format!("invalid {name}: expected one icon name or three RGB components in 0-255"));
+            }
+        }
+    }
     if !values.contains_key("mode") {
         warnings.push("mode undeclared; set dark or light explicitly".into());
     }
@@ -273,6 +314,21 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn application_colour_inputs() {
+        for value in ["Yaru-sage\n", "Yaru-red", "Other_Icons.dark\n"] {
+            assert!(icon_name(value));
+        }
+        for value in ["", "Yaru-red\nextra", "../icons", "Yaru;command"] {
+            assert!(!icon_name(value));
+        }
+        for value in ["10,10,10\n", "0,255,128", " 27, 33, 28 \n"] {
+            assert!(browser_seed(value));
+        }
+        for value in ["", "256,0,0", "-1,0,0", "1,2", "1,2,3,4", "1,2,3\n4,5,6", "1,\n2,3"] {
+            assert!(!browser_seed(value));
+        }
+    }
     #[test]
     fn starter_is_complete() {
         let p = palette(STARTER).unwrap();

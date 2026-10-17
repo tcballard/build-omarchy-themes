@@ -17,6 +17,8 @@ Before delivering a theme archive or PR, run the scaffold skill’s development 
 
 Use [the application matrix](references/app-matrix.md) when validating theme switching across applications. Familiar, Familiar Paint and Task Manager are useful candidates when installed, not required dependencies or claimed compatible apps. Record their exact revisions and results; test switching while open, selection/focus/disabled states, font and display scale, and personal overrides. Trace failures to theme, template, override or consumer before choosing which project to change.
 
+For every new theme, ship `icons.theme` with an installed Yaru variant matching its accent, and `chromium.theme` with an intentional decimal `r,g,b` seed (each component 0–255). Do not leave these to incidental fallbacks. For neutral near-black designs, use equal components such as `10,10,10`: a subtly blue background can become a strongly navy browser scheme. Keep deliberate colour in coloured themes and choose light-theme seeds separately. Verify the icon variant exists; do not install an icon pack or invent a variant. On existing themes, preserve intentional choices unless the task asks to change them. See the contract reference for consumers and the application matrix for live checks.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.

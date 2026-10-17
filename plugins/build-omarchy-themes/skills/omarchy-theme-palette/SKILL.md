@@ -19,6 +19,8 @@ Before delivering a theme archive or PR, run the scaffold skill’s development 
 
 When the project chooses enforceable contrast thresholds, resolve the scaffold skill's `scripts/check_policy.py` and repeat `--contrast KEY/KEY=RATIO` for each agreed pair. Evaluate selected text against the actual resolved selection foreground, not an assumed foreground key. Missing or non-hex selected values fail this narrow check; do not rewrite valid gradients or aliases merely to satisfy it. A numerical pass is not evidence for transparency, image backgrounds or every UI state.
 
+When creating a palette, also choose matching `icons.theme` and an explicit `chromium.theme` seed. Browser colour is generated from a seed, not an exact surface-colour promise: use neutral equal RGB components for a neutral near-black design, and intentional tinted seeds for coloured designs. Reassess both files when changing a theme’s accent or background within the requested scope.
+
 ## Task completion
 
 The request, or the recorded brief and project decisions, sets scope and deliverable.
