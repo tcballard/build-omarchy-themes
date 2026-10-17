@@ -244,13 +244,17 @@ fn check(root: &Path, release: bool) -> Result<(), String> {
     ] {
         let file = root.join(name);
         if !file.exists() {
-            warnings.push(format!("{name} missing; choose an explicit application colour for new themes"));
+            warnings.push(format!(
+                "{name} missing; choose an explicit application colour for new themes"
+            ));
         } else {
             let meta = fs::symlink_metadata(&file).map_err(|e| e.to_string())?;
             if !meta.is_file() || meta.len() > 1024 {
                 errors.push(format!("{name} must be a regular file <=1 KiB"));
             } else if !valid(&fs::read_to_string(&file).map_err(|e| e.to_string())?) {
-                errors.push(format!("invalid {name}: expected one icon name or three RGB components in 0-255"));
+                errors.push(format!(
+                    "invalid {name}: expected one icon name or three RGB components in 0-255"
+                ));
             }
         }
     }
@@ -325,7 +329,15 @@ mod tests {
         for value in ["10,10,10\n", "0,255,128", " 27, 33, 28 \n"] {
             assert!(browser_seed(value));
         }
-        for value in ["", "256,0,0", "-1,0,0", "1,2", "1,2,3,4", "1,2,3\n4,5,6", "1,\n2,3"] {
+        for value in [
+            "",
+            "256,0,0",
+            "-1,0,0",
+            "1,2",
+            "1,2,3,4",
+            "1,2,3\n4,5,6",
+            "1,\n2,3",
+        ] {
             assert!(!browser_seed(value));
         }
     }
